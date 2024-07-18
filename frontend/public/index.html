@@ -19,13 +19,12 @@
 
     <title>React App</title>
 
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
     <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+         OneSignal.init({
           appId: "c56338de-ba81-4cbc-aeef-fa31a4274b77",
-          safari_web_id: "web.onesignal.auto.3b8b9214-66ac-44d1-a7fb-a9dc856242cb",
           notifyButton: {
             enable: true,
           },
