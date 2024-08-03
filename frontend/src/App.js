@@ -1,11 +1,14 @@
-import Button from 'react-bootstrap/Button';
+import { Fragment } from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
-     <div>
-         <Button variant="warning">Secondary</Button>{' '}
-         <Button variant="warning"><i className="fa fa-home"></i></Button>
-     </div>
+     <Fragment>
+        <BrowserRouter>
+           <AppRoutes />
+        </BrowserRouter>
+     </Fragment>
   );
 }
 
