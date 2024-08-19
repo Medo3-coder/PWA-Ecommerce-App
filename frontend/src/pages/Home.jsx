@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import FeaturedProducts from "../components/home/FeaturedProducts";
 
 export class Home extends Component {
   render() {
     return (
-      <div>this is home page</div>
-    )
+      <>
+        <FeaturedProducts />
+      </>
+    );
   }
 }
 
-export default Home
+export default Home;
