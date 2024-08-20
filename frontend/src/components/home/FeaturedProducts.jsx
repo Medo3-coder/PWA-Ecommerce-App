@@ -15,7 +15,7 @@ function FeaturedProducts() {
       </div>
       <Row>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
@@ -24,7 +24,7 @@ function FeaturedProducts() {
           </Card>
         </Col>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
@@ -33,7 +33,7 @@ function FeaturedProducts() {
           </Card>
         </Col>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
@@ -42,7 +42,7 @@ function FeaturedProducts() {
           </Card>
         </Col>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
@@ -51,7 +51,7 @@ function FeaturedProducts() {
           </Card>
         </Col>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
@@ -60,7 +60,7 @@ function FeaturedProducts() {
           </Card>
         </Col>
         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-          <Card className="image-box" style={{ width: "18rem" }}>
+          <Card className="image-box">
             <Card.Img className="center" src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg" />
             <Card.Body>
               <p className="product-name-on-card">Samsung mobile phones</p>
