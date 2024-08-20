@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Slider from "react-slick";
@@ -6,10 +6,22 @@ import "slick-carousel/slick/slick.css";
 import Card from "react-bootstrap/Card";
 import "slick-carousel/slick/slick-theme.css";
 
-export default function NewArrival() {
+// useRef hook provides a way to persist values across renders without causing the component to re-render when the value changes.
+
+const NewArrival = () => {
+  const sliderRef = useRef(null);
+
+  const next = () => {
+    sliderRef.current.slickNext();
+  };
+
+  const previous = () => {
+    sliderRef.current.slickPrev();
+  };
+
   var settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -48,11 +60,20 @@ export default function NewArrival() {
   return (
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
-        <h2>New Arriva</h2>
+        <h2>
+          New Arrivals&nbsp;
+          <a className="btn btn-sm ml-2 site-btn" href onClick={previous}>
+            <i className="fa fa-angle-left"> </i>
+          </a>
+          &nbsp;
+          <a className="btn btn-sm ml-2 site-btn" href onClick={next}>
+            <i className="fa fa-angle-right"> </i>
+          </a>
+        </h2>
       </div>
 
       <Row>
-        <Slider {...settings}>
+        <Slider ref={sliderRef} {...settings}>
           <div>
             <Card className="image-box">
               <Card.Img
@@ -167,4 +188,6 @@ export default function NewArrival() {
       </Row>
     </Container>
   );
-}
+};
+
+export default NewArrival;
