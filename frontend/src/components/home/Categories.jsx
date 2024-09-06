@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 
 function Categories() {
-  return (
+    return (
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
         <h2>Categories </h2>
