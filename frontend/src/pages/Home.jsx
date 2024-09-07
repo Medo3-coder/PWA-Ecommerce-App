@@ -5,12 +5,14 @@ import Collection from "../components/home/Collection";
 import NewArrival from "../components/home/NewArrival";
 import HomeTop from "../components/home/HomeTop";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
+import NavMenuMoblie from "../components/common/NavMenuMoblie";
 
 export class Home extends Component {
   render() {
     return (
       <>
-        <NavMenuDesktop />
+        {/* <NavMenuDesktop /> */}
+        <NavMenuMoblie />
         <HomeTop />
         <FeaturedProducts />
         <NewArrival />
