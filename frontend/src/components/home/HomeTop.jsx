@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MegaMenu from "./MegaMenu";
-import Silder from "./Silder";
+import HomeSlider from "./HomeSlider";
 
 function HomeTop() {
   return (
@@ -17,7 +17,7 @@ function HomeTop() {
 
         {/* slider menu */}
         <Col lg={9} md={9} sm={12}>
-          <Silder />
+          <HomeSlider />
         
         </Col>
       </Row>
