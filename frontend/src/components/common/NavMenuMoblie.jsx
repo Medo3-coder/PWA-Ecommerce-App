@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
@@ -7,6 +7,33 @@ import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
 
 const NavMenuMoblie = () => {
+
+  const [sideNavState , setSideNavState] = useState("sideNavClose");
+  const [contentOverState , setContentOverState] = useState("ContentOverlayClose");
+
+  const sideNavOpenClose = () => {
+
+    if(sideNavState === "sideNavOpen"){
+       // If the side nav is currently open, close it and close the overlay
+      setSideNavState("sideNavClose");
+      setContentOverState("ContentOverlayClose");
+    }else{
+      // If the side nav is closed, open it and show the overlay
+      setSideNavState("sideNavOpen");
+      setContentOverState("ContentOverlayOpen");
+    }
+     
+  }
+
+  const menuBarClickHandler = () => {
+    sideNavOpenClose();
+  }
+
+  const contentOverlayClickHandler = () => {
+    sideNavOpenClose();
+  }
+
+
   return (
     <>
       <div className="TopSectionDown">
@@ -16,7 +43,7 @@ const NavMenuMoblie = () => {
         >
           <Row>
             <Col lg={4} md={4} sm={12} xs={12}>
-              <Button className="btn">
+              <Button onClick={menuBarClickHandler} className="btn">
                 <i className="fa fa-bars"></i>
               </Button>
 
@@ -30,23 +57,14 @@ const NavMenuMoblie = () => {
             </Col>
           </Row>
         </Container>
-        <div className="sideNavOpen">
-          <hr className="w-80" />
-          <div className="list-group">
-            <a
-              className="list-group-item nav-font nav-itemmenu
-                list-group-item-action"
-              href="/">
-              
-              <i className="fa mr-2 fa-home"></i>Home
-            </a>
-          </div>
+        <div className={sideNavState}>
+          
         </div>
    
 
-   <div className="ContentOverlayOpen">
+        <div onClick={contentOverlayClickHandler} className={contentOverState}>
 
-   </div>
+        </div>
 
 
       </div>
