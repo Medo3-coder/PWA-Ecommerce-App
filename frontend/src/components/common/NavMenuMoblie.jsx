@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
+import MegaMenuMobile from "../home/MegaMenuMobile";
 
 const NavMenuMoblie = () => {
 
@@ -58,7 +59,7 @@ const NavMenuMoblie = () => {
           </Row>
         </Container>
         <div className={sideNavState}>
-          
+        <MegaMenuMobile />
         </div>
    
 
