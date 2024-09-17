@@ -7,6 +7,7 @@ import NavMenuDesktop from "../components/common/NavMenuDesktop";
 import NavMenuMoblie from "../components/common/NavMenuMoblie";
 import HomeTopMobile from "../components/home/HomeTopMobile";
 import HomeTop from "../components/home/HomeTop";
+import FooterDesktop from "../components/common/FooterDesktop";
 
 export class Home extends Component {
   render() {
@@ -26,6 +27,7 @@ export class Home extends Component {
         <NewArrival />
         <Categories />
         <Collection />
+        <FooterDesktop />
       </>
     );
   }
