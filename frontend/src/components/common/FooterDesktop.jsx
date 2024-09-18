@@ -14,7 +14,7 @@ const FooterDesktop = () => {
             <p>
               1635 Franklin Street Montgomery, Near Sherwood Mall. AL 36104
               <br />
-              Email: Support@easylearningbd.com
+              Email: Support@Mohamed.com
             </p>
             <h5 className="footer-menu-title">SOCIAL LINK</h5>
             <a href="/">

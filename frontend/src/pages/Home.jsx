@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import FeaturedProducts from "../components/home/FeaturedProducts";
 import Categories from "../components/home/Categories";
 import Collection from "../components/home/Collection";
@@ -8,29 +8,35 @@ import NavMenuMoblie from "../components/common/NavMenuMoblie";
 import HomeTopMobile from "../components/home/HomeTopMobile";
 import HomeTop from "../components/home/HomeTop";
 import FooterDesktop from "../components/common/FooterDesktop";
+import FooterMobile from "../components/common/FooterMobile";
 
-export class Home extends Component {
-  render() {
-    return (
-      <>
-        <div className="Desktop">
-          <NavMenuDesktop />
-          <HomeTop />
-        </div>
+const HomePage = () => {
+  return (
+    <>
+      <div className="Desktop">
+        <NavMenuDesktop />
+        <HomeTop />
+      </div>
 
-        <div className="Mobile">
-          <NavMenuMoblie />
-          <HomeTopMobile />
-        </div>
+      <div className="Mobile">
+        <NavMenuMoblie />
+        <HomeTopMobile />
+      </div>
 
-        <FeaturedProducts />
-        <NewArrival />
-        <Categories />
-        <Collection />
+      <FeaturedProducts />
+      <NewArrival />
+      <Categories />
+      <Collection />
+
+      <div className="Desktop">
         <FooterDesktop />
-      </>
-    );
-  }
-}
+      </div>
 
-export default Home;
+      <div className="Mobile">
+        <FooterMobile />
+      </div>
+    </>
+  );
+};
+
+export default HomePage;
