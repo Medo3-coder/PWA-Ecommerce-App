@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
 import MegaMenuMobile from "../home/MegaMenuMobile";
 
-const NavMenuMoblie = () => {
+const NavMenuMobile = () => {
 
   const [sideNavState , setSideNavState] = useState("sideNavClose");
   const [contentOverState , setContentOverState] = useState("ContentOverlayClose");
@@ -73,4 +73,4 @@ const NavMenuMoblie = () => {
   );
 };
 
-export default NavMenuMoblie;
+export default NavMenuMobile;

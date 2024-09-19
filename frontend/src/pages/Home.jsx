@@ -4,7 +4,7 @@ import Categories from "../components/home/Categories";
 import Collection from "../components/home/Collection";
 import NewArrival from "../components/home/NewArrival";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
-import NavMenuMoblie from "../components/common/NavMenuMoblie";
+import NavMenuMobile from "../components/common/NavMenuMoblie";
 import HomeTopMobile from "../components/home/HomeTopMobile";
 import HomeTop from "../components/home/HomeTop";
 import FooterDesktop from "../components/common/FooterDesktop";
@@ -19,7 +19,7 @@ const HomePage = () => {
       </div>
 
       <div className="Mobile">
-        <NavMenuMoblie />
+        <NavMenuMobile />
         <HomeTopMobile />
       </div>
 
