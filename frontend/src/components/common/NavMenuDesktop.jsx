@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
-import MegaMenuDesktop from '../home/MegaMenuDesktop';
+// import MegaMenuDesktop from '../home/MegaMenuDesktop';
 
 const NavMenuDesktop = () => {
   
