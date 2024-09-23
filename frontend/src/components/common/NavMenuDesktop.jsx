@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
+import MegaMenuDesktop from '../home/MegaMenuDesktop';
 // import MegaMenuDesktop from '../home/MegaMenuDesktop';
 
 const NavMenuDesktop = () => {
@@ -27,9 +28,9 @@ const NavMenuDesktop = () => {
      
   }
 
-  // const menuBarClickHandler = () => {
-  //   sideNavOpenClose();
-  // }
+  const menuBarClickHandler = () => {
+    sideNavOpenClose();
+  }
 
   const contentOverlayClickHandler = () => {
     sideNavOpenClose();
@@ -45,9 +46,9 @@ const NavMenuDesktop = () => {
           >
             <Row>
               <Col lg={4} md={4} sm={12} xs={12}>
-              {/* <Button onClick={menuBarClickHandler} className="btn">
+              <Button onClick={menuBarClickHandler} className="btn">
                 <i className="fa fa-bars"></i>
-              </Button>    */}
+              </Button>   
                 <Link to="/">
                   <img className="nav-logo" src={Logo} alt="logo" />
                 </Link>
@@ -90,7 +91,7 @@ const NavMenuDesktop = () => {
       </div>
 
       <div className={sideNavState}>
-        {/* <MegaMenuDesktop /> */}
+        <MegaMenuDesktop />
         </div>
    
 

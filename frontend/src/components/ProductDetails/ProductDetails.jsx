@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import Container from "react-bootstrap/Container";
-// import { Link } from "react-router-dom";
-// import Navbar from "react-bootstrap/Navbar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Product1 from '../../assets/images/product/product1.png'
@@ -27,7 +25,7 @@ const ProductDetails = () => {
       };
 
     return (
-        <Container className="BetweenTwoSection">
+        <Container fluid={true} className="BetweenTwoSection">
           <Row className="p-2">
             <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
               <Row>

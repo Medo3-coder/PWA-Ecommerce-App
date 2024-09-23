@@ -4,6 +4,7 @@ import FooterMobile from "../components/common/FooterMobile";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
 import ProductDetails from "../components/ProductDetails/ProductDetails";
 import NavMenuMobile from "../components/common/NavMenuMoblie";
+import SuggestedProduct from "../components/ProductDetails/SuggestedProduct";
 
 const ProductDetailsPage = () => {
   useEffect(() => {
@@ -21,6 +22,8 @@ const ProductDetailsPage = () => {
       </div>
 
       <ProductDetails />
+      <SuggestedProduct />
+
 
       <div className="Desktop">
         <FooterDesktop />
