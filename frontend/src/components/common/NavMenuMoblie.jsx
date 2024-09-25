@@ -47,6 +47,7 @@ const NavMenuMobile = () => {
               <Button onClick={menuBarClickHandler} className="btn">
                 <i className="fa fa-bars"></i>
               </Button>
+              {/* <img onClick={menuBarClickHandler} className="bar-img" alt='bar' src={Bars}/> */}
 
               <Link to="/">
                 <img className="nav-logo" src={Logo} alt="logo" />

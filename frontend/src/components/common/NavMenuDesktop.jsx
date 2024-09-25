@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
 import MegaMenuDesktop from '../home/MegaMenuDesktop';
-// import MegaMenuDesktop from '../home/MegaMenuDesktop';
+import Bars from '../../assets/images/bars.png';
 
 const NavMenuDesktop = () => {
   
@@ -46,9 +46,7 @@ const NavMenuDesktop = () => {
           >
             <Row>
               <Col lg={4} md={4} sm={12} xs={12}>
-              <Button onClick={menuBarClickHandler} className="btn">
-                <i className="fa fa-bars"></i>
-              </Button>   
+              <img onClick={menuBarClickHandler} className="bar-img" alt='bar' src={Bars}/>
                 <Link to="/">
                   <img className="nav-logo" src={Logo} alt="logo" />
                 </Link>
