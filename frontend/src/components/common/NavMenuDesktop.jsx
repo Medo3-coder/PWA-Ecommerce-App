@@ -81,7 +81,9 @@ const NavMenuDesktop = () => {
                 <a className="btn" href="test"> <i className="fa h4 fa-mobile-alt"></i></a>
                 <Link to="/login" className="h4 btn">Login </Link>
 
-                <Button className="cart-btn"><i className="fa fa-shopping-cart"></i> 3 Items</Button>
+                <Link to="/cart">
+                  <Button className="cart-btn"><i className="fa fa-shopping-cart"></i> 3 Items</Button>
+                </Link>
               </Col>
             </Row>
           </Container>

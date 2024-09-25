@@ -9,6 +9,7 @@ import PrivacyPage from "../pages/PrivacyPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import NotificationPage from "../pages/NotificationPage";
 import FavouritePage from "../pages/FavouritePage";
+import CartPage from "../pages/CartPage";
 
 const AppRoutes = () => {
   return (
@@ -22,8 +23,9 @@ const AppRoutes = () => {
       <Route path="/product-details" element={<ProductDetailsPage />} />
       <Route path="/notification" element={<NotificationPage />} />
       <Route path="/favourite" element={<FavouritePage />} />
+      <Route path="/cart" element={<CartPage />} />
       
-
+      
       
     </Routes>
   );
