@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Express">
-    <meta name="apple-mobile-web-app-title" content="Express">
-    <meta name="theme-color" content="#002e62">
-    <meta name="msapplication-navbutton-color" content="#002e62">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="Web site created using create-react-app"/>
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
- 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Express">
+  <meta name="apple-mobile-web-app-title" content="Express">
+  <meta name="theme-color" content="#002e62">
+  <meta name="msapplication-navbutton-color" content="#002e62">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Web site created using create-react-app" />
 
-    <title>React App</title>
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-    <script>
-      window.OneSignal = window.OneSignal || [];
-      OneSignal.push(function() {
-         OneSignal.init({
-          appId: "c56338de-ba81-4cbc-aeef-fa31a4274b77",
-          notifyButton: {
-            enable: true,
-          },
-          subdomainName: "react-app11",
-        });
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <title>React App</title>
+
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "c56338de-ba81-4cbc-aeef-fa31a4274b77",
+        notifyButton: {
+          enable: true,
+        },
+        subdomainName: "react-app11",
       });
-</script>
+    });
+  </script>
 
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+</head>
 
-  </body>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+
+
+  <script>
+    function googleTranslateElementInit(){
+      var config={
+        pageLanguage: 'en',
+        includedLanguages:'en,ar',
+        layout:google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false, 
+      };
+      var langOptionsID='google_translate_element';
+      
+      new google.translate.TranslateElement(config,langOptionsID);
+    }
+  </script>
+<script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+
 </html>

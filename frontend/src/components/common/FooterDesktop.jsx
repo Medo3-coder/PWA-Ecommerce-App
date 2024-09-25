@@ -50,7 +50,10 @@ const FooterDesktop = () => {
             <a href="https://www.apple.com/">
               <img className="mt-2" src={Apple} alt="Apple App Store" />
             </a><br />
-          </Col>
+
+
+            <div id="google_translate_element"></div>
+            </Col>
         </Row>
       </Container>
 
