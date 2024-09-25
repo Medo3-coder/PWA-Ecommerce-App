@@ -8,6 +8,7 @@ import RefundPage from "../pages/RefundPage";
 import PrivacyPage from "../pages/PrivacyPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import NotificationPage from "../pages/NotificationPage";
+import FavouritePage from "../pages/FavouritePage";
 
 const AppRoutes = () => {
   return (
@@ -20,7 +21,8 @@ const AppRoutes = () => {
       <Route path="/refund" element={<RefundPage />} />
       <Route path="/product-details" element={<ProductDetailsPage />} />
       <Route path="/notification" element={<NotificationPage />} />
-
+      <Route path="/favourite" element={<FavouritePage />} />
+      
 
       
     </Routes>
