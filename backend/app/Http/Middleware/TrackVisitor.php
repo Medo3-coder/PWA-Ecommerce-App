@@ -23,7 +23,7 @@ class TrackVisitor {
             'ip'         => $request->ip(),
             'url'        => $request->fullUrl(),
             'referrer'   => $request->header('referer'),
-            'agent'      => $request->headers('User-Agent'),
+            'agent'      => $request->header('User-Agent'),
             'visited_at' => now(),
         ];
 
@@ -43,3 +43,6 @@ class TrackVisitor {
         return $reponse;
     }
 }
+
+
+// To->do i have small problem related with visited_time calculation and referer

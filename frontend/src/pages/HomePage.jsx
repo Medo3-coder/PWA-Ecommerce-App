@@ -9,12 +9,26 @@ import HomeTopMobile from "../components/home/HomeTopMobile";
 import HomeTop from "../components/home/HomeTop";
 import FooterDesktop from "../components/common/FooterDesktop";
 import FooterMobile from "../components/common/FooterMobile";
+import axios from "axios";
+import AppURL from "../utils/AppURL";
 
 const HomePage = () => {
   useEffect(() => {
     window.scroll(0, 0);
+
+    // Function to track the visitor
+    const trackVisitor = async () => {
+      try {
+        const response = await axios.get(AppURL.BaseURL + "/track-visitor");
+        console.log(response.data.message);
+      } catch (err) {
+        console.error("Error tracking visitor:", err);
+      }
+    };
+
+    trackVisitor();
   }, []); // Empty dependency array to run only once
-  
+
   return (
     <>
       <div className="Desktop">
