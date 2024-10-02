@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Middleware\TrackVisitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,12 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware([TrackVisitor::class])->get('/track-visitor', function () {
-    return response()->json(['message' => 'Visitor tracked successfully.']);
-});
-
-// Route::middleware([TrackVisitor::class])->group(function() {
-//     // Route::get('/products', [ProductController::class, 'index']);
-//     // Route::get('/orders', [OrderController::class, 'index']);
+// Route::middleware([TrackVisitor::class])->get('/track-visitor', function () {
+//     return response()->json(['message' => 'Visitor tracked successfully.']);
 // });
-// Route::get('/products', [ProductController::class, 'index']);
+
+Route::middleware([TrackVisitor::class])->group(function() {
+    Route::post('/post-contact', [ContactController::class, 'postContact']);
+});
