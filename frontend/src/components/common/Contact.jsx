@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from "react";
 import { NameRegx } from "../../validation/Validation";
 import axios from "axios";
+import ToastMessage from "../../toast-messages/toast";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+
 import AppURL from "../../utils/AppURL";
 
 const Contact = () => {
@@ -31,13 +33,13 @@ const Contact = () => {
 
     // Validate form fields
     if (message.trim().length === 0) {
-      alert("Please write your message");
+      ToastMessage.showError("Please write your message");
     } else if (name.trim().length === 0) {
-      alert("Please write your name");
+      ToastMessage.showError("Please write your name");
     } else if (email.trim().length === 0) {
-      alert("Please enter your email");
+      ToastMessage.showError("Please enter your email");
     } else if (!NameRegx.test(name)) {
-      alert("Invalid name. Please enter a valid name.");
+      ToastMessage.showError("Invalid name. Please enter a valid name.");
     } else {
       setIsSubmitting(true);
 
@@ -49,14 +51,15 @@ const Contact = () => {
         const response = await axios.post(AppURL.PostContact, requestData);
 
         if (response.status === 201 ) {
-            alert(response.data.message); 
+          ToastMessage.showSuccess("the Message was successfully sent");
+
             setFormData({name:'',email:'',message:''})
         } else {
-          alert("Error occurred while sending the message");
+          ToastMessage.showError("Error occurred while sending the message");
         }
       } catch (error) {
 
-        alert('Error: ' + error.response?.data.message || error.message);
+        ToastMessage.showError('Error: ' + error.response?.data.message || error.message);
 
       } finally {
         setIsSubmitting(false);
