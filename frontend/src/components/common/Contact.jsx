@@ -11,6 +11,8 @@ const Contact = () => {
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -37,24 +39,29 @@ const Contact = () => {
     } else if (!NameRegx.test(name)) {
       alert("Invalid name. Please enter a valid name.");
     } else {
-      const requestData = new FormData();
-      requestData.append("name", name);
-      requestData.append("email", email);
-      requestData.append("message", message);
+      setIsSubmitting(true);
 
       try {
+        const requestData = new FormData();
+        requestData.append("name", name);
+        requestData.append("email", email);
+        requestData.append("message", message);
         const response = await axios.post(AppURL.PostContact, requestData);
-        console.log(response.data);
 
         if (response.status === 201 ) {
             alert(response.data.message); 
+            setFormData({name:'',email:'',message:''})
         } else {
           alert("Error occurred while sending the message");
         }
       } catch (error) {
-        // Handle error response from the server
+
         alert('Error: ' + error.response?.data.message || error.message);
-    }
+
+      } finally {
+        setIsSubmitting(false);
+      }
+  
     }
   };
 
@@ -107,10 +114,11 @@ const Contact = () => {
                   />
 
                   <Button
-                    className="btn btn-block m-2 site-btn-login"
+                    className="btn btn-block m-2 site-btn-login" id="sendBtn" 
+                    disabled={isSubmitting}
                     type="submit"
                   >
-                    Send
+                    {isSubmitting ? "Sending..." : "send"}
                   </Button>
                 </Form>
               </Col>
