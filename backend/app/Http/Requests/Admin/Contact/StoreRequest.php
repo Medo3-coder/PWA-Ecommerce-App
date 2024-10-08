@@ -1,17 +1,15 @@
 <?php
 
 namespace App\Http\Requests\Admin\Contact;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreRequest extends FormRequest
-{
+class StoreRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -20,16 +18,24 @@ class StoreRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255|unique:contacts,email',
             'message' => 'required|string',
         ];
     }
 
+    public function messages(): array {
+        return [
+            'email.unique' => 'The email has already been taken. Please use a different email address.', // Custom message
+        ];
+    }
+
     protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException($this->requestFailsReturn($validator));
+        // Throw an exception with a custom response containing validation errors
+        throw new HttpResponseException(response()->json([
+            'message' => $validator->errors()->first(), // Return the first validation error
+        ], 422)); // Unprocessable Entity
     }
 }

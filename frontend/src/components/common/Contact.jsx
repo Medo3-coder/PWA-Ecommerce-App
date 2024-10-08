@@ -1,5 +1,8 @@
 import React, { Fragment, useState } from "react";
+import { NameRegx } from "../../validation/Validation";
+import axios from "axios";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import AppURL from "../../utils/AppURL";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -13,13 +16,46 @@ const Contact = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-
   };
 
-  const handleSubmit = (e) => {
+  //   const handleMessageChange = (event) => {
+  //     setMessage(event.target.value);
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form data submitted:", formData);
+
+    const { name, email, message } = formData;
+
+    // Validate form fields
+    if (message.trim().length === 0) {
+      alert("Please write your message");
+    } else if (name.trim().length === 0) {
+      alert("Please write your name");
+    } else if (email.trim().length === 0) {
+      alert("Please enter your email");
+    } else if (!NameRegx.test(name)) {
+      alert("Invalid name. Please enter a valid name.");
+    } else {
+      const requestData = new FormData();
+      requestData.append("name", name);
+      requestData.append("email", email);
+      requestData.append("message", message);
+
+      try {
+        const response = await axios.post(AppURL.PostContact, requestData);
+        console.log(response.data);
+
+        if (response.status === 201 ) {
+            alert(response.data.message); 
+        } else {
+          alert("Error occurred while sending the message");
+        }
+      } catch (error) {
+        // Handle error response from the server
+        alert('Error: ' + error.response?.data.message || error.message);
+    }
+    }
   };
 
   return (

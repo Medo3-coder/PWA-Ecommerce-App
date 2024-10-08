@@ -1,0 +1,1 @@
+export const NameRegx = /^[A-Za-z\'\s\.\:\-]+$/;
