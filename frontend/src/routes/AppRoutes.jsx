@@ -10,6 +10,7 @@ import ProductDetailsPage from "../pages/ProductDetailsPage";
 import NotificationPage from "../pages/NotificationPage";
 import FavouritePage from "../pages/FavouritePage";
 import CartPage from "../pages/CartPage";
+import AboutPage from "../pages/AboutPage";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
       <Route path="/notification" element={<NotificationPage />} />
       <Route path="/favourite" element={<FavouritePage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/about" element={<AboutPage />} />
       
       
       

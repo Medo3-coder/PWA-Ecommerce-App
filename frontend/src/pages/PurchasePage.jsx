@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
 import NavMenuMobile from "../components/common/NavMenuMoblie";
 import FooterDesktop from "../components/common/FooterDesktop";
