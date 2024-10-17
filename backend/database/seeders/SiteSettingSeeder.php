@@ -14,7 +14,7 @@ class SiteSettingSeeder extends Seeder {
     public function run() {
 
         DB::table('site_settings')->insert([
-            'about'            => "<h1>About Us Page</h1>
+            'about'            => "
     <p>Hi! I'm Mohamed Farouk. I am a dedicated software engineer with expertise in React, PHP, Node.js, and full-stack development.</p>
 
     <p>My focus is on creating efficient, scalable, and robust software solutions, seamlessly integrating both frontend and backend frameworks. I have a strong passion for building intuitive user interfaces and optimizing performance to enhance user experiences. With a background in containerization and microservices,</p>
@@ -49,7 +49,7 @@ class SiteSettingSeeder extends Seeder {
 
     <h2>Contact Us</h2>
     <p>If you have any questions about our refund policy, please contact us at [your email address] or through our customer service page.</p>",
-            'purchase_guide'   => "<h1>Purchase Guide</h1>
+            'purchase_guide'   => "
 
     <p>Welcome to our Purchase Guide! This guide will walk you through the steps of making a purchase on our website, from selecting a product to completing your order.</p>
 
@@ -78,7 +78,7 @@ class SiteSettingSeeder extends Seeder {
     <p>If you have any questions or need assistance during the purchasing process, please contact our customer support team at [your email address] or through our contact page.</p>
 
     <p>Thank you for shopping with us! We hope you have a great experience.</p>",
-            'privacy'          => "<h1>Privacy Policy</h1>
+            'privacy'          => "
 
     <p>Your privacy is important to us. It is our policy to respect your privacy regarding any information we may collect from you across our website and other sites we own and operate.</p>
 

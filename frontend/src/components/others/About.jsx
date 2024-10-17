@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import axios from "axios";
+import parse from 'html-react-parser';
 
 const About = () => {
   const [about, setAbout] = useState("");
@@ -10,7 +11,7 @@ const About = () => {
 
   //useEffect runs when the component is mounted, making it ideal for fetching data or performing other operations that should only occur once.
   useEffect(() => {
-    const AboutInfo = async (about) => {
+    const AboutInfo = async () => {
       try {
         const response = await axios.get(AppURL.SiteSettings);
         if (response.status === 200) {
@@ -39,13 +40,13 @@ const About = () => {
             sm={12}
             xs={12}
           >
-            <h4 className="section-title-login">About Us Page</h4>
+            <h4 className="section-title-login">About Us</h4>
             {loading ? (
                 <Spinner animation="border" variant="primary" />
             )  : error ? (
                 <p className="text-danger">{error}</p>
             )  : (
-                <p className="section-title-contact">{about} </p>
+                <p className="section-title-contact">{parse(about)} </p>
             )}
               
            
