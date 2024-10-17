@@ -29,6 +29,19 @@ trait ResponseTrait {
 
     }
 
+    public function successReturn($msg = '', $data = [], $code = 200): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+
+            // 'user_status' => auth('api')->user() ? auth('api')->user()->status : '',
+            'msg'         => $msg,
+            'key'         => 'success',
+            'code'        => $code,
+            'data'        => $data,
+        ]);
+
+    }
+
     public function successData($data) {
         return $this->response('success', $data);
     }

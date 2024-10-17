@@ -1,27 +1,59 @@
-import React, { Fragment } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { Fragment, useEffect, useState } from "react";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import AppURL from "../../utils/AppURL";
+import axios from "axios";
 
 const About = () => {
-    return (
-        <Fragment>
-            <Container>
-                <Row className="p-2">
-                    <Col className="shadow-sm bg-white mt-2" md={12} lg={12} sm={12} xs={12}>
-                        <h4 className="section-title-login">About Us Page</h4>
-                        <p className="section-title-contact">
-                            Hi! I'm Mohamed Farouk. I am a dedicated software engineer with expertise in React, PHP, Node.js, and full-stack development. 
-                            <br /><br />
-                            My focus is on creating efficient, scalable, and robust software solutions, seamlessly integrating both frontend and backend frameworks. I have a strong passion for building intuitive user interfaces and optimizing performance to enhance user experiences. With a background in containerization and microservices,
-                            <br /><br />
-                            I aim to develop modular and resilient applications that can scale effortlessly. I thrive on tackling complex challenges, always striving to stay up-to-date with the latest industry trends and tools.
-                            <br /><br />
-                            My goal is to deliver high-quality, impactful software that drives innovation and meets business needs. Whether working independently or as part of a collaborative team, I am committed to achieving excellence in every project.
-                        </p>
-                    </Col>
-                </Row>
-            </Container>
-        </Fragment>
-    );
+  const [about, setAbout] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  //useEffect runs when the component is mounted, making it ideal for fetching data or performing other operations that should only occur once.
+  useEffect(() => {
+    const AboutInfo = async (about) => {
+      try {
+        const response = await axios.get(AppURL.SiteSettings);
+        if (response.status === 200) {
+          const aboutText =
+            response.data[0]?.about || "Information not available";
+          setAbout(aboutText);
+        }
+      } catch (error) {
+        setError("Failed to load information. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    AboutInfo();
+  }, []);
+
+  return (
+    <Fragment>
+      <Container>
+        <Row className="p-2">
+          <Col
+            className="shadow-sm bg-white mt-2"
+            md={12}
+            lg={12}
+            sm={12}
+            xs={12}
+          >
+            <h4 className="section-title-login">About Us Page</h4>
+            {loading ? (
+                <Spinner animation="border" variant="primary" />
+            )  : error ? (
+                <p className="text-danger">{error}</p>
+            )  : (
+                <p className="section-title-contact">{about} </p>
+            )}
+              
+           
+          </Col>
+        </Row>
+      </Container>
+    </Fragment>
+  );
 };
 
 export default About;
