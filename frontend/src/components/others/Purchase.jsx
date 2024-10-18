@@ -12,11 +12,20 @@ const Purchase = () => {
   useEffect(() => {
     const purchaseData = async () => {
       try {
+
+        // const cahcedPurchaseText = localStorage.getItem("purchaseText");
+        // if(cahcedPurchaseText){
+        //   setPurchase(cahcedPurchaseText);
+        //   setLoading(false);
+        //   return;
+        // }
+
         const response = await axios.get(AppURL.SiteSettings);
         if (response.status === 200) {
           const purchaseText =
             response.data[0]?.purchase_guide || "Information not available";
           setPurchase(purchaseText);
+          // localStorage.setItem("purchaseText" , purchaseText);
         }
       } catch (error) {
         setError("Failed to load information. Please try again later.");
