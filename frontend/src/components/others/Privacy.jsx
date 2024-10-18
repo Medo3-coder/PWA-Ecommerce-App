@@ -1,22 +1,63 @@
-import React, { Fragment } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import AppURL from "../../utils/AppURL";
+import parse from "html-react-parser";
 
 const Privacy = () => {
+  const [privacy, setPrivacy] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // By placing the API call inside useEffect, you ensure that the data is fetched only when the component is first rendered,
+  // not on every re-render.
+  useEffect(() => {
+    const privacyData = async () => {
+      try {
+        // Check if data is in localStorage
+        const cachedPrivacyText = localStorage.getItem("privacyText");
+        if (cachedPrivacyText) {
+          setPrivacy(cachedPrivacyText);
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(AppURL.SiteSettings);
+        if (response.status === 200) {
+          const privacyText = response.data[0]?.privacy || "Information not available";
+          setPrivacy(privacyText);
+          //This approach allows you to benefit from the speed and efficiency of localStorage while minimizing the risk of displaying outdated information.
+          localStorage.setItem("privacyText", privacyText);
+        }
+      } catch (error) {
+        setError("Failed to load information. Please try again later.");
+      } finally {
+        // code inside the finally block will always execute, whether the request succeeded (try block) or failed (catch block).
+        setLoading(false);
+      }
+    };
+
+    privacyData();
+  }, []);
   return (
     <Fragment>
       <Container>
         <Row className="p-2">
-          <Col className="shadow-sm bg-white mt-2" md={12} lg={12} sm={12} xs={12}>
-            <h4 className="section-title-login">Privacy Page</h4>
-            <p className="section-title-contact">
-              Hi! I'm Kazi Ariyan. I'm a web developer with a serious love for teaching I am a founder of eLe easy Learning and a passionate Web Developer, Programmer & Instructor.
-              <br /><br />
-              I am working online for the last 7 years and have created several successful websites running on the internet. I try to create a project-based course that helps you to learn professionally and make you feel as a complete developer. easy learning exists to help you succeed in life.
-              <br /><br />
-              Each course has been hand-tailored to teach a specific skill. I hope you agree! Whether you’re trying to learn a new skill from scratch or want to refresh your memory on something you’ve learned in the past, you’ve come to the right place.
-              <br /><br />
-              Education makes the world a better place. Make your world better with new skills.
-            </p>
+          <Col
+            className="shadow-sm bg-white mt-2"
+            md={12}
+            lg={12}
+            sm={12}
+            xs={12}
+          >
+            <h4 className="section-title-login">privacy Page</h4>
+            {loading ? (
+              <Spinner animation="border" variant="primary" />
+            ) : error ? (
+              <p className="text-danger">{error}</p>
+            ) : (
+              <p className="section-title-contact">{parse(privacy)}</p>
+            )}
           </Col>
         </Row>
       </Container>
