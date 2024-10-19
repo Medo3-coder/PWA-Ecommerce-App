@@ -31,7 +31,7 @@ const Privacy = () => {
           localStorage.setItem("privacyText", privacyText);
         }
       } catch (error) {
-        ToastMessages.showError("Failed to load information. Please try again later.");
+        setError(ToastMessages.showError("Failed to load information. Please try again later."));
 
       } finally {
         // code inside the finally block will always execute, whether the request succeeded (try block) or failed (catch block).

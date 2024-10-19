@@ -20,14 +20,14 @@ const Refund = () => {
           setRefund(refundText);
         }
       } catch (error) {
-        ToastMessages.showError("Failed to load information. Please try again later.");
+        setError(ToastMessages.showError("Failed to load information. Please try again later."));
       } finally {
         setLoading(false);
       }
     };
 
     Refund();
-  }, []);
+  }, []); // Empty dependency array ensures it runs only on mount or refresh
 
   return (
     <>

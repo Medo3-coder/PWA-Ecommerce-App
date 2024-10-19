@@ -21,7 +21,8 @@ const About = () => {
           setAbout(aboutText);
         }
       } catch (error) {
-        ToastMessages.showError("Failed to load information. Please try again later.");
+        setError(ToastMessages.showError("Failed to load information. Please try again later."));
+        
 
       } finally {
         setLoading(false);
