@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
+import ToastMessages from "../../toast-messages/toast";
 
 const Privacy = () => {
   const [privacy, setPrivacy] = useState("");
@@ -30,7 +31,8 @@ const Privacy = () => {
           localStorage.setItem("privacyText", privacyText);
         }
       } catch (error) {
-        setError("Failed to load information. Please try again later.");
+        ToastMessages.showError("Failed to load information. Please try again later.");
+
       } finally {
         // code inside the finally block will always execute, whether the request succeeded (try block) or failed (catch block).
         setLoading(false);

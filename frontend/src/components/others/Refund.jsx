@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
+import ToastMessages from "../../toast-messages/toast";
 
 const Refund = () => {
   const [refund, setRefund] = useState("");
@@ -19,7 +20,7 @@ const Refund = () => {
           setRefund(refundText);
         }
       } catch (error) {
-        setError("Failed to load information. Please try again later.");
+        ToastMessages.showError("Failed to load information. Please try again later.");
       } finally {
         setLoading(false);
       }

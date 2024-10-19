@@ -3,6 +3,7 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import axios from "axios";
 import parse from 'html-react-parser';
+import ToastMessages from "../../toast-messages/toast";
 
 const About = () => {
   const [about, setAbout] = useState("");
@@ -20,7 +21,8 @@ const About = () => {
           setAbout(aboutText);
         }
       } catch (error) {
-        setError("Failed to load information. Please try again later.");
+        ToastMessages.showError("Failed to load information. Please try again later.");
+
       } finally {
         setLoading(false);
       }
