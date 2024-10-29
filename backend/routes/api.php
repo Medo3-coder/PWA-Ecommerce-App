@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Middleware\TrackVisitor;
@@ -28,4 +29,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware([TrackVisitor::class])->group(function() {
     Route::post('/post-contact', [ContactController::class, 'postContact']);
     Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
+    Route::get('/catagories', [CategoryController::class,'catagories']);
 });
