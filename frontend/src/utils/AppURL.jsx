@@ -4,6 +4,7 @@ const AppURL = {
   BaseURL: BaseURL,
   PostContact: `${BaseURL}/post-contact`,
   SiteSettings: `${BaseURL}/site-setting`,
+  CateogryDetails: `${BaseURL}/catagories`,
 };
 
 export default AppURL;
