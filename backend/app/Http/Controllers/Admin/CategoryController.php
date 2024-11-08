@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function catagories(){
 
-        $categories = Category::all();
+        $categories = Category::with('subcategories')->get();
+
         return response()->json($categories , 200);
 
     }

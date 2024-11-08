@@ -12,14 +12,14 @@ class Category extends Model {
     protected $fillable = ['category_name', 'category_image'];
 
     public function subcategories() {
-        $this->hasMany(Subcategory::class);
+        return  $this->hasMany(Subcategory::class);
     }
 
     public function getImageAttribute() {
 
-        if (isset($this->attributes['image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['image']))) {
+        if (isset($this->attributes['image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['category_image']))) {
             // Retrieve the image path if it exists
-            return $this->getImage($this->attributes['image'], 'categories');
+            return $this->getImage($this->attributes['category_image'], 'categories');
         }
         // Return the default image path if the category image doesn't exist
         return $this->defaultImage('categories');
@@ -28,11 +28,11 @@ class Category extends Model {
     public function setImageAttribute($value) {
         if ($value != null && is_file($value)) {
             // Delete the old image if it exists
-            if (isset($this->attributes['image'])) {
-                $this->deleteFile($this->attributes['image'], 'users');
+            if (isset($this->attributes['category_image'])) {
+                $this->deleteFile($this->attributes['category_image'], 'users');
             }
             // Upload the new image and set the attribute
-            $this->attributes['image'] = $this->uploadAllTyps($value, 'categories');
+            $this->attributes['category_image'] = $this->uploadAllTyps($value, 'categories');
 
         }
     }
