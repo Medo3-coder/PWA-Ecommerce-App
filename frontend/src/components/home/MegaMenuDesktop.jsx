@@ -1,7 +1,30 @@
-import React, { useEffect } from 'react';
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import AppURL from "../../utils/AppURL";
 
 const MegaMenuDesktop = () => {
+  const [category, setCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch category data when the component mounts
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(AppURL.CateogryDetails);
+        if (response.status === 200) {
+          setCategory(response.data);
+        }
+      } catch (error) {
+        setError("Failed to load categories in Mega Menu");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []); // Empty dependency array to run only on mount and unmount
+
   // Define the event handler function separately
   const handleAccordionClick = (event) => {
     event.currentTarget.classList.toggle("active");
@@ -13,55 +36,45 @@ const MegaMenuDesktop = () => {
     }
   };
 
-  useEffect(() => {
-    const acc = document.getElementsByClassName("accordionAll");
-
-    // Add event listeners
-    for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", handleAccordionClick);
-    }
-
-    // Cleanup function to remove event listeners on component unmount
-    return () => {
-      for (let i = 0; i < acc.length; i++) {
-        acc[i].removeEventListener("click", handleAccordionClick);
-      }
-    };
-  }, []); // Empty dependency array to run only on mount and unmount
 
   return (
     <>
-    <div className="accordionMenuDivAll">
-      <div className="accordionMenuDivInsideAll">
-        <button className="accordionAll">
-          <img
-            className="accordionMenuIconAll"
-            src="https://img.icons8.com/?size=50&id=53386&format=png"
-            alt="icon"
-          />
-          &nbsp; Man's Clothing
-        </button>
-        <div className="panelAll">
-          <ul>
-            <li>
-              <a href="ww" className="accordionItemAll">
-              
-                Mans Tshirt 1
-              </a>
-            </li>
-            <li>
-              <a href="ww" className="accordionItemAll">
-              
-                Mans Tshirt 2
-              </a>
-            </li>
-          </ul>
-        </div>
-
+      <div className="accordionMenuDivAll">
+        {error ? (
+          <div className="text-danger">{error}</div>
+        ): category.length > 0 ? (
+          category.map((item  , index) => (
+            <div className="accordionMenuDivInsideAll" key={index}>
+                      <button className="accordionAll" onClick={handleAccordionClick}>
+                        <img
+                          className="accordionMenuIconAll"
+                          src="https://img.icons8.com/?size=50&id=53386&format=png"
+                          alt="icon"
+                        />
+                        &nbsp; {item.category_name}
+                      </button>
+                      <div className="panelAll">
+                        <ul>
+                          {item.subcategories.map((item , index) => (
+                            <li key={index}>
+                            <a href="ww" className="accordionItemAll">
+                              {item.subcategory_name}
+                            </a>
+                          </li>
+                          ))}
+                          
+                     
+                        </ul>
+                      </div>
+                    </div>
+            ))
+          ) : (
+            <div>No categories available.</div>
+          )}
+        
       </div>
-    </div>
     </>
   );
-}
+};
 
-export default MegaMenuDesktop
+export default MegaMenuDesktop;
