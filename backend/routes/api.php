@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Middleware\TrackVisitor;
 use Illuminate\Http\Request;
@@ -30,4 +31,7 @@ Route::middleware([TrackVisitor::class])->group(function() {
     Route::post('/post-contact', [ContactController::class, 'postContact']);
     Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
     Route::get('/catagories', [CategoryController::class,'catagories']);
+
+    Route::get('/products/remark/{remark}', [ProductController::class, 'getProductsByRemark']);
+
 });
