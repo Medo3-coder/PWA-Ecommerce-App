@@ -63,7 +63,7 @@ function FeaturedProducts() {
                <p className="product-price-on-card">Price : ${product.price}</p>
             ): (
               <p className="product-price-on-card">
-                Price : <del  className="text-secondary">${product.price}</del > ${product.special_price}
+                Price : <del className="text-secondary">${product.price}</del > ${product.special_price}
               </p>
 
             )}
