@@ -4,7 +4,19 @@ const AppURL = {
   BaseURL: BaseURL,
   PostContact: `${BaseURL}/post-contact`,
   SiteSettings: `${BaseURL}/site-setting`,
-  CateogryDetails: `${BaseURL}/catagories`,
+  CateogryDetails: `${BaseURL}/categories`,
+
+  productByRemark(remark) {
+    return `${this.BaseURL}/products/remark/${remark}`;
+  },
+
+  ProductByCategory(category) {
+    return `${this.BaseURL}/products/category/${category}`;
+  },
+
+  ProductBySubCategory(category, subcategory) {
+    return `${this.BaseURL}/products/remark/${category}/${subcategory}`;
+  },
 };
 
 export default AppURL;

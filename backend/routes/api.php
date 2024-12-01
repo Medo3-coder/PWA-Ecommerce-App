@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware([TrackVisitor::class])->group(function() {
     Route::post('/post-contact', [ContactController::class, 'postContact']);
     Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
-    Route::get('/catagories', [CategoryController::class,'catagories']);
+    Route::get('/categories', [CategoryController::class,'catagories']);
 
     //products
     Route::get('/products/remark/{remark}', [ProductController::class, 'getProductsByRemark']);
