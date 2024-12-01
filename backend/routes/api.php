@@ -32,6 +32,11 @@ Route::middleware([TrackVisitor::class])->group(function() {
     Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
     Route::get('/catagories', [CategoryController::class,'catagories']);
 
+    //products
     Route::get('/products/remark/{remark}', [ProductController::class, 'getProductsByRemark']);
+    Route::get('/products/category/{category}' , [ProductController::class , 'getProductByCategory']);
+    Route::get('/product/{category}/{subcategory}',[ProductController::class, 'getProductBySubCategory']);
+
+
 
 });
