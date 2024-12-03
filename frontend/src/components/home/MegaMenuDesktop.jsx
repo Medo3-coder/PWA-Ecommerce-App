@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AppURL from "../../utils/AppURL";
+import { Container } from "react-bootstrap";
 
 const MegaMenuDesktop = () => {
   const [category, setCategory] = useState([]);
@@ -11,7 +12,7 @@ const MegaMenuDesktop = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(AppURL.CateogryDetails);
+        const response = await axios.get(AppURL.CategoryDetails);
         if (response.status === 200) {
           setCategory(response.data);
         }
@@ -37,41 +38,46 @@ const MegaMenuDesktop = () => {
   };
 
 
+  if(isLoading){
+    return (
+      <Container className="text-center">
+        <h4>Loading Categories ...</h4>
+      </Container>
+    );
+  }
+
   return (
     <>
       <div className="accordionMenuDivAll">
         {error ? (
           <div className="text-danger">{error}</div>
-        ): category.length > 0 ? (
-          category.map((item  , index) => (
+        ) : category.length > 0 ? (
+          category.map((item, index) => (
             <div className="accordionMenuDivInsideAll" key={index}>
-                      <button className="accordionAll" onClick={handleAccordionClick}>
-                        <img
-                          className="accordionMenuIconAll"
-                          src="https://img.icons8.com/?size=50&id=53386&format=png"
-                          alt="icon"
-                        />
-                        &nbsp; {item.category_name}
-                      </button>
-                      <div className="panelAll">
-                        <ul>
-                          {item.subcategories.map((item , index) => (
-                            <li key={index}>
-                            <a href="ww" className="accordionItemAll">
-                              {item.subcategory_name}
-                            </a>
-                          </li>
-                          ))}
-                          
-                     
-                        </ul>
-                      </div>
-                    </div>
-            ))
-          ) : (
-            <div>No categories available.</div>
-          )}
-        
+              <button className="accordionAll" onClick={handleAccordionClick}>
+                <img
+                  className="accordionMenuIconAll"
+                  src="https://img.icons8.com/?size=50&id=53386&format=png"
+                  alt="icon"
+                />
+                &nbsp; {item.category_name}
+              </button>
+              <div className="panelAll">
+                <ul>
+                  {item.subcategories.map((item, index) => (
+                    <li key={index}>
+                      <a href="ww" className="accordionItemAll">
+                        {item.subcategory_name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div>No categories available.</div>
+        )}
       </div>
     </>
   );

@@ -4,14 +4,14 @@ const AppURL = {
   BaseURL: BaseURL,
   PostContact: `${BaseURL}/post-contact`,
   SiteSettings: `${BaseURL}/site-setting`,
-  CateogryDetails: `${BaseURL}/categories`,
+  CategoryDetails: `${BaseURL}/categories`,
 
   productByRemark(remark) {
     return `${this.BaseURL}/products/remark/${remark}`;
   },
 
-  ProductByCategory(category) {
-    return `${this.BaseURL}/products/category/${category}`;
+  ProductByCategory(category_id) {
+    return `${this.BaseURL}/products/category/${category_id}`;
   },
 
   ProductBySubCategory(category, subcategory) {

@@ -30,12 +30,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware([TrackVisitor::class])->group(function() {
     Route::post('/post-contact', [ContactController::class, 'postContact']);
     Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
-    Route::get('/categories', [CategoryController::class,'catagories']);
+    Route::get('/categories', [CategoryController::class,'categories']);
 
     //products
     Route::get('/products/remark/{remark}', [ProductController::class, 'getProductsByRemark']);
-    Route::get('/products/category/{category}' , [ProductController::class , 'getProductByCategory']);
-    Route::get('/product/{category}/{subcategory}',[ProductController::class, 'getProductBySubCategory']);
+    Route::get('/products/category/{category_id}' , [ProductController::class , 'getProductByCategory']);
+    Route::get('/product/{category_id}/{subcategory_id}',[ProductController::class, 'getProductBySubCategory']);
 
 
 

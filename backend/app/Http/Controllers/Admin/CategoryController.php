@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
-    public function catagories(){
+    public function categories(){
 
-        $categories = Cache::remember('categories_with_subcategories', 60, function () {
-            return Category::with('subcategories')->get();
-        });
 
+        $categories =  Category::with('subcategories')->get();
         if ($categories->isEmpty()) {
             return response()->json(['message' => 'No categories available now'], 404);
         }

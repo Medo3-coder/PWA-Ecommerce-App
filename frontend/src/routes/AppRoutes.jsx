@@ -11,6 +11,7 @@ import NotificationPage from "../pages/NotificationPage";
 import FavouritePage from "../pages/FavouritePage";
 import CartPage from "../pages/CartPage";
 import AboutPage from "../pages/AboutPage";
+import ProductCategoryPage from "../pages/ProductCategoryPage";
 
 const AppRoutes = () => {
   return (
@@ -26,6 +27,7 @@ const AppRoutes = () => {
       <Route path="/favourite" element={<FavouritePage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/products-by-category/:category_id" element={<ProductCategoryPage />} />
       
       
       

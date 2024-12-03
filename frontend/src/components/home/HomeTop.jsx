@@ -17,7 +17,7 @@ function HomeTop() {
     // Fetch category data when the component mounts
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(AppURL.CateogryDetails);
+        const response = await axios.get(AppURL.CategoryDetails);   // the fixed menu
         setMenuData(response.data);
       } catch (error) {
         setError(ToastMessages.showError("Failed to load categories"));

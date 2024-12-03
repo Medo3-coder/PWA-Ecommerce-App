@@ -7,21 +7,19 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
+import { Link } from "react-router-dom";
 
 function Categories() {
-  const [category, setCategory] = useState([]); // State for category data
+  const [menuData, setMenuData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // State for errors
 
-
- 
   useEffect(() => {
     const categories = async () => {
       try {
-        const response = await axios.get(AppURL.CateogryDetails);
+        const response = await axios.get(AppURL.CategoryDetails);
         if (response.status === 200) {
-           // to do we need  to use localStorage here as in Privacy component 
-          setCategory(response.data);
-          
+          setMenuData(response.data);
         }
       } catch (e) {
         setError(
@@ -29,16 +27,47 @@ function Categories() {
             "Failed to load Category Information in page section."
           )
         );
+      }finally{
+        setLoading(false);
       }
     };
 
     categories();
   }, []); // Empty dependency array to run this effect only once on mount
 
-  // If there was an error, display error message
-  if (error) {
-    return <p>{error}</p>;
+ 
+  if(error){
+    return (
+      <Container className="text-center">
+         <h4>{error}</h4>
+      </Container>
+    );
   }
+
+  if(loading){
+    return (
+      <Container className="text-center">
+        <h4>Loading Categories ...</h4>
+      </Container>
+    );
+  }
+
+  const MyView = menuData.map((category, index) => (
+     <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
+      <Link to={`products-by-category/${category.id}`}>
+        <Card className="h-100 w-100 text-center">
+          <Card.Body>
+            <Card.Img
+              className="center"
+              src={category.category_image}
+              alt={category.category_name}
+            />
+            <h5 className="category-name">{category.category_name}</h5>
+          </Card.Body>
+        </Card>
+      </Link>
+    </Col>
+  ));
 
   return (
     <Container className="text-center" fluid={true}>
@@ -48,26 +77,7 @@ function Categories() {
       </div>
 
       <Row>
-        {category.length > 0 ? (
-          category.map((item, index) => (
-            <Col key={index} xl={2} lg={2} md={2} sm={12} xs={12}>
-              <Card className="h-100 w-100 text-center">
-                <Card.Body>
-                  <Card.Img
-                    className="center"
-                    src={item.category_image}
-                    alt={item.category_name}
-                  />
-                  <h5 className="category-name">{item.category_name}</h5>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
-        ) : error ? (
-          <p className="text-danger">{error}</p>
-        ) : (
-          <div>No categories available.</div>
-        )}
+      {MyView}
       </Row>
     </Container>
   );

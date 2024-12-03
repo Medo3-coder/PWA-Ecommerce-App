@@ -14,24 +14,26 @@ class ProductController extends Controller {
             return response()->json(['message' => 'No products found for the given remark'], 404);
         }
 
-        return response()->json($products);
+        return response()->json($products, 200);
     }
 
     public function getProductByCategory(Request $request) {
-        $products = Product::where('category', $request->category)->get();
+        $products = Product::where('category_id', $request->category_id)->get();
+
         if ($products->isEmpty()) {
-            return response()->json(['message' => 'No products found for the given category'] , 404);
+            return response()->json(['message' => 'No products found for the given category'], 404);
         }
 
-        return response()->json($products);
+        return response()->json($products, 200);
     }
 
-    public function getProductBySubCategory(Request $request){
-        $products = Product::where('category' , $request->category)->where('subcategory' , $request->subcategory)->get();
+    public function getProductBySubCategory(Request $request) {
+        $products = Product::where('category_id', $request->category_id)->where('subcategory_id', $request->subcategory_id)->get();
+
         if ($products->isEmpty()) {
-            return response()->json(['message' => 'No products found for the given category'] , 404);
+            return response()->json(['message' => 'No products found for the given category'], 404);
         }
-        return response()->json($products);
+        return response()->json($products, 200);
 
     }
 }
