@@ -18,8 +18,8 @@ class ProductSeeder extends Seeder {
             'Collection' => 8,
         ];
 
-        $categories    = ['Electronics', 'Fashion', 'Home Appliances'];
-        $subcategories = ['Mobile', 'Laptop', 'Shoes', 'Clothing', 'Kitchen'];
+        $categories    = DB::table('categories')->pluck('id')->toArray();  // Get all category IDs
+        $subcategories = DB::table('subcategories')->pluck('id')->toArray(); // Get all subcategory IDs
 
         foreach ($remarks as $remark => $count) {
             for ($i = 0; $i < $count; $i++) {
@@ -28,8 +28,8 @@ class ProductSeeder extends Seeder {
                     'price'         => rand(100, 1000),
                     'special_price' => rand(50, 900),
                     'image'         => 'https://via.placeholder.com/150?text=Product+' . ($i + 1),
-                    'category'      => $categories[array_rand($categories)],
-                    'subcategory'   => $subcategories[array_rand($subcategories)],
+                    'category_id'      => $categories[array_rand($categories)],
+                    'subcategory_id'   => $subcategories[array_rand($subcategories)],
                     'remark'        => $remark,
                     'brand'         => 'Brand ' . chr(65 + rand(0, 25)),
                     'star'          => rand(1, 5),

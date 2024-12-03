@@ -15,15 +15,20 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->decimal('price', 10, 2); // Price with up to 2 decimal places
+            $table->boolean('is_available')->default(true);
             $table->decimal('special_price', 10, 2)->nullable();
             $table->string('image', 255); // Image URL
-            $table->string('category', 100)->nullable()->index();
-            $table->string('subcategory', 100)->nullable()->index();
-            $table->string('remark', 255)->nullable(); // Any remark, optional
+            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('subcategory_id')->nullable()->index();
+            $table->string('remark', 255)->nullable();
             $table->string('brand', 100)->nullable()->index();
             $table->float('star', 2, 1)->nullable();
             $table->string('product_code', 50)->unique();
-            $table->timestamps(); 
+            $table->timestamps();
+
+             // Foreign key constraints
+             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('set null');
         });
     }
 
