@@ -1,14 +1,40 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import Card from "react-bootstrap/Card";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
+import AppURL from "../../utils/AppURL";
+import ToastMessages from "../../toast-messages/toast";
 
 // useRef hook provides a way to persist values across renders without causing the component to re-render when the value changes.
 
 const NewArrival = () => {
+  const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNewArrivalProduct = async () => {
+      try {
+        const response = await axios.get(AppURL.productByRemark("New"));
+        setProductData(response.data);
+      } catch (error) {
+        setError(
+          ToastMessages.showError(
+            "Failed to load information. Please try again later."
+          )
+        );
+      } finally {
+        setLoading(false); // Ensure loading stops in both success and error cases
+      }
+    };
+
+    fetchNewArrivalProduct();
+  }, []);
+
   const sliderRef = useRef(null);
 
   const next = () => {
@@ -18,6 +44,23 @@ const NewArrival = () => {
   const previous = () => {
     sliderRef.current.slickPrev();
   };
+
+
+  if(loading){
+    return (
+      <Container className="text-center">
+         <h4>Loading New Products...</h4>
+      </Container>
+    );
+  }
+
+  if(error){
+    return (
+      <Container className="text-center">
+         <h4>{error}</h4>
+      </Container>
+    );
+  }
 
   var settings = {
     dots: false,
@@ -57,6 +100,26 @@ const NewArrival = () => {
     ],
   };
 
+  const renderProduct = productData.map((product , index) => {
+    return (
+      <div>
+      <Card className="image-box">
+        <Card.Img className="center" src={product.image}/>
+        <Card.Body>
+          <p className="product-name-on-card">{product.title}</p>
+          {product.special_price === "na" ? (
+            <p className="product-price-on-card">Price: ${product.price}</p>
+          ): (
+            <p className="product-price-on-card">
+              Price: <del className="text-secondary">${product.price}</del>${product.special_price}
+            </p>
+          )}
+        </Card.Body>
+      </Card>
+    </div>
+    );
+  })
+
   return (
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
@@ -74,116 +137,7 @@ const NewArrival = () => {
 
       <Row>
         <Slider ref={sliderRef} {...settings}>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/xif0q/bottle/w/e/a/1200-stainless-steel-vacuum-double-insulated-tumbler-with-handle-original-imah3bfqzzwmpkgn.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  HOUSE OF QUIRK Stainless Steel Vacuum Double Insulated
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/xif0q/pressure-cooker/e/8/y/-original-imagsd28dhfv8dmr.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  Pigeon Special 3 L Inner Lid Pressure Cooker
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/xif0q/knife-sharpener/9/r/t/0-manual-kitchen-knife-sharpener-2-stage-sharpening-tool-for-original-imahyagdzeqmdknf.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  MGKENTERPRISE Plastic Grocery Container - 1200 ml
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  cello Pack of 18 Opalware Dazzle Lush Fiesta,Pieces
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://img.etimg.com/photo/msid-98945112,imgsize-13860/SamsungGalaxyS23Ultra.jpg"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Samsung mobile phones</p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/l1whaq80/bowl/q/l/f/1-1-1-lky-original-imagdd776gbgpybn.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  LIMETRO STEEL Copper Base Handi with Lid{" "}
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/xif0q/weighing-scale/g/o/7/kitchen-table-top-weight-machine-electronic-digital-1gram-10-kg-original-imahfj6gqzzxmxh6.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  SONALEX Weight Machine 10kg Scale Digital For Shop
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
-          <div>
-            <Card className="image-box">
-              <Card.Img
-                className="center"
-                src="https://rukminim2.flixcart.com/image/612/612/xif0q/shopsy-chopper/h/u/w/no-axn-combo-of-450-ml-chopper-stainlesssteel-whisk-wooden-original-imagkwc7gj7zqasy.jpeg?q=70"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">
-                  DDecora Combo Of 450 ML , Stainless-Steel Whisk
-                </p>
-                <p className="product-price-on-card">Price : $210</p>
-              </Card.Body>
-            </Card>
-          </div>
+          {renderProduct}
         </Slider>
       </Row>
     </Container>
