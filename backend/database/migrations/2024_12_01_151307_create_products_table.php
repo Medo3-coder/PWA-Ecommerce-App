@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->decimal('price', 10, 2); // Price with up to 2 decimal places
+            $table->text('description' , 255);
+            $table->decimal('price', 10, 2);
             $table->boolean('is_available')->default(true);
             $table->decimal('special_price', 10, 2)->nullable();
             $table->string('image', 255); // Image URL
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('brand', 100)->nullable()->index();
             $table->float('star', 2, 1)->nullable();
             $table->string('product_code', 50)->unique();
+            $table->softDeletes();
             $table->timestamps();
 
              // Foreign key constraints

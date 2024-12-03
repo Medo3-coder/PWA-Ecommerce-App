@@ -103,7 +103,7 @@ const NewArrival = () => {
   const renderProduct = productData.map((product , index) => {
     return (
       <div>
-      <Card className="image-box">
+      <Card className="image-box" key={index}>
         <Card.Img className="center" src={product.image}/>
         <Card.Body>
           <p className="product-name-on-card">{product.title}</p>

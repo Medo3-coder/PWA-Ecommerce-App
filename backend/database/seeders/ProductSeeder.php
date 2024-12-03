@@ -25,7 +25,9 @@ class ProductSeeder extends Seeder {
             for ($i = 0; $i < $count; $i++) {
                 DB::table('products')->insert([
                     'title'         => 'Product ' . ($i + 1) . ' (' . $remark . ')',
+                    "description"   => 'This is a description for ' . $remark . ' product '. ($i + 1),
                     'price'         => rand(100, 1000),
+                    'is_available'  => rand(1 , 0),
                     'special_price' => rand(50, 900),
                     'image'         => 'https://via.placeholder.com/150?text=Product+' . ($i + 1),
                     'category_id'      => $categories[array_rand($categories)],
