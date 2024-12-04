@@ -27,7 +27,7 @@ function Categories() {
             "Failed to load Category Information in page section."
           )
         );
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -35,16 +35,15 @@ function Categories() {
     categories();
   }, []); // Empty dependency array to run this effect only once on mount
 
- 
-  if(error){
+  if (error) {
     return (
       <Container className="text-center">
-         <h4>{error}</h4>
+        <h4>{error}</h4>
       </Container>
     );
   }
 
-  if(loading){
+  if (loading) {
     return (
       <Container className="text-center">
         <h4>Loading Categories ...</h4>
@@ -53,8 +52,8 @@ function Categories() {
   }
 
   const MyView = menuData.map((category, index) => (
-     <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
-      <Link to={`products-by-category/${category.id}`}>
+    <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
+      <Link to={`/${category.slug}`}>
         <Card className="h-100 w-100 text-center">
           <Card.Body>
             <Card.Img
@@ -75,10 +74,7 @@ function Categories() {
         <h2>Categories </h2>
         {/* <p>Some Of Our Exclusive Collection , You May Like</p> */}
       </div>
-
-      <Row>
-      {MyView}
-      </Row>
+      <Row>{MyView}</Row>
     </Container>
   );
 }

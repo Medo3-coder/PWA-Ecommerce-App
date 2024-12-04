@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Models\Subcategory;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,7 @@ class CategoriesSeeder extends Seeder {
             // Create the parent category
             $parentCategory = Category::create([
                 'category_name'  => $parent,
+                'slug'           => Str::slug($parent),
                 'category_image' => 'default.png',
 
             ]);

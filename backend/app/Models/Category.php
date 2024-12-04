@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\UploadTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class Category extends Model {
-    use HasFactory;
+    use HasFactory ,UploadTrait ;
 
     protected $fillable = ['category_name', 'category_image'];
 
     public function subcategories() {
-        return  $this->hasMany(Subcategory::class);
+        return $this->hasMany(Subcategory::class);
     }
 
     public function getImageAttribute() {
@@ -32,8 +34,23 @@ class Category extends Model {
                 $this->deleteFile($this->attributes['category_image'], 'users');
             }
             // Upload the new image and set the attribute
-            $this->attributes['category_image'] = $this->uploadAllTyps($value, 'categories');
+            $this->attributes['category_image'] = $this->uploadAllTypes($value, 'categories');
 
         }
+    }
+
+    protected static function boot() {
+
+        parent::boot();
+
+        // Automatically generate a slug when creating a new category
+        static::creating(function ($category) {
+            $category->slug = Str::slug('category_name');
+        });
+
+        // Automatically update the slug when updating a category name
+        static::updating(function ($category) {
+            $category->slug = Str::slug('category_name');
+        });
     }
 }

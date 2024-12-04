@@ -11,8 +11,9 @@ import ToastMessages from "../toast-messages/toast";
 import { Container } from "react-bootstrap";
 
 const ProductCategoryPage = () => {
-  const { category_id } = useParams(); // Get the category id from the route parameters
+  const { slug } = useParams(); // Get the category id from the route parameters
   const [productData, setProductData] = useState([]);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(null); // State for errors
   const [loading, setLoading] = useState(true);
 
@@ -22,8 +23,11 @@ const ProductCategoryPage = () => {
     // Fetch product data by category
     const fetchProductData = async () => {
       try {
-        const response = await axios.get(AppURL.ProductByCategory(category_id));
-        setProductData(response.data);
+        const response = await axios.get(AppURL.ProductByCategory(slug));
+        if(response.data.message){
+          setMessage(response.data.message); // Set message if returned from backend
+        }
+        setProductData(response.data.products || []);  // Set product data, which could be empty
       } catch (error) {
         setError(
           ToastMessages.showError("Failed to load products Information.")
@@ -34,7 +38,7 @@ const ProductCategoryPage = () => {
     };
 
     fetchProductData();
-  }, [category_id]); // Re-run the effect when the category id changes
+  }, [slug]); // Re-run the effect when the category slug changes
 
 
   if(error){
@@ -64,7 +68,7 @@ const ProductCategoryPage = () => {
         <NavMenuMobile />
       </div>
 
-      <Category Category_id={category_id} ProductData={productData}/>
+      <Category Slug={slug} ProductData={productData} message={message}/>
 
       <div className="Desktop">
         <FooterDesktop />

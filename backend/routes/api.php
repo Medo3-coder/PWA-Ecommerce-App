@@ -33,8 +33,8 @@ Route::middleware([TrackVisitor::class])->group(function() {
     Route::get('/categories', [CategoryController::class,'categories']);
 
     //products
-    Route::get('/products/remark/{remark}', [ProductController::class, 'getProductsByRemark']);
-    Route::get('/products/category/{category_id}' , [ProductController::class , 'getProductByCategory']);
+    Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
+    Route::get('/products/category/{slug}' , [ProductController::class , 'getProductByCategory']);
     Route::get('/product/{category_id}/{subcategory_id}',[ProductController::class, 'getProductBySubCategory']);
 
 

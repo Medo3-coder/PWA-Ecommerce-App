@@ -27,7 +27,7 @@ const AppRoutes = () => {
       <Route path="/favourite" element={<FavouritePage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/products-by-category/:category_id" element={<ProductCategoryPage />} />
+      <Route path="/:slug" element={<ProductCategoryPage />} />   {/* productsBySlugInCategory */}
       
       
       
