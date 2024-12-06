@@ -14,8 +14,8 @@ const AppURL = {
     return `${this.BaseURL}/products/category/${slug}`;
   },
 
-  ProductBySubCategory(category, subcategory) {
-    return `${this.BaseURL}/products/remark/${category}/${subcategory}`;
+  ProductBySubCategory(category_slug, subcategory_slug) {
+    return `${this.BaseURL}/product/${category_slug}/${subcategory_slug}`;
   },
 };
 

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const MegaMenu = ({ data }) => {
   // Define the event handler function separately
   const handleAccordionClick = (event) => {
-
     // Toggle the active class on the clicked accordion button
     event.currentTarget.classList.toggle("active");
 
     // Get the panel next to the clicked accordion button
     const panel = event.currentTarget.nextElementSibling;
     if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;  // Close the panel
+      panel.style.maxHeight = null; // Close the panel
     } else {
       panel.style.maxHeight = panel.scrollHeight + "px"; // Open the panel with smooth transition
     }
@@ -49,9 +49,9 @@ const MegaMenu = ({ data }) => {
               <ul>
                 {item.subcategories.map((subcategory, subIndex) => (
                   <li key={subIndex}>
-                    <a href="ww" className="accordionItem">
+                    <Link to={`/${item.slug}/${subcategory.slug}`} className="accordionItem">
                       {subcategory.subcategory_name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

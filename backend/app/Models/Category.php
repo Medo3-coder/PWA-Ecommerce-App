@@ -39,18 +39,18 @@ class Category extends Model {
         }
     }
 
-    protected static function boot() {
+    // protected static function boot() {
 
-        parent::boot();
+    //     parent::boot();
 
-        // Automatically generate a slug when creating a new category
-        static::creating(function ($category) {
-            $category->slug = Str::slug('category_name');
-        });
+    //     // Automatically generate a slug when creating a new category
+    //     static::creating(function ($category) {
+    //         $category->slug = Str::slug('category_name');
+    //     });
 
-        // Automatically update the slug when updating a category name
-        static::updating(function ($category) {
-            $category->slug = Str::slug('category_name');
-        });
-    }
+    //     // Automatically update the slug when updating a category name
+    //     static::updating(function ($category) {
+    //         $category->slug = Str::slug('category_name');
+    //     });
+    // }
 }

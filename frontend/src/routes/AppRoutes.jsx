@@ -12,6 +12,7 @@ import FavouritePage from "../pages/FavouritePage";
 import CartPage from "../pages/CartPage";
 import AboutPage from "../pages/AboutPage";
 import ProductCategoryPage from "../pages/ProductCategoryPage";
+import ProductSubCategoryPage from "../pages/ProductSubCategoryPage";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,8 @@ const AppRoutes = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/:slug" element={<ProductCategoryPage />} />   {/* productsBySlugInCategory */}
+      <Route path="/:category_slug/:subCategory_slug" element={<ProductSubCategoryPage />} />   {/* productsBySlugInSubCategory */}
+
       
       
       

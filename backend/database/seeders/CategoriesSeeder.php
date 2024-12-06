@@ -38,6 +38,7 @@ class CategoriesSeeder extends Seeder {
                 Subcategory::create([
                     'subcategory_name' => $subcategory,
                     'category_id'      => $parentCategory->id,
+                    'slug'             => Str::slug($subcategory),
                 ]);
             }
 
