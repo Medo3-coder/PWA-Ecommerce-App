@@ -5,7 +5,6 @@ namespace App\Traits;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
-
 trait UploadTrait {
 
     public function uploadAllTypes($file, $directory, $width = null, $height = null) {
@@ -76,5 +75,13 @@ trait UploadTrait {
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true, true);
         }
+    }
+
+    public function getimage($name, $directory) {
+        return asset("storage/images/$directory/" . $name);
+    }
+
+    public function defaultImage($filename){
+        return asset("storage/images/{$filename}");
     }
 }

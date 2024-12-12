@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('twitter_link');
             $table->string('instagram_link');
             $table->string('copyright_text');
+            $table->string('default_image')->default('default.jpg');
             $table->timestamps();
         });
     }

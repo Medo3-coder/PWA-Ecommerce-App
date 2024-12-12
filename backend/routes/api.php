@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SiteSettingController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Middleware\TrackVisitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,9 @@ Route::middleware([TrackVisitor::class])->group(function() {
     Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
     Route::get('/products/category/{slug}' , [ProductController::class , 'getProductByCategory']);
     Route::get('/product/{category_slug}/{subcategory_slug}',[ProductController::class, 'getProductBySubCategory']);
+
+    //slider
+    Route::get('/sliders', [SliderController::class, 'sliders']);
 
 
 

@@ -19,7 +19,7 @@ class Category extends Model {
 
     public function getImageAttribute() {
 
-        if (isset($this->attributes['image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['category_image']))) {
+        if (isset($this->attributes['category_image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['category_image']))) {
             // Retrieve the image path if it exists
             return $this->getImage($this->attributes['category_image'], 'categories');
         }

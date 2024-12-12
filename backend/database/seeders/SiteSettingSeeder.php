@@ -110,6 +110,7 @@ class SiteSettingSeeder extends Seeder {
             'twitter_link'     => "https://twitter.com",
             'instagram_link'   => "https://www.instagram.com",
             'copyright_text'   => "© 2024 Company Name. All rights reserved.",
+            'default_image'    => 'default.jpg',
         ]);
     }
 
