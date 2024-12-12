@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const MegaMenu = ({ data }) => {
+const MegaMenu = ({ data = [] }) => {
   // Define the event handler function separately
   const handleAccordionClick = (event) => {
     // Toggle the active class on the clicked accordion button

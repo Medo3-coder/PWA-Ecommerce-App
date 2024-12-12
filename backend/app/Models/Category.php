@@ -17,15 +17,19 @@ class Category extends Model {
         return $this->hasMany(Subcategory::class);
     }
 
-    public function getImageAttribute() {
 
-        if (isset($this->attributes['category_image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['category_image']))) {
+    public function getImageAttribute(){
+        if(isset($this->attributes['category_image']) && File::exists(public_path('storage/images/categories/' . $this->attributes['image']))){
             // Retrieve the image path if it exists
-            return $this->getImage($this->attributes['category_image'], 'categories');
+            return $this->getimage($this->attributes['category_image'] , 'categories');
         }
+        // Retrieve the default image from the site settings
+        $defaultImage  = SiteSetting::first()->default_image ?? 'default.jpg';
+
         // Return the default image path if the category image doesn't exist
-        return $this->defaultImage('categories');
+        return $this->defaultImage($defaultImage);
     }
+
 
     public function setImageAttribute($value) {
         if ($value != null && is_file($value)) {

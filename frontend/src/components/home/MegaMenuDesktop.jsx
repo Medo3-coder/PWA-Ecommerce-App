@@ -14,7 +14,7 @@ const MegaMenuDesktop = () => {
       try {
         const response = await axios.get(AppURL.CategoryDetails);
         if (response.status === 200) {
-          setCategory(response.data);
+          setCategory(response.data.categories);
         }
       } catch (error) {
         setError("Failed to load categories in Mega Menu");

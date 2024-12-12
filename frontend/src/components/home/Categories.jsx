@@ -19,7 +19,7 @@ function Categories() {
       try {
         const response = await axios.get(AppURL.CategoryDetails);
         if (response.status === 200) {
-          setMenuData(response.data);
+          setMenuData(response.data.categories);
         }
       } catch (e) {
         setError(
