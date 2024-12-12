@@ -78,10 +78,10 @@ trait UploadTrait {
     }
 
     public function getimage($name, $directory) {
-        return asset("storage/images/$directory/" . $name);
+        return url("storage/images/$directory/" . $name);
     }
 
     public function defaultImage($filename){
-        return asset("storage/images/{$filename}");
+        return url("storage/images/{$filename}");
     }
 }

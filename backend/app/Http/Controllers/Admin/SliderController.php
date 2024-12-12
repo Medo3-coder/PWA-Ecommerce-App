@@ -16,6 +16,6 @@ class SliderController extends Controller
             return response()->json(['message'=> 'No sliders available now'] , 404);
         }
 
-        return response()->json(['sliders' => $sliders]);
+        return response()->json(['sliders' => $sliders], 200);
     }
 }
