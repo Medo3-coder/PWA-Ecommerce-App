@@ -25,7 +25,7 @@ const MegaMenuDesktop = () => {
       }
     };
 
-    // fetchCategories();
+    fetchCategories();
   }, []); // Empty dependency array to run only on mount and unmount
 
   // Define the event handler function separately

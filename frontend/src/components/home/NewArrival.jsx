@@ -47,23 +47,6 @@ const NewArrival = () => {
     sliderRef.current.slickPrev();
   };
 
-
-  if(loading){
-    return (
-      <Container className="text-center">
-          <Skeleton count={5} height={40} />
-      </Container>
-    );
-  }
-
-  if(error){
-    return (
-      <Container className="text-center">
-         <h4>{error}</h4>
-      </Container>
-    );
-  }
-
   var settings = {
     dots: false,
     infinite: true,
@@ -102,27 +85,59 @@ const NewArrival = () => {
     ],
   };
 
-  const renderProduct = productData.map((product , index) => {
+  const renderSkeletons = Array.from({ length: 4 }).map((_, index) => (
+    <div key={index}>
+      <Card className="image-box">
+        <Skeleton height={200}  width={`60%`} />
+      </Card>
+      <Card.Body>
+        <Skeleton height={20} width={`80%`} />
+        <Skeleton height={20} width={`60%`} />
+      </Card.Body>
+    </div>
+  ));
+
+  if (loading) {
+    return (
+      <Container className="text-center" fluid={true}>
+        <Row>
+          <Slider {...settings}>{renderSkeletons}</Slider>
+        </Row>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="text-center">
+        <h4>{error}</h4>
+      </Container>
+    );
+  }
+
+  const renderProduct = productData.map((product, index) => {
     return (
       <div>
-      <Card className="image-box" key={index}>
-        <Card.Img className="center" src={product.image}/>
-        <Card.Body>
-          <p className="product-name-on-card">{product.title}</p>
-          {product.special_price === "na" ? (
-            <p className="product-price-on-card">Price: ${product.price}</p>
-          ): (
-            <p className="product-price-on-card">
-              Price: <del className="text-secondary">${product.price}</del>${product.special_price}
-            </p>
-          )}
-        </Card.Body>
-      </Card>
-    </div>
+        <Card className="image-box" key={index}>
+          <Card.Img className="center" src={product.image} />
+          <Card.Body>
+            <p className="product-name-on-card">{product.title}</p>
+            {product.special_price === "na" ? (
+              <p className="product-price-on-card">Price: ${product.price}</p>
+            ) : (
+              <p className="product-price-on-card">
+                Price: <del className="text-secondary">${product.price}</del>$
+                {product.special_price}
+              </p>
+            )}
+          </Card.Body>
+        </Card>
+      </div>
     );
-  })
+  });
 
   return (
+    
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
         <h2>
