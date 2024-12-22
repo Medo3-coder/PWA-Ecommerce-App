@@ -8,6 +8,8 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function FeaturedProducts() {
   const [productData, setProductData] = useState([]);
@@ -34,10 +36,30 @@ function FeaturedProducts() {
     fetchFeaturedProducts();
   }, []);
 
+
+  // Skeleton Loader
+  const   renderSkeletons  = Array.from({length:6}).map((_,index)=> (
+    <Col className="p-1" key={index} xl={2} lg={2} md={2} sm={4} xs={6}>
+    <Link to="/product-details">
+      <Card className="image-box">
+      <Skeleton height={150} />
+        <Card.Body>
+         <Skeleton height={20} width={`80%`} />
+         <Skeleton height={15} width={`60%`} style={{ marginTop: 10 }} />
+        </Card.Body>
+      </Card>
+    </Link>
+  </Col>
+  ))
+
   if (loading) {
     return (
       <Container className="text-center">
-        <h4>Loading Featured Products...</h4>
+        <div className="section-title text-center mb-55">
+          <h2>Featured Product</h2>
+          <p>Loading exclusive collections...</p>
+        </div>
+        <Row>{renderSkeletons}</Row>
       </Container>
     );
   }

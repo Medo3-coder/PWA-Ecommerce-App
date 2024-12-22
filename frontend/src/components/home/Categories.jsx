@@ -8,6 +8,8 @@ import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
 import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function Categories() {
   const [menuData, setMenuData] = useState([]);
@@ -46,7 +48,7 @@ function Categories() {
   if (loading) {
     return (
       <Container className="text-center">
-        <h4>Loading Categories ...</h4>
+         <Skeleton count={5} height={40} />
       </Container>
     );
   }

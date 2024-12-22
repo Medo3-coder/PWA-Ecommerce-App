@@ -6,6 +6,8 @@ import HomeSlider from "./HomeSlider";
 import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const HomeTopMobile = () => {
   const [sliderData, setSliderData] = useState([]);
@@ -28,16 +30,15 @@ const HomeTopMobile = () => {
       }
     };
 
-    fetchSliderData()
+    fetchSliderData();
   }, []);
-
 
   if (error) {
     return <p>Error: {error}</p>;
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Skeleton count={5} height={40} />;
   }
 
   return (
@@ -45,7 +46,7 @@ const HomeTopMobile = () => {
       <Container className="p-0 m-0 overflow-hidden" fluid={true}>
         <Row className="p-0 m-0 overflow-hidden">
           <Col lg={12} md={12} sm={12}>
-          <HomeSlider data={sliderData} />
+            <HomeSlider data={sliderData} />
           </Col>
         </Row>
       </Container>

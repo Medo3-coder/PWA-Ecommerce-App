@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AppURL from "../../utils/AppURL";
 import { Container } from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const MegaMenuDesktop = () => {
   const [category, setCategory] = useState([]);
@@ -23,7 +25,7 @@ const MegaMenuDesktop = () => {
       }
     };
 
-    fetchCategories();
+    // fetchCategories();
   }, []); // Empty dependency array to run only on mount and unmount
 
   // Define the event handler function separately
@@ -41,7 +43,7 @@ const MegaMenuDesktop = () => {
   if(isLoading){
     return (
       <Container className="text-center">
-        <h4>Loading Categories ...</h4>
+       <Skeleton count={8} height={20} />
       </Container>
     );
   }

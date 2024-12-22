@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 // useRef hook provides a way to persist values across renders without causing the component to re-render when the value changes.
 
@@ -49,7 +51,7 @@ const NewArrival = () => {
   if(loading){
     return (
       <Container className="text-center">
-         <h4>Loading New Products...</h4>
+          <Skeleton count={5} height={40} />
       </Container>
     );
   }

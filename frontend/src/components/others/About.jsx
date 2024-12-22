@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import axios from "axios";
 import parse from 'html-react-parser';
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
 const About = () => {
   const [about, setAbout] = useState("");
@@ -45,7 +47,7 @@ const About = () => {
           >
             <h4 className="section-title-login">About Us</h4>
             {loading ? (
-                <Spinner animation="border" variant="primary" />
+                <Skeleton count={5} height={40} />
             )  : error ? (
                 <p className="text-danger">{error}</p>
             )  : (
