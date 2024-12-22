@@ -37,18 +37,32 @@ function Categories() {
     categories();
   }, []); // Empty dependency array to run this effect only once on mount
 
-  if (error) {
+  const renderSkeletons = Array.from({ length: 12 }).map((_, index) => (
+    <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
+      <Card className="h-100 w-100 text-center">
+        <Card.Body>
+          <Skeleton height={120} />
+          <Skeleton width={`60%`} style={{ marginTop: 10 }} />
+        </Card.Body>
+      </Card>
+    </Col>
+  ));
+
+  if (loading) {
     return (
-      <Container className="text-center">
-        <h4>{error}</h4>
+      <Container className="text-center" fluid={true}>
+        <div className="section-title text-center mb-55">
+          <h2>Categories</h2>
+        </div>
+        <Row>{renderSkeletons}</Row>
       </Container>
     );
   }
 
-  if (loading) {
+  if (error) {
     return (
       <Container className="text-center">
-         <Skeleton count={5} height={40} />
+        <h4>{error}</h4>
       </Container>
     );
   }
@@ -71,6 +85,8 @@ function Categories() {
   ));
 
   return (
+
+  
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
         <h2>Categories </h2>
