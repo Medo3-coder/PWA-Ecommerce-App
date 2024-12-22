@@ -4,6 +4,8 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
 const Privacy = () => {
   const [privacy, setPrivacy] = useState("");
@@ -54,7 +56,7 @@ const Privacy = () => {
           >
             <h4 className="section-title-login">privacy Page</h4>
             {loading ? (
-              <Spinner animation="border" variant="primary" />
+             <Skeleton count={5} height={100} />
             ) : error ? (
               <p className="text-danger">{error}</p>
             ) : (

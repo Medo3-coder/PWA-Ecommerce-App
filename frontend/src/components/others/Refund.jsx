@@ -4,6 +4,8 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
 import ToastMessages from "../../toast-messages/toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
 const Refund = () => {
   const [refund, setRefund] = useState("");
@@ -20,7 +22,11 @@ const Refund = () => {
           setRefund(refundText);
         }
       } catch (error) {
-        setError(ToastMessages.showError("Failed to load information. Please try again later."));
+        setError(
+          ToastMessages.showError(
+            "Failed to load information. Please try again later."
+          )
+        );
       } finally {
         setLoading(false);
       }
@@ -42,7 +48,7 @@ const Refund = () => {
           >
             {/* <h4 className="section-title-login">Refund Page</h4> */}
             {loading ? (
-              <Spinner animation="border" variant="primary" />
+              <Skeleton count={6} height={40} />
             ) : error ? (
               <p className="text-danger">{error}</p>
             ) : (
