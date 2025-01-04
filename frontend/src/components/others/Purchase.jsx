@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
 import axios from "axios";
