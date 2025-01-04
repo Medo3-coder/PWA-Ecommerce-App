@@ -33,4 +33,8 @@ class Product extends Model {
         'special_price' => 'float',
         'star'          => 'float',
     ];
+
+    public function productDetails(){
+        return $this->hasOne(ProductDetail::class);
+    }
 }

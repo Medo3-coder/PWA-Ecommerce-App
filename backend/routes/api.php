@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductDetailsController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Middleware\TrackVisitor;
@@ -40,6 +41,9 @@ Route::middleware([TrackVisitor::class])->group(function() {
 
     //slider
     Route::get('/sliders', [SliderController::class, 'sliders']);
+
+    //product_details
+    Route::get('/product-details/{id}',[ProductDetailsController::class , 'productDetails']);
 
 
 
