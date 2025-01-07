@@ -23,7 +23,7 @@ const AppRoutes = () => {
       <Route path="/purchase" element={<PurchasePage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/refund" element={<RefundPage />} />
-      <Route path="/product-details" element={<ProductDetailsPage />} />
+      <Route path="/product-details/:id" element={<ProductDetailsPage />} />
       <Route path="/notification" element={<NotificationPage />} />
       <Route path="/favourite" element={<FavouritePage />} />
       <Route path="/cart" element={<CartPage />} />

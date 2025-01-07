@@ -10,6 +10,7 @@ import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Link } from "react-router-dom";
 
 // useRef hook provides a way to persist values across renders without causing the component to re-render when the value changes.
 
@@ -88,7 +89,7 @@ const NewArrival = () => {
   const renderSkeletons = Array.from({ length: 4 }).map((_, index) => (
     <div key={index}>
       <Card className="image-box">
-        <Skeleton height={200}  width={`60%`} />
+        <Skeleton height={200} width={`60%`} />
       </Card>
       <Card.Body>
         <Skeleton height={20} width={`80%`} />
@@ -118,26 +119,27 @@ const NewArrival = () => {
   const renderProduct = productData.map((product, index) => {
     return (
       <div>
-        <Card className="image-box" key={index}>
-          <Card.Img className="center" src={product.image} />
-          <Card.Body>
-            <p className="product-name-on-card">{product.title}</p>
-            {product.special_price === "na" ? (
-              <p className="product-price-on-card">Price: ${product.price}</p>
-            ) : (
-              <p className="product-price-on-card">
-                Price: <del className="text-secondary">${product.price}</del>$
-                {product.special_price}
-              </p>
-            )}
-          </Card.Body>
-        </Card>
+        <Link to={`/product-details/${product.id}`}>
+          <Card className="image-box" key={index}>
+            <Card.Img className="center" src={product.image} />
+            <Card.Body>
+              <p className="product-name-on-card">{product.title}</p>
+              {product.special_price === "na" ? (
+                <p className="product-price-on-card">Price: ${product.price}</p>
+              ) : (
+                <p className="product-price-on-card">
+                  Price: <del className="text-secondary">${product.price}</del>$
+                  {product.special_price}
+                </p>
+              )}
+            </Card.Body>
+          </Card>
+        </Link>
       </div>
     );
   });
 
   return (
-    
     <Container className="text-center" fluid={true}>
       <div className="section-title text-center mb-55">
         <h2>

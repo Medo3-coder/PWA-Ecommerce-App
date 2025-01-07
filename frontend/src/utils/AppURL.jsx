@@ -19,6 +19,10 @@ const AppURL = {
     return `${this.BaseURL}/product/${category_slug}/${subcategory_slug}`;
   },
 
+  ProductDetails(product_id) {
+    return `${this.BaseURL}/product-details/${product_id}`;
+  },
+
   
 };
 

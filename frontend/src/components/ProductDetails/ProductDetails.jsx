@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -6,8 +6,11 @@ import Product1 from '../../assets/images/product/product1.png'
 import Product2 from '../../assets/images/product/product2.png'
 import Product3 from '../../assets/images/product/product3.png'
 import Product4 from '../../assets/images/product/product4.png'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
-const ProductDetails = () => {
+const ProductDetails = ( ProductData = [] , message) => {
+
     const [selectedColor, setSelectedColor] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
@@ -23,6 +26,10 @@ const ProductDetails = () => {
       const handleQuantityChange = (event) => {
         setQuantity(event.target.value);
       };
+
+      useEffect(()=> {
+
+      })
 
     return (
         <Container fluid={true} className="BetweenTwoSection">
