@@ -33,6 +33,7 @@ class ProductSeeder extends Seeder {
                     'category_id'      => $categories[array_rand($categories)],
                     'subcategory_id'   => $subcategories[array_rand($subcategories)],
                     'remark'        => $remark,
+                    'quantity' => rand(1 , 30),
                     'brand'         => 'Brand ' . chr(65 + rand(0, 25)),
                     'star'          => rand(1, 5),
                     'product_code'  => 'CODE-' . strtoupper(uniqid()),

@@ -27,7 +27,7 @@ const ProductDetailsPage = () => {
         if (response.data.message) {
           setMessage(response.data.message); // Set message if returned from backend
         }
-        setProductData(response.data.product);
+        setProductData(response.data);
       } catch (error) {
         setError(
           ToastMessages.showError("Failed to load product deatils Information.")

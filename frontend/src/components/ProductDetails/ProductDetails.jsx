@@ -9,27 +9,39 @@ import Product4 from '../../assets/images/product/product4.png'
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
-const ProductDetails = ( ProductData = [] , message) => {
+const ProductDetails = ( {productData , message}) => {
+  if (!productData || !productData.product) {
+    return <p>Loading...</p>; // Handle the case where productData is not loaded yet
+  }
 
-    const [selectedColor, setSelectedColor] = useState('');
-    const [selectedSize, setSelectedSize] = useState('');
-    const [quantity, setQuantity] = useState(1);
+  // console.log(productData.product.category);
 
-    const handleColorChange = (event) => {
-        setSelectedColor(event.target.value);
-      };
-    
-      const handleSizeChange = (event) => {
-        setSelectedSize(event.target.value);
-      };
-    
-      const handleQuantityChange = (event) => {
-        setQuantity(event.target.value);
-      };
+  const {
+    title,
+    brand,
+    category,
+    image,
+    quantity,
+    price,
+    product_code,
+    remark,
+    special_price,
+    star,
+  } = productData.product || {};
 
-      useEffect(()=> {
+  const {
+    image_one,
+    image_two,
+    image_three,
+    image_four,
+    color,
+    size,
+    product_id,
+    short_description,
+    long_description,
+  } = productData.product.product_details || {};
 
-      })
+  // Access subcategory
 
     return (
         <Container fluid={true} className="BetweenTwoSection">
@@ -40,106 +52,48 @@ const ProductDetails = ( ProductData = [] , message) => {
                   <img className="w-100" src={Product1} alt="Product" />
                   <Container className="my-3">
                     <Row>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product1} alt="Product1" />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product2} alt="Product2" />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product3} alt="Product3" />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product4} alt="Product4" />
-                      </Col>
+                      {[image_one, image_two, image_three, image_four].map((img , index)=> (
+                         img && (
+                          <Col key={index} className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
+                          <img className="w-100" src={img} alt={`Product ${index + 1}`} />
+                          </Col>
+                         )
+
+                      ))}
+                     
                     </Row>
                   </Container>
                 </Col>
                 <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                  <h5 className="Product-Name">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
+                  <h5 className="Product-Name">{title || "Product Title"}</h5>
                   <h6 className="section-sub-title">
-                    Some Of Our Exclusive Collection, You May Like Some Of Our Exclusive Collection
+                    {short_description || "Description goes here"}
                   </h6>
                   <div className="input-group">
-                    <div className="Product-price-card d-inline">Regular Price 200</div>
-                    <div className="Product-price-card d-inline">50% Discount</div>
-                    <div className="Product-price-card d-inline">New Price 100</div>
+                    <div className="Product-price-card d-inline">Regular Price: ${price}</div>
+                    {special_price && <div className="Product-price-card d-inline">Special Price: ${special_price}</div> }
+                    
+                    <div className="Product-price-card d-inline">Remark: {remark}</div>
                   </div>
-                  <h6 className="mt-2">Choose Color</h6>
-                  <div className="input-group">
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="colorOptions"
-                        value="Black"
-                        onChange={handleColorChange}
-                      />
-                      <label className="form-check-label">Black</label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="colorOptions"
-                        value="Green"
-                        onChange={handleColorChange}
-                      />
-                      <label className="form-check-label">Green</label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="colorOptions"
-                        value="Red"
-                        onChange={handleColorChange}
-                      />
-                      <label className="form-check-label">Red</label>
-                    </div>
-                  </div>
+                  <h6 className="mt-2">
+                  Category: <b>{category?.category_name || "No Category"}</b>
+                 </h6>
+                 {/* <h6 className="mt-2">
+                  SubCategory: <b>{category?.subcategory?.subcategory_name}</b>
+                </h6> */}
+
+                <h6 className="mt-2">
+                  Brand: <b>{brand}</b>
+                </h6>
+
+                <h6 className="mt-2">
+                  Product Code: <b>{product_code}</b>
+                </h6>
+
+                <h6 className="mt-2">
+                  Quantity: <b>{quantity}</b>
+                </h6>
     
-                  <h6 className="mt-2">Choose Size</h6>
-                  <div className="input-group">
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="sizeOptions"
-                        value="X"
-                        onChange={handleSizeChange}
-                      />
-                      <label className="form-check-label">X</label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="sizeOptions"
-                        value="XX"
-                        onChange={handleSizeChange}
-                      />
-                      <label className="form-check-label">XX</label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="sizeOptions"
-                        value="XXXX"
-                        onChange={handleSizeChange}
-                      />
-                      <label className="form-check-label">XXXX</label>
-                    </div>
-                  </div>
-    
-                  <h6 className="mt-2">Quantity</h6>
-                  <input
-                    className="form-control text-center w-50"
-                    type="number"
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                  />
     
                   <div className="input-group mt-3">
                     <button className="btn site-btn m-1">

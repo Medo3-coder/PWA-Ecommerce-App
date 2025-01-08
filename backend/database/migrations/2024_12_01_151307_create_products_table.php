@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_available')->default(true);
             $table->decimal('special_price', 10, 2)->nullable();
             $table->string('image', 255); // Image URL
+            $table->unsignedInteger('quantity'); // unsignedInteger for numeric values
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->unsignedBigInteger('subcategory_id')->nullable()->index();
             $table->string('remark', 255)->nullable();

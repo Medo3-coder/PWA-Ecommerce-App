@@ -21,6 +21,7 @@ class Product extends Model {
         'brand',
         'star',
         'product_code',
+        'quantity'
     ];
 
     /**
@@ -37,4 +38,16 @@ class Product extends Model {
     public function productDetails(){
         return $this->hasOne(ProductDetail::class);
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    // public function subCategory(){
+    //     return $this->belongsTo(Subcategory::class);
+    // }
+
+    // public function reviews(){
+    //     return $this->hasMany(Rev);
+    // }
 }
