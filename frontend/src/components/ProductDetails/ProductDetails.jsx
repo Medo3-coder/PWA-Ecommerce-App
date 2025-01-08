@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Product1 from '../../assets/images/product/product1.png'
-import Product2 from '../../assets/images/product/product2.png'
-import Product3 from '../../assets/images/product/product3.png'
-import Product4 from '../../assets/images/product/product4.png'
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 
 const ProductDetails = ( {productData , message}) => {
+  const [previewImg, setPreviewImg] = useState();
+  
   if (!productData || !productData.product) {
     return <p>Loading...</p>; // Handle the case where productData is not loaded yet
   }
 
-  // console.log(productData.product.category);
 
   const {
     title,
@@ -28,7 +25,7 @@ const ProductDetails = ( {productData , message}) => {
     special_price,
     star,
   } = productData.product || {};
-
+  
   const {
     image_one,
     image_two,
@@ -41,25 +38,32 @@ const ProductDetails = ( {productData , message}) => {
     long_description,
   } = productData.product.product_details || {};
 
+ if(!previewImg){
+  setPreviewImg(image);
+ }
+  
+  const handleThumbnailClick = (img)=> {
+    setPreviewImg(img);
+  }
+  
   // Access subcategory
-
-    return (
+  
+  return (
         <Container fluid={true} className="BetweenTwoSection">
           <Row className="p-2">
             <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
               <Row>
                 <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                  <img className="w-100" src={Product1} alt="Product" />
+                  <img className="big-image"  src={previewImg} alt="Product" />
                   <Container className="my-3">
                     <Row>
-                      {[image_one, image_two, image_three, image_four].map((img , index)=> (
-                         img && (
+                      {[image_one, image_two, image_three, image_four].map((img , index)=> 
+                         img ? (
                           <Col key={index} className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                          <img className="w-100" src={img} alt={`Product ${index + 1}`} />
+                          <img className="small-image" src={img} alt={`Product ${index + 1}`} onClick={() => handleThumbnailClick(img)} style={{ cursor: "pointer" }} />
                           </Col>
-                         )
-
-                      ))}
+                         ) : null
+                      )}
                      
                     </Row>
                   </Container>

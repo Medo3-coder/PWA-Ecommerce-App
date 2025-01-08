@@ -16,3 +16,18 @@
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 400;
 }
+
+.big-image{
+    height: 550px;
+    margin-left: 50px;
+}
+
+
+
+.small-image{
+    height: 130px;
+}
+
+.product-sm-img:hover{
+    cursor: pointer;
+ }
