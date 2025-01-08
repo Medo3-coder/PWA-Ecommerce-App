@@ -119,7 +119,7 @@ const NewArrival = () => {
   const renderProduct = productData.map((product, index) => {
     return (
       <div>
-        <Link to={`/product-details/${product.id}`}>
+        <Link className="text-link" to={`/product-details/${product.id}`}>
           <Card className="image-box" key={index}>
             <Card.Img className="center" src={product.image} />
             <Card.Body>

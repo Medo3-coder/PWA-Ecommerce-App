@@ -76,7 +76,7 @@ function FeaturedProducts() {
   const renderProducts = productData.map((product , index) => {
     return (
     <Col className="p-1" key={index} xl={2} lg={2} md={2} sm={4} xs={6}>
-      <Link to={`/product-details/${product.id}`}>
+      <Link className="text-link" to={`/product-details/${product.id}`}>
         <Card className="image-box">
           <Card.Img className="center" src={product.image} alt={product.title} />
           <Card.Body>

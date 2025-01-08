@@ -69,7 +69,7 @@ function Categories() {
 
   const MyView = menuData.map((category, index) => (
     <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
-      <Link to={`/${category.slug}`}>
+      <Link className="text-link" to={`/${category.slug}`}>
         <Card className="h-100 w-100 text-center">
           <Card.Body>
             <Card.Img

@@ -12,7 +12,7 @@ const SuggestedProduct = () => {
         </div>
         <Row>
           <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Link to="/product-details">
+            <Link className="text-link" to="/product-details">
               <Card className="image-box card">
                 <img
                   className="center"

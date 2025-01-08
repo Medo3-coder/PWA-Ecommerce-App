@@ -4,9 +4,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
+import ToastMessages from '../../toast-messages/toast';
 
 const ProductDetails = ( {productData , message}) => {
   const [previewImg, setPreviewImg] = useState();
+  const [qty, setQuantity] = useState(1);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+
   
   if (!productData || !productData.product) {
     return <p>Loading...</p>; // Handle the case where productData is not loaded yet
@@ -18,7 +22,7 @@ const ProductDetails = ( {productData , message}) => {
     brand,
     category,
     image,
-    quantity,
+    quantity: stockQuantity, // Available stock in the database
     price,
     product_code,
     remark,
@@ -38,9 +42,22 @@ const ProductDetails = ( {productData , message}) => {
     long_description,
   } = productData.product.product_details || {};
 
+
  if(!previewImg){
   setPreviewImg(image);
  }
+
+   
+ const handleQuantityChange = (e) => {
+  const value = e.target.value ;
+
+  if(value > stockQuantity){
+    setErrorMessage(ToastMessages.showWarning(`Sorry , we only have ${stockQuantity} units in stock.`));
+  }else {
+    setErrorMessage("");
+  }
+  setQuantity(value >= 1 ? value : 1); // Ensure quantity doesn't go below 1
+};
   
   const handleThumbnailClick = (img)=> {
     setPreviewImg(img);
@@ -74,11 +91,13 @@ const ProductDetails = ( {productData , message}) => {
                     {short_description || "Description goes here"}
                   </h6>
                   <div className="input-group">
-                    <div className="Product-price-card d-inline">Regular Price: ${price}</div>
-                    {special_price && <div className="Product-price-card d-inline">Special Price: ${special_price}</div> }
+                    <div className="Product-price-card d-inline">Was: ${special_price ? (<del>{price}</del>) : price }</div>
+                    {special_price && <div className="Product-price-card d-inline">Now: ${special_price}</div> }
                     
                     <div className="Product-price-card d-inline">Remark: {remark}</div>
                   </div>
+                  <h6 className="text-success mt-2"> <b>Saving: ${price - special_price}</b></h6>
+
                   <h6 className="mt-2">
                   Category: <b>{category?.category_name || "No Category"}</b>
                  </h6>
@@ -94,9 +113,60 @@ const ProductDetails = ( {productData , message}) => {
                   Product Code: <b>{product_code}</b>
                 </h6>
 
-                <h6 className="mt-2">
-                  Quantity: <b>{quantity}</b>
-                </h6>
+                {color && color.length > 0 && (
+                <>
+                <h6 className="mt-2">Choose Color</h6>
+                  <div className="input-group">
+                    {color.map((colorOption , index)=> (
+                      <div key={index}  className="form-check mx-1">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="colorOptions"
+                        value={colorOption}
+                        id={`color-${index}`}
+                      />
+                      <label className="form-check-label" htmlFor={`color-${index}`}>
+                        {colorOption}
+                      </label>
+                      </div>
+                    ))}
+                  </div>
+                  </>
+               )}
+                    
+    
+                  {size && size.length > 0 && (
+                    <>
+                  <h6 className="mt-2">Choose Size</h6>
+                    <div className="input-group">
+                      {size.map((sizeOption , index) => (
+                        <div className="form-check mx-1">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sizeOptions"
+                          value={sizeOption}
+                          id={`color-${index}`}
+                        />
+                        <label className="form-check-label" htmlFor={`color-${index}`}>
+                           {sizeOption}
+                        </label>
+                      </div>
+                      ))}
+                
+                    </div>
+                 </>
+                  )}
+                 
+
+                  <h6 className="mt-2">Quantity</h6>
+                  <input
+                    className="form-control text-center w-50"
+                    type="number"
+                    value={qty}
+                    onChange={handleQuantityChange}
+                  />
     
     
                   <div className="input-group mt-3">
