@@ -6,6 +6,7 @@ const AppURL = {
   SiteSettings: `${BaseURL}/site-setting`,
   CategoryDetails: `${BaseURL}/categories`,
   Sliders : `${BaseURL}/sliders`,
+  Notifications:`${BaseURL}/notifications`,
 
   productByRemark(remark) {
     return `${this.BaseURL}/products/remark/${remark}`;

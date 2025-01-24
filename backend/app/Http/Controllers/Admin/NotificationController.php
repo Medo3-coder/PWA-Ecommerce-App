@@ -13,7 +13,7 @@ class NotificationController extends Controller {
         // $notifications = $user->notifications;
         $notifications = Notification::get();
 
-        return response()->json($notifications);
+        return response()->json(['notifications' =>$notifications],200);
 
     }
 
