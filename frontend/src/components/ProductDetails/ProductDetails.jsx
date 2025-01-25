@@ -5,6 +5,9 @@ import Col from "react-bootstrap/Col";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 import ToastMessages from '../../toast-messages/toast';
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { Link } from 'react-router-dom';
+
 
 const ProductDetails = ( {productData , message}) => {
   const [previewImg, setPreviewImg] = useState();
@@ -29,6 +32,7 @@ const ProductDetails = ( {productData , message}) => {
     special_price,
     star,
   } = productData.product || {};
+  // alert(category?.subcategories?.name);
   
   const {
     image_one,
@@ -62,11 +66,22 @@ const ProductDetails = ( {productData , message}) => {
   const handleThumbnailClick = (img)=> {
     setPreviewImg(img);
   }
-  
+
   // Access subcategory
   
   return (
         <Container fluid={true} className="BetweenTwoSection">
+             <div className="breadbody">
+            
+          <Breadcrumb>
+            <Breadcrumb.Item ><Link className="text-link" to={`/`}>Home</Link></Breadcrumb.Item>
+            <Breadcrumb.Item ><Link className="text-link" to={`/${category?.slug}`}>{category?.slug}</Link></Breadcrumb.Item>
+            <Breadcrumb.Item ><Link className="text-link" to={`/product-details/${product_id}`}>{title}</Link></Breadcrumb.Item>
+            {/* <Breadcrumb.Item ><Link className="text-link" to={`/${category?.subcategories.slug}`}>{category?.subcategories.slug}</Link></Breadcrumb.Item> */}
+
+
+          </Breadcrumb>
+        </div>
           <Row className="p-2">
             <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
               <Row>
@@ -102,7 +117,7 @@ const ProductDetails = ( {productData , message}) => {
                   Category: <b>{category?.category_name || "No Category"}</b>
                  </h6>
                  {/* <h6 className="mt-2">
-                  SubCategory: <b>{category?.subcategory?.subcategory_name}</b>
+                  SubCategory: <b>{category?.subcategories?.subcategory_name}</b>
                 </h6> */}
 
                 <h6 className="mt-2">

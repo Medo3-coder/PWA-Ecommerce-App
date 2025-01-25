@@ -3,9 +3,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
 import axios from "axios";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ToastMessages from "../../toast-messages/toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
+import { Link } from "react-router-dom";
 
 const Purchase = () => {
   const [purchase, setPurchase] = useState("");
@@ -46,6 +48,13 @@ const Purchase = () => {
   return (
     <>
       <Container>
+      <div className="breadbody">
+        <Breadcrumb>
+          <Breadcrumb.Item ><Link className="text-link" to={`/`}>Home</Link></Breadcrumb.Item>
+          <Breadcrumb.Item ><Link className="text-link" to={`/purchase`}>Purchase</Link></Breadcrumb.Item>
+        </Breadcrumb>
+        </div>
+
         <Row className="p-2">
           <Col
             className="shadow-sm bg-white mt-2"

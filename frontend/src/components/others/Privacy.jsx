@@ -3,9 +3,11 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import parse from "html-react-parser";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 import ToastMessages from "../../toast-messages/toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
+import { Link } from "react-router-dom";
 
 const Privacy = () => {
   const [privacy, setPrivacy] = useState("");
@@ -46,6 +48,13 @@ const Privacy = () => {
   return (
     <Fragment>
       <Container>
+      <div className="breadbody">
+        <Breadcrumb>
+          <Breadcrumb.Item ><Link className="text-link" to={`/`}>Home</Link></Breadcrumb.Item>
+          <Breadcrumb.Item ><Link className="text-link" to={`/privacy`}>Privacy</Link></Breadcrumb.Item>
+        </Breadcrumb>
+        </div>
+
         <Row className="p-2">
           <Col
             className="shadow-sm bg-white mt-2"

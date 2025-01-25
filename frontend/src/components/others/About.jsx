@@ -2,10 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AppURL from "../../utils/AppURL";
 import axios from "axios";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 import ToastMessages from "../../toast-messages/toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { Link } from "react-router-dom";
 
 const About = () => {
   const [about, setAbout] = useState("");
@@ -23,9 +25,11 @@ const About = () => {
           setAbout(aboutText);
         }
       } catch (error) {
-        setError(ToastMessages.showError("Failed to load information. Please try again later."));
-        
-
+        setError(
+          ToastMessages.showError(
+            "Failed to load information. Please try again later."
+          )
+        );
       } finally {
         setLoading(false);
       }
@@ -34,9 +38,20 @@ const About = () => {
     AboutInfo();
   }, []);
 
+  
+
   return (
     <Fragment>
       <Container>
+        <div className="breadbody">
+        <Breadcrumb>
+          <Breadcrumb.Item ><Link className="text-link" to={`/`}>Home</Link></Breadcrumb.Item>
+          <Breadcrumb.Item ><Link className="text-link" to={`/about`}>about</Link></Breadcrumb.Item>
+        </Breadcrumb>
+        </div>
+
+    
+
         <Row className="p-2">
           <Col
             className="shadow-sm bg-white mt-2"
@@ -47,14 +62,12 @@ const About = () => {
           >
             <h4 className="section-title-login">About Us</h4>
             {loading ? (
-                <Skeleton count={5} height={40} />
-            )  : error ? (
-                <p className="text-danger">{error}</p>
-            )  : (
-                <p className="section-title-contact">{parse(about)} </p>
+              <Skeleton count={5} height={40} />
+            ) : error ? (
+              <p className="text-danger">{error}</p>
+            ) : (
+              <p className="section-title-contact">{parse(about)} </p>
             )}
-              
-           
           </Col>
         </Row>
       </Container>

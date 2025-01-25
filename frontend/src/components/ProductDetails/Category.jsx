@@ -1,7 +1,10 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+
 
 const Category = ({ ProductData = [], Slug, message }) => {
+  const { slug } = useParams();
   const renderProducts = ProductData.length > 0 ? (
     ProductData.map((product, index) => (
       <Col className="p-0" key={index} xl={3} lg={3} md={3} sm={6} xs={6}>
@@ -32,6 +35,12 @@ const Category = ({ ProductData = [], Slug, message }) => {
 
   return (
     <Container className="text-center" fluid={true}>
+      <div className="breadbody">
+        <Breadcrumb>
+          <Breadcrumb.Item ><Link className="text-link" to={`/`}>Home</Link></Breadcrumb.Item>
+          <Breadcrumb.Item >{slug}</Breadcrumb.Item>
+        </Breadcrumb>
+        </div>
       <div className="section-title text-center mb-55">
         <h2>{Slug}</h2>
       </div>
