@@ -6,7 +6,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
 import AppURL from "../utils/AppURL";
-import ToastMessages from "../toast-messages/toast";
 import SearchList from "../components/ProductDetails/SearchList";
 import { Container } from "react-bootstrap";
 
