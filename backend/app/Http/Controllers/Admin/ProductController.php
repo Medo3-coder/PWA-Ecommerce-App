@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -39,7 +38,7 @@ class ProductController extends Controller {
         $category    = Category::where('slug', $category_slug)->first();
         $subCategory = Subcategory::where('slug', $subcategory_slug)->first();
 
-        if (!$category || !$subCategory) {
+        if (! $category || ! $subCategory) {
             return response()->json(['message' => 'Category or Subcategory not found'], 404);
         }
 
@@ -56,4 +55,23 @@ class ProductController extends Controller {
         return response()->json(['products' => $products], 200);
 
     }
+
+    public function ProductBySearh(Request $request) {
+
+        $request->validate([
+            'query' => 'required|string|max:255',
+        ]);
+        $query  = $request->input('query');
+        $sortBy = $request->input('sort_by', 'created_at');
+        $order  = $request->input('order', 'desc');
+
+        $results = Product::where('title', 'like', "%{$query}%")
+                            ->orderBy($sortBy, $order)
+                            ->paginate(10);
+
+                            dd($results);
+
+        return response()->json($results);
+    }
+
 }

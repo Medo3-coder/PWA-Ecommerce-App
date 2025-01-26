@@ -39,6 +39,9 @@ Route::middleware([TrackVisitor::class])->group(function() {
     Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
     Route::get('/products/category/{slug}' , [ProductController::class , 'getProductByCategory']);
     Route::get('/product/{category_slug}/{subcategory_slug}',[ProductController::class, 'getProductBySubCategory']);
+    Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
+
+
 
     //slider
     Route::get('/sliders', [SliderController::class, 'sliders']);

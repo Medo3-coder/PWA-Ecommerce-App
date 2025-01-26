@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Meilisearch Service
+  meilisearch:
+    image: getmeili/meilisearch
+    container_name: meilisearch
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: masterKey
+    volumes:
+      - meilisearch_data:/data.ms
+
+  # MySQL Service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Laravel Service
+  laravel:
+    build:
+      context: ./laravel-app
+      dockerfile: Dockerfile
+    container_name: laravel
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./laravel-app:/var/www/html
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+      MEILISEARCH_HOST: http://meilisearch:7700
+      MEILISEARCH_KEY: masterKey
+    depends_on:
+      - mysql
+      - meilisearch
+
+  # React Service
+  react:
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile
+    container_name: react
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react-app:/app
+    environment:
+      REACT_APP_API_BASE_URL: http://localhost:8000
+    depends_on:
+      - laravel
+
+# Volumes
+volumes:
+  mysql_data:
+  meilisearch_data:
