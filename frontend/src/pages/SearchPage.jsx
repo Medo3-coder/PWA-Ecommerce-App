@@ -12,7 +12,6 @@ import { Container } from "react-bootstrap";
 
 const SearchPage = () => {
   const { searchKey } = useParams(); // Use searchKey to match the URL parameter
-  const [error, setError] = useState(null); // State for errors
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
