@@ -24,6 +24,10 @@ const AppURL = {
     return `${this.BaseURL}/product-details/${product_id}`;
   },
 
+  ProductBySearch(query) {
+    return `${this.BaseURL}/search/${query}`;
+  },
+
   
 };
 

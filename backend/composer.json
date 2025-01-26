@@ -12,7 +12,6 @@
         "laravel/framework": "^10.0",
         "laravel/jetstream": "^4.3",
         "laravel/sanctum": "^3.2",
-        "laravel/scout": "^10.12",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "meilisearch/meilisearch-php": "^1.12"

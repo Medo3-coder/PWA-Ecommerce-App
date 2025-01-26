@@ -56,20 +56,17 @@ class ProductController extends Controller {
 
     }
 
-    public function ProductBySearh(Request $request) {
-
-        $request->validate([
-            'query' => 'required|string|max:255',
-        ]);
-        $query  = $request->input('query');
-        $sortBy = $request->input('sort_by', 'created_at');
-        $order  = $request->input('order', 'desc');
-
+    public function ProductBySearh($query)
+    {
         $results = Product::where('title', 'like', "%{$query}%")
-                            ->orderBy($sortBy, $order)
-                            ->paginate(10);
+                          ->orWhere('brand', 'like', "%{$query}%")
+                          ->get();
 
-                            dd($results);
+        if ($results->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found.',
+            ], 404);
+        }
 
         return response()->json($results);
     }
