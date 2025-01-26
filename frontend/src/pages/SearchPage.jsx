@@ -6,11 +6,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
 import AppURL from "../utils/AppURL";
+import ToastMessages from "../toast-messages/toast";
 import SearchList from "../components/ProductDetails/SearchList";
 import { Container } from "react-bootstrap";
 
 const SearchPage = () => {
   const { searchKey } = useParams(); // Use searchKey to match the URL parameter
+  const [error, setError] = useState(null); // State for errors
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
