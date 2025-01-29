@@ -40,7 +40,8 @@ const MegaMenu = ({ data = [] }) => {
             <button className="accordion">
               <img
                 className="accordionMenuIcon"
-                src={item.category_image}
+                // src={item.category_image}
+                src="https://img.icons8.com/?size=50&id=53386&format=png"
                 alt="icon"
               />
               &nbsp; {item.category_name}
