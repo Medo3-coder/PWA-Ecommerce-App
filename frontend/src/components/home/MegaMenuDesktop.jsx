@@ -4,6 +4,7 @@ import AppURL from "../../utils/AppURL";
 import { Container } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Link } from "react-router-dom";
 
 const MegaMenuDesktop = () => {
   const [category, setCategory] = useState([]);
@@ -66,11 +67,11 @@ const MegaMenuDesktop = () => {
               </button>
               <div className="panelAll">
                 <ul>
-                  {item.subcategories.map((item, index) => (
-                    <li key={index}>
-                      <a href="ww" className="accordionItemAll">
-                        {item.subcategory_name}
-                      </a>
+                {item.subcategories.map((subcategory, subIndex) => (  
+                    <li key={subIndex}>
+                      <Link to={`/${item.slug}/${subcategory.slug}`} className="accordionItemAll">
+                        {subcategory.subcategory_name}
+                      </Link>
                     </li>
                   ))}
                 </ul>

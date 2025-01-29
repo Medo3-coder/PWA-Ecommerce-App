@@ -17,9 +17,12 @@ const UserLogin = () => {
              <Row className="text-center">
                 <Col className="d-flex justify-content-center" md={6} lg={6} sm={12} xs={12}>
                 <Form className="onboardForm">
-                    <h4 className="section-title-login">User SignIn</h4>
-                    <h6 className="section-sub-title">Please Enter Your Mobile Number</h6>
-                    <input className="form-control m-2" type="text" placeholder="Enter Mobile Number" />
+                    <h4 className="section-title-login"> Sign In</h4>
+                    {/* <h6 className="section-sub-title">Please Enter Your Mobile Number</h6> */}
+                    {/* <input className="form-control m-2" type="text" placeholder="Enter Mobile Number" /> */}
+                    <input className="form-control m-2" type="email" placeholder="Enter Your Email" />
+                    <input className="form-control m-2" type="password" placeholder="Enter Your Password" />
+
                     <Button className="btn btn-block m-2 site-btn-login">Next</Button>
 
                 </Form>

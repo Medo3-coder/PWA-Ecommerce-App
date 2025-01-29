@@ -14,6 +14,10 @@ import AboutPage from "../pages/AboutPage";
 import ProductCategoryPage from "../pages/ProductCategoryPage";
 import ProductSubCategoryPage from "../pages/ProductSubCategoryPage";
 import SearchPage from "../pages/SearchPage";
+import RegisterPage from "../pages/RegisterPage";
+import ForgetPasswordPage from "../pages/ForgetPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+import ProfilePage from "../pages/ProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +36,19 @@ const AppRoutes = () => {
       <Route path="/:slug" element={<ProductCategoryPage />} />   {/* productsBySlugInCategory */}
       <Route path="/:category_slug/:subCategory_slug" element={<ProductSubCategoryPage />} />   {/* productsBySlugInSubCategory */}
       <Route path="/search/:searchKey" element={<SearchPage />} /> 
+      <Route path="/register" element={<RegisterPage />} /> 
+      <Route path="/forgot-password" element={<ForgetPasswordPage />} /> 
+      <Route path="/reset/:id" element={<ResetPasswordPage />} /> 
+      <Route path="/profile" element={<ProfilePage />} /> 
+
+
+
+
+
+      
+
+      
+
 
       
       
