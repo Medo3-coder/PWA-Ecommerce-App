@@ -7,53 +7,53 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductDetailsController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
-use App\Http\Middleware\TrackVisitor;
-use Illuminate\Http\Request;
+use App\Http\Controllers\User\AuthController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 // Route::middleware([TrackVisitor::class])->get('/track-visitor', function () {
 //     return response()->json(['message' => 'Visitor tracked successfully.']);
 // });
 
-Route::middleware([TrackVisitor::class])->group(function() {
-    Route::post('/post-contact', [ContactController::class, 'postContact']);
-    Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
-    Route::get('/categories', [CategoryController::class,'categories']);
+//Auth
 
-    //products
-    Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
-    Route::get('/products/category/{slug}' , [ProductController::class , 'getProductByCategory']);
-    Route::get('/product/{category_slug}/{subcategory_slug}',[ProductController::class, 'getProductBySubCategory']);
-    Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
-
-
-
-    //slider
-    Route::get('/sliders', [SliderController::class, 'sliders']);
-
-    //product_details
-    Route::get('/product-details/{id}',[ProductDetailsController::class , 'productDetails']);
-
-    //notifications
-    Route::get('/notifications', [NotificationController::class, 'index']);
-    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+// Password Reset Routes
+Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail']);
+Route::post('/password-reset', [AuthController::class, 'passwordReset']);
+// Email Verification Routes
+// Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+// Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])->middleware('auth:api')->name('verification.resend');
 
 
+
+Route::middleware('auth:api')->group(function () {
 
 });
+
+Route::post('/post-contact', [ContactController::class, 'postContact']);
+Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
+Route::get('/categories', [CategoryController::class, 'categories']);
+
+//products
+Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
+Route::get('/products/category/{slug}', [ProductController::class, 'getProductByCategory']);
+Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::class, 'getProductBySubCategory']);
+Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
+
+//slider
+Route::get('/sliders', [SliderController::class, 'sliders']);
+
+//product_details
+Route::get('/product-details/{id}', [ProductDetailsController::class, 'productDetails']);
+
+//notifications
+Route::get('/notifications', [NotificationController::class, 'index']);
+Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
+
+// Track visitor middleware
+// Route::middleware([TrackVisitor::class])->group(function () {
+//     // Add any routes that need to track visitors here
+// });
