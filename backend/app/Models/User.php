@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable {
-    use HasApiTokens;
+    // use HasApiTokens;
+    use PassportHasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductDetailsController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\User\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::middleware([TrackVisitor::class])->get('/track-visitor', function () {
@@ -25,10 +26,12 @@ Route::post('/password-reset', [AuthController::class, 'passwordReset']);
 // Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
 // Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])->middleware('auth:api')->name('verification.resend');
 
-
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return response()->json(['user' => auth()->guard('api')->user()]);
+// });
 
 Route::middleware('auth:api')->group(function () {
-
+    Route::get('/user', [AuthController::class, 'userProfile']);
 });
 
 Route::post('/post-contact', [ContactController::class, 'postContact']);

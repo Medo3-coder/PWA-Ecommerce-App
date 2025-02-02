@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -37,13 +38,16 @@ class AuthController extends Controller {
 
     public function login(LoginRequest $request) {
 
-        $user = User::where('email', $request->email)->first();
+        // $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        $user = Auth::user();
+
         // If credentials are correct, authenticate and create token
-        $token = $user->createToken('authToken')->plainTextToken;
+        $token = $user->createToken('authToken')->accessToken;
 
         return response()->json([
             'message' => 'Login successfull',
@@ -126,6 +130,14 @@ class AuthController extends Controller {
         return response()->json(['message' => 'Password reset successfully'], 200);
 
     }
+
+
+    public function userProfile(Request $request) {
+        return response()->json([
+           'user' => auth()->guard('api')->user(), // OR use auth('api')->user()
+        ], 200);
+    }
+
 
     public function logout(Request $request) {
         // Revoke the user's token
