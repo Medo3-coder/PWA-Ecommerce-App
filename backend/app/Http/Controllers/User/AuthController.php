@@ -78,15 +78,14 @@ class AuthController extends Controller {
     }
 
     private function generateToken(): string {
-        return hash_hmac('sha256', Str::random(40), config('app.key'));
-
+        return Str::random(40);
     }
 
     private function storeResetToken(string $email, string $token): void {
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $email], // Conditions: Find a record with this email
             [
-                'token'      => $token, // Values: Update or insert this token
+                'token'      => hash_hmac('sha256', $token, config('app.key')), // Values: Update or insert this token
                 'created_at' => Carbon::now(),
             ],
 
@@ -108,11 +107,22 @@ class AuthController extends Controller {
 
     public function passwordReset(PasswordResetRequest $request) {
 
-        $user = User::where('email', $request->email)->first();
-        if (! $user || ! Password::tokenExists($user, $request->token)) {
-            return response()->json(['message' => 'Invalid token or email'], 400);
+        if (! User::isValidEmail($request->email)) {
+            return response()->json(['message' => 'No password reset request found for this email'], 400);
         }
+
+        if (! User::isValidToken($request->email, $request->token)) {
+            return response()->json(['message' => 'Invalid or expired token'], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
         $user->resetPassword($request->password);
+
+        User::deleteToken($request->email);
+
+        Log::info('Password reset successful for user: ' . $user->email);
+
         return response()->json(['message' => 'Password reset successfully'], 200);
 
     }
