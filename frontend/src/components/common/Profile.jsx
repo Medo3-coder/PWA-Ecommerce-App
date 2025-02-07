@@ -8,7 +8,7 @@ const Profile = ({userData , logout }) => {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/');
     };
 
 

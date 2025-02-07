@@ -20,6 +20,11 @@ const NavMenuDesktop = () => {
   const navigate = useNavigate(); // Hook for navigation
   const {token , user , logout } = useContext(AuthContext);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  }
+
   const sideNavOpenClose = () => {
     if (sideNavState === "sideNavOpen") {
       setSideNavState("sideNavClose");
@@ -101,7 +106,7 @@ const NavMenuDesktop = () => {
                     <button variant="danger" className="h4 btn" onClick={()=> navigate("/profile")}>
                       Profile
                     </button>
-                    <button variant="danger" className="h4 btn" onClick={logout}>
+                    <button variant="danger" className="h4 btn" onClick={handleLogout}>
                       Logout
                     </button>
                 </>
