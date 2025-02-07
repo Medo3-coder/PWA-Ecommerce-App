@@ -8,17 +8,17 @@ import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
 import MegaMenuDesktop from "../home/MegaMenuDesktop";
 import Bars from "../../assets/images/bars.png";
-// import { AuthContext } from "../../utils/AuthContext";
+import { AuthContext } from "../../utils/AuthContext";
 
 
 const NavMenuDesktop = () => {
-  // const {token , user , logout } = useContext(AuthContext)
   const [sideNavState, setSideNavState] = useState("sideNavClose");
   const [contentOverState, setContentOverState] = useState(
     "ContentOverlayClose"
   );
   const [searchKey, setSearchKey] = useState(""); // State for search input
   const navigate = useNavigate(); // Hook for navigation
+  const {token , user , logout } = useContext(AuthContext);
 
   const sideNavOpenClose = () => {
     if (sideNavState === "sideNavOpen") {
@@ -93,16 +93,29 @@ const NavMenuDesktop = () => {
                     <span className="badge text-white bg-danger"> 5</span>
                   </sup>
                 </Link>
-                {/* <a className="btn" href="test">
-                  <i className="fa h4 fa-mobile-alt"></i>
-                </a> */}
-                <Link to="/login" className="h4 btn">
-                  Login
-                </Link>
 
-                <Link to="/register" className="h4 btn">
-                  Register
-                </Link>
+                {/* Show username when logged in, otherwise show Login/Register */}
+           
+              {token ? (
+                <>
+                    <button variant="danger" className="h4 btn" onClick={()=> navigate("/profile")}>
+                      Profile
+                    </button>
+                    <button variant="danger" className="h4 btn" onClick={logout}>
+                      Logout
+                    </button>
+                </>
+              ): (
+                <>
+                  <Link to="/login" className="h4 btn">
+                    Login
+                  </Link>
+
+                  <Link to="/register" className="h4 btn">
+                    Register
+                  </Link>
+                </>
+              )}
 
                 <Link to="/cart">
                   <Button className="cart-btn">
