@@ -19,8 +19,24 @@ const ResetPassword = () => {
   };
 
   const validateForm = () => {
-    if (formData.newPassword !== formData.confirmPassword) {
+    const { email, newPassword, confirmPassword } = formData;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      ToastMessages.showWarning("Please enter a valid email address.");
+      return false;
+    }
+
+    // Validate password match
+    if (newPassword !== confirmPassword) {
       ToastMessages.showWarning("Passwords do not match");
+      return false;
+    }
+
+    // Validate password length
+    if (newPassword.length < 6) {
+      ToastMessages.showWarning("Password must be at least 6 characters long.");
       return false;
     }
     return true;

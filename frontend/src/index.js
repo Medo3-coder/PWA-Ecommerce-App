@@ -5,11 +5,14 @@ import '../src/assets/css/fontawesome.css'
 import '../src/assets/css/custom.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './utils/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 

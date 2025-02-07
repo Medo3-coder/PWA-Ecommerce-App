@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for navigation
 import Navbar from "react-bootstrap/Navbar";
@@ -8,9 +8,11 @@ import Button from "react-bootstrap/Button";
 import Logo from "../../assets/images/logo.jpg";
 import MegaMenuDesktop from "../home/MegaMenuDesktop";
 import Bars from "../../assets/images/bars.png";
+// import { AuthContext } from "../../utils/AuthContext";
 
 
 const NavMenuDesktop = () => {
+  // const {token , user , logout } = useContext(AuthContext)
   const [sideNavState, setSideNavState] = useState("sideNavClose");
   const [contentOverState, setContentOverState] = useState(
     "ContentOverlayClose"

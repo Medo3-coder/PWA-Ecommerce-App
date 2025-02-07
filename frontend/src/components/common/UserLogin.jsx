@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,10 +9,12 @@ import axios from "axios";
 import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../utils/AuthContext";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {login} = useContext(AuthContext);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -24,18 +26,13 @@ const UserLogin = () => {
       const response = await axios.post(AppURL.UserLogin, { email, password });
       console.log(response);
       if (response.status === 200) {
-        localStorage.setItem("token" , response.data.token);
+        login(response.data.token)         
         navigate("/profile");
+
         setMessage(ToastMessages.showSuccess("Login successful !"));
-        // console.log("Response:", response);
       }
     } catch (error) {
-      setMessage(
-        ToastMessages.showWarning(
-          "Login failed. Please check your credentials."
-        )
-      );
-    //   console.error("Error:", error);
+        setMessage(ToastMessages.showWarning("Login failed. Please check your credentials."));
     }
   };
 
@@ -77,11 +74,16 @@ const UserLogin = () => {
                     placeholder="Enter Your Password"
                   />
 
-                  <Button type="submit" className="btn btn-block m-2 site-btn-login">
-                  Login 
+                  <Button
+                    type="submit"
+                    className="btn btn-block m-2 site-btn-login"
+                  >
+                    Login
                   </Button>
 
-                  {message && <p className="text-center text-danger">{message}</p>}
+                  {message && (
+                    <p className="text-center text-danger">{message}</p>
+                  )}
                 </Form>
               </Col>
               <Col className="p-0 m-0 Desktop" md={6} lg={6} sm={12} xs={12}>

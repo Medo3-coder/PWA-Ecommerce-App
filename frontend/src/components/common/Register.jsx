@@ -1,31 +1,67 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "../../assets/images/login.png";
 import ToastMessages from "../../toast-messages/toast";
+import axios from "axios";
+import AppURL from "../../utils/AppURL";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const navigate = useNavigate(); // For redirection
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      ToastMessages.showWarning("Passwords do not match");
-      return;
+    let hasErrors = false;
+
+    if (name.trim().length < 3) {
+      ToastMessages.showInfo("Name must be at least 3 characters long");
+      hasErrors = true;
     }
-    ToastMessages.showSuccess("User registered:", formData);
+
+    // Email validation (simple regex check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      ToastMessages.showInfo("Enter a valid email address");
+      hasErrors = true;
+    }
+
+    // Password validation
+    //  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    //  if (!passwordPattern.test(password)) {
+    //   ToastMessages.showInfo("Password must be at least 6 characters and include uppercase, lowercase, number, and symbol");
+    // hasErrors = true;
+    //  }
+
+    // Confirm Password validation
+    if (password !== confirmPassword) {
+      ToastMessages.showWarning("Passwords do not match");
+      hasErrors = true;
+    }
+    if (hasErrors) return;
+    ToastMessages.showSuccess("User registered:", { name, email });
+
+    // Data to send
+    const data = {
+      name,
+      email,
+      password,
+      password_confirmation: confirmPassword,
+    };
+
+    try {
+      const response = await axios.post(AppURL.UserRegister, data);
+      ToastMessages.showSuccess("Registration successful! Please log in.");
+      navigate("/login"); // Redirect to login page after successful registration
+    } catch (error) {
+      ToastMessages.showError(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
   };
 
   return (
@@ -48,14 +84,14 @@ const Register = () => {
                 xs={12}
               >
                 <Form className="onboardForm" onSubmit={handleSubmit}>
-                  <h4 className="section-title-login">  REGISTER </h4>
+                  <h4 className="section-title-login"> REGISTER </h4>
                   <input
                     className="form-control m-2"
                     type="text"
                     name="name"
                     placeholder="Enter Your Name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                   />
                   <input
@@ -63,8 +99,8 @@ const Register = () => {
                     type="email"
                     name="email"
                     placeholder="Enter Your Email"
-                    value={formData.email}
-                    onChange={handleChange}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                   <input
@@ -72,8 +108,8 @@ const Register = () => {
                     type="password"
                     name="password"
                     placeholder="Enter Your Password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <input
@@ -81,8 +117,8 @@ const Register = () => {
                     type="password"
                     name="confirmPassword"
                     placeholder="Confirm Your Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                   <Button

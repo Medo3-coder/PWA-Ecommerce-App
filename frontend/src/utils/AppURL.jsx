@@ -8,6 +8,8 @@ const AppURL = {
   Sliders : `${BaseURL}/sliders`,
   Notifications:`${BaseURL}/notifications`,
   UserLogin:`${BaseURL}/login`,
+  UserProfile:`${BaseURL}/user`,
+  UserRegister:`${BaseURL}/register`,
 
 
   productByRemark(remark) {
