@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FooterDesktop from "../components/common/FooterDesktop";
 import FooterMobile from "../components/common/FooterMobile";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
@@ -6,15 +6,26 @@ import NavMenuMobile from "../components/common/NavMenuMoblie";
 import Profile from "../components/common/Profile";
 import { AuthContext } from "../utils/AuthContext";
 import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const ProfilePage = () => {
   const { user, loading, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [isChecking, setIsChecking] = useState(true); // Prevents flickering
 
   useEffect(() => {
     window.scroll(0, 0);
+
+    // Start a timer that sets 'isChecking' to false after 500ms
+    const timer = setTimeout(() => {
+      setIsChecking(false);
+    }, 500);
+
+    // Cleanup function to clear the timeout if component unmounts
+    return () => clearTimeout(timer);
   }, []); // Empty dependency array to run only once
 
-  if (loading) {
+  if (loading || isChecking) {
     return (
       <Container className="text-center">
         <h2>Loading...</h2>
@@ -23,13 +34,7 @@ const ProfilePage = () => {
   }
 
   if (!user) {
-    return (
-      <Container className="text-center">
-        <div className="text-center mb-55">
-          <h2>Please log in to view your profile.</h2>
-        </div>
-      </Container>
-    );
+    return navigate("/login"); // Redirect if not logged in
   }
 
   return (

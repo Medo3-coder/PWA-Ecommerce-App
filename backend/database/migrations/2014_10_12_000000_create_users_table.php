@@ -15,11 +15,29 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+
+             // Address Information
+             $table->string('address')->nullable();
+             $table->string('city')->nullable();
+             $table->string('state')->nullable();
+             $table->string('country')->nullable();
+             $table->string('postal_code')->nullable();
+
+             // Role & Status
+             $table->enum('role', ['admin', 'user'])->default('user');
+             $table->enum('status', ['active', 'inactive', 'banned'])->default('active');
+
+            // Additional User Details
+            //  $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            //  $table->date('date_of_birth')->nullable();
+
+             $table->softDeletes();
             $table->timestamps();
         });
     }

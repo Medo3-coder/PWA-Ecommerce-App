@@ -2,43 +2,57 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // Initialize Faker
         $faker = Faker::create();
 
-        // Create an admin user
+        // Create Admin User
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'), // Use a secure password
-            'email_verified_at' => now(),
-            'profile_photo_path' => null,
+            'phone' => '1234567890',
+            'password' => 'admin123',
+            'role' => 'admin',
+            'status' => 'active',
+            'email_verified_at' => Carbon::now(),
+            'address' => '123 Admin Street',
+            'city' => 'Admin City',
+            'state' => 'Admin State',
+            'country' => 'Admin Country',
+            'postal_code' => '00000',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        // Create 29 regular users
-        for ($i = 1; $i <= 29; $i++) {
+        // Create 10 Regular Users (Customers)
+        for ($i = 0; $i < 10; $i++) {
             User::create([
-                'name' => $faker->name(),
-                'email' => $faker->unique()->safeEmail(),
-                'password' => Hash::make('password'), // Default password is 'password'
-                'email_verified_at' => now(),
-                'profile_photo_path' => $faker->optional()->imageUrl(200, 200, 'people'), // Random profile photo URL
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'phone' => $faker->phoneNumber,
+                'password' => Hash::make('user123'),
+                'role' => 'user',
+                'status' => $faker->randomElement(['active', 'inactive']),
+                'email_verified_at' => $faker->optional()->dateTimeThisYear(),
+                'address' => $faker->address,
+                'city' => $faker->city,
+                'state' => $faker->state,
+                'country' => $faker->country,
+                'postal_code' => $faker->postcode,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
-
-        $this->command->info('30 users seeded successfully!');
     }
 }

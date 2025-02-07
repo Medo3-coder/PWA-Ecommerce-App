@@ -1,7 +1,15 @@
 import React from 'react';
 import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
 const Profile = ({userData , logout }) => {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
 
     return (
@@ -20,7 +28,7 @@ const Profile = ({userData , logout }) => {
                             </ListGroup>
                             <div className="text-center mt-3">
                                 <Button variant="primary" className="m-1">Edit Profile</Button>
-                                <Button variant="danger" className="m-1" onClick={logout}>Logout</Button>
+                                <Button variant="danger" className="m-1" onClick={handleLogout}>Logout</Button>
                             </div>
                         </Card.Body>
                     </Card>

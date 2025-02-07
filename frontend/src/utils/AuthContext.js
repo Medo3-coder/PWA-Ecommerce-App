@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import AppURL from "./AppURL";
 
 //createContext is a feature in React that allows you to create a context for sharing data (like state, functions, or other values) 
@@ -10,27 +10,28 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); // Add loading state
+    
 
 
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         if (token) {
             try {
                 const response = await axios.get(AppURL.UserProfile, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                
+
                 setUser(response.data)
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 logout(); // Clear token if it's invalid
-            }finally {
+            } finally {
                 setLoading(false); // Stop loading
-              }
-        }else {
+            }
+        } else {
             setLoading(false); // Stop loading if no token
         }
-    };
+    }, [token]);  // Memoized with `useCallback` so it doesn’t change on every render
 
     const login = (newToken) => {
         localStorage.setItem("token", newToken);
@@ -46,12 +47,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    // Fetch user data when token changes
     useEffect(() => {
         fetchUserData();
-    }, [token]);
+    }, [fetchUserData]);
 
     return (
-        <AuthContext.Provider value={{ token, user, login, logout , loading }}>
+        <AuthContext.Provider value={{ token, user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
