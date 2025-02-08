@@ -23,8 +23,8 @@
 
     <p>You requested a password reset for your account. To reset your password, please click the button below:</p>
 
-    <!-- Action Button -->
-    <a href="{{ url('api/password-reset/'.$token) }}" class="button">
+
+    <a href="{{ rtrim(config('app.frontend_url', 'http://localhost:3000'), '/') . '/password-reset/' . $token }}" class="button">
         Reset Password
     </a>
 
@@ -38,8 +38,8 @@
     <p>
         If you're having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser:
         <br>
-        <a href="{{ url('api/password-reset/'.$token) }}" class="break-all">
-            {{ url('api/password-reset/'.$token) }}
+        <a href="{{ rtrim(config('app.frontend_url', 'http://localhost:3000'), '/') . '/password-reset/' . $token }}" class="break-all">
+            {{ rtrim(config('app.frontend_url', 'http://localhost:3000'), '/') . '/password-reset/' . $token }}
         </a>
     </p>
 </body>

@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Forget from "../../assets/images/forget.jpg";
 import ToastMessages from "../../toast-messages/toast";
+import axios from "axios";
+import AppURL from "../../utils/AppURL";
+import { useParams } from "react-router";
 
 const ResetPassword = () => {
+  const { token } = useParams(); // Extract token from URL
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    newPassword: "",
-    confirmPassword: "",
+    password: "",
+    password_confirmation: "",
+    token: "", // Store token in state
   });
+
+  useEffect(() => {
+    if (token) {
+      setFormData((prevData) => ({
+        ...prevData,
+        token: token, // Automatically set token in form data
+      }));
+    }
+  }, [token]);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.value]: e.target.value,
+      [e.target.name]: e.target.value, // Correct field names
+      
     });
   };
 
   const validateForm = () => {
-    const { email, newPassword, confirmPassword } = formData;
+    const { email, password, password_confirmation  } = formData;
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,39 +43,38 @@ const ResetPassword = () => {
     }
 
     // Validate password match
-    if (newPassword !== confirmPassword) {
+    if (password !== password_confirmation) {
       ToastMessages.showWarning("Passwords do not match");
       return false;
     }
 
     // Validate password length
-    if (newPassword.length < 6) {
+    if (password.length < 6) {
       ToastMessages.showWarning("Password must be at least 6 characters long.");
       return false;
     }
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
       return; // Stop submission if validation fails
     }
 
-    console.log("Form Data Submitted:", formData);
-    // Show success toast message
-    ToastMessages.showInfo(
-      "If this email is registered, a reset link will be sent."
-    );
+    try {
+      const response = await axios.post(AppURL.PasswordReset, formData);
+      if (response.status === 200) {
+        ToastMessages.showSuccess(response.data.message);
+        setFormData({ email: "", password: "", password_confirmation: "", token: "" }); // reset the form
 
-    // Reset form after submission
-    setFormData({
-      name: "",
-      email: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
+      }
+    } catch (error) {
+      ToastMessages.showError(error.response?.data?.message || "Error resetting password");
+    }
+
+  
   };
 
   return (
@@ -84,15 +97,7 @@ const ResetPassword = () => {
             >
               <Form className="onboardForm" onSubmit={handleSubmit}>
                 <h4 className="section-title-login"> RESET PASSWORD </h4>
-                <input
-                  className="form-control m-2"
-                  type="text"
-                  name="pin"
-                  placeholder="Enter Your Pin Code"
-                  value={formData.pin}
-                  onChange={handleChange}
-                  required
-                />
+
                 <input
                   className="form-control m-2"
                   type="email"
@@ -105,18 +110,18 @@ const ResetPassword = () => {
                 <input
                   className="form-control m-2"
                   type="password"
-                  name="newPassword"
+                  name="password"
                   placeholder="Your New Password"
-                  value={formData.newPassword}
+                  value={formData.password}
                   onChange={handleChange}
                   required
                 />
                 <input
                   className="form-control m-2"
                   type="password"
-                  name="confirmPassword"
+                  name="password_confirmation"
                   placeholder="Confirm Your Password"
-                  value={formData.confirmPassword}
+                  value={formData.password_confirmation}
                   onChange={handleChange}
                   required
                 />

@@ -11,6 +11,7 @@ const AppURL = {
   UserProfile:`${BaseURL}/user`,
   UserRegister:`${BaseURL}/register`,
   ForgetPassword: `${BaseURL}/forget-password`,
+  PasswordReset: `${BaseURL}/password-reset`,
 
 
   productByRemark(remark) {
