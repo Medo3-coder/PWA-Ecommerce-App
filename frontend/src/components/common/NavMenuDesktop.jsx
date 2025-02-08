@@ -18,7 +18,7 @@ const NavMenuDesktop = () => {
   );
   const [searchKey, setSearchKey] = useState(""); // State for search input
   const navigate = useNavigate(); // Hook for navigation
-  const {token , user , logout } = useContext(AuthContext);
+  const {token , logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();

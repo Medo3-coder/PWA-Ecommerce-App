@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 // Password Reset Routes
-Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail']);
+Route::post('/forget-password', [AuthController::class, 'sendResetLinkEmail']);
 Route::post('/password-reset', [AuthController::class, 'passwordReset']);
 // Email Verification Routes
 // Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');

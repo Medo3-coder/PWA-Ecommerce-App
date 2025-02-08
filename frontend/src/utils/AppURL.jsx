@@ -10,6 +10,7 @@ const AppURL = {
   UserLogin:`${BaseURL}/login`,
   UserProfile:`${BaseURL}/user`,
   UserRegister:`${BaseURL}/register`,
+  ForgetPassword: `${BaseURL}/forget-password`,
 
 
   productByRemark(remark) {
