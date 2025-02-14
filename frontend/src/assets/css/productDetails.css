@@ -18,16 +18,31 @@
 }
 
 .big-image{
-    height: 550px;
-    margin-left: 50px;
+    /* height: 550px;
+    margin-left: 50px; */
+
+    width: 100%; /* Ensure the image takes the full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 550px; /* Set a maximum height if needed */
+    cursor: zoom-in; /* Indicate zoom capability */
 }
 
 
 
 .small-image{
     height: 130px;
+    cursor: pointer;
+    width: 100%; /* Ensure small images take full width of their container */
+    object-fit: cover; /* Ensure small images cover their container */
 }
 
 .product-sm-img:hover{
     cursor: pointer;
+ }
+
+ .detailimage{    
+    max-width: 60%;
+    height: 499px;
+    margin: 0px;
+    margin-left: 142px;    
  }
