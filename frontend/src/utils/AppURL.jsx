@@ -34,6 +34,12 @@ const AppURL = {
     return `${this.BaseURL}/search/${query}`;
   },
 
+
+  relatedProduct(product_id) {
+    return `${this.BaseURL}/related-product/${product_id}`;
+  },
+
+
   
 };
 

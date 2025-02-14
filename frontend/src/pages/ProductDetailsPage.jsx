@@ -51,7 +51,6 @@ const ProductDetailsPage = () => {
       </div>
 
       <ProductDetails productData = {productData}  message={message}/>
-      <SuggestedProduct />
 
       <div className="Desktop">
         <FooterDesktop />

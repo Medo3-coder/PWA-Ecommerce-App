@@ -1,104 +1,105 @@
-import React, { Fragment } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import axios from "axios";
+import AppURL from "../../utils/AppURL";
+import ToastMessages from "../../toast-messages/toast";
 
-const SuggestedProduct = () => {
+const SuggestedProduct = ({ product_id }) => {
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch related products from the backend API
+    const fetchRelatedProducts = async () => {
+      try {
+        const response = await axios.get(AppURL.relatedProduct(product_id));
+        setRelatedProducts(response.data.related_products);
+      } catch (error) {
+        setError(ToastMessages.showError(error.response.data.message));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [product_id]);
+
+  const renderSkeletons = Array.from({ length: 4 }).map((_, index) => (
+    <Col className="p-1" key={index} xl={2} lg={2} md={2} sm={4} xs={6}>
+      <Card className="image-box card">
+        <Skeleton height={200} />
+        <Card.Body>
+          <Skeleton count={2} />
+        </Card.Body>
+      </Card>
+    </Col>
+  ));
+
+  if (isLoading) {
+    return (
+      <Container className="text-center" fluid={true}>
+        <div className="section-title text-center mb-55">
+          <h2>YOU MAY ALSO LIKE</h2>
+          <p>Some Of Our Exclusive Collection, You May Like</p>
+          {renderSkeletons}
+        </div>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="text-center">
+        <h4>{ToastMessages.showError(error)}</h4>
+      </Container>
+    );
+  }
+
+  if (relatedProducts.length === 0) {
+    return (
+      <Container className="text-center">
+        <div className="section-title text-center mb-55">
+          <h2>YOU MAY ALSO LIKE</h2>
+          <p>Some Of Our Exclusive Collection, You May Like</p>
+        </div>
+        <h4 className="text-muted">No related products found.</h4>
+      </Container>
+    );
+  }
+
+  const MyView = relatedProducts.map((product, index) => (
+    <Col className="p-1" key={index} xl={2} lg={2} md={2} sm={4} xs={6}>
+      <Link className="text-link" to={`/product-details/${product.id}`}>
+        <Card className="image-box card">
+          <img
+            className="center"
+            src={product.image}
+            alt={product.title}
+            style={{ height: "200px", objectFit: "cover" }}
+          />
+          <Card.Body>
+            <p className="product-name-on-card">{product.title}</p>
+            <p className="product-price-on-card">Price: ${product.price}</p>
+          </Card.Body>
+        </Card>
+      </Link>
+    </Col>
+  ));
+
   return (
-    <Fragment>
+    <>
       <Container className="text-center" fluid={true}>
         <div className="section-title text-center mb-55">
           <h2>YOU MAY ALSO LIKE</h2>
           <p>Some Of Our Exclusive Collection, You May Like</p>
         </div>
-        <Row>
-          <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Link className="text-link" to="/product-details">
-              <Card className="image-box card">
-                <img
-                  className="center"
-                  src="https://rukminim1.flixcart.com/image/416/416/kn7sdjk0/mobile/q/j/x/c21-rmx3201-realme-original-imagfxfwbszrxkvu.jpeg?q=70"
-                  alt="Realme C21"
-                />
-                <Card.Body>
-                  <p className="product-name-on-card">Realme C21 (Cross Black, 64 GB)</p>
-                  <p className="product-price-on-card">Price: $120</p>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Col>
-
-          <Col className="p-1" key={2} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Card className="image-box card">
-              <img
-                className="center"
-                src="https://rukminim1.flixcart.com/image/416/416/knm2s280/mobile/j/x/c/hot-10-play-x688b-infinix-original-imag29gxqzuxkmnk.jpeg?q=70"
-                alt="Infinix Hot 10 Play"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Realme C21 (Cross Blue, 64 GB)</p>
-                <p className="product-price-on-card">Price: $120</p>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col className="p-1" key={3} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Card className="image-box card">
-              <img
-                className="center"
-                src="https://rukminim1.flixcart.com/image/416/416/kn7sdjk0/mobile/g/r/g/c21-rmx3201-realme-original-imagfxfwn9aryyda.jpeg?q=70"
-                alt="Realme C21"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Realme C21 (Cross Black, 64 GB)</p>
-                <p className="product-price-on-card">Price: $120</p>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col className="p-1" key={4} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Card className="image-box card">
-              <img
-                className="center"
-                src="https://rukminim1.flixcart.com/image/416/416/knm2s280/mobile/v/l/u/hot-10-play-x688b-infinix-original-imag29hfaedkgdfe.jpeg?q=70"
-                alt="Infinix Hot 10 Play"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Realme C21 (Cross Black, 64 GB)</p>
-                <p className="product-price-on-card">Price: $120</p>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col className="p-1" key={5} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Card className="image-box card">
-              <img
-                className="center"
-                src="https://rukminim1.flixcart.com/image/416/416/knrsjgw0/mobile/f/o/w/8-5g-rmx3241-realme-original-imag2d8eksc2szzy.jpeg?q=70"
-                alt="Realme 8 5G"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Realme C21 (Cross Black, 64 GB)</p>
-                <p className="product-price-on-card">Price: $120</p>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col className="p-1" key={6} xl={2} lg={2} md={2} sm={4} xs={6}>
-            <Card className="image-box card">
-              <img
-                className="center"
-                src="https://rukminim1.flixcart.com/image/416/416/kd69z0w0/mobile/a/n/g/mi-redmi-note-9-b086982zkf-original-imafu4qf8gfcutde.jpeg?q=70"
-                alt="Redmi Note 9"
-              />
-              <Card.Body>
-                <p className="product-name-on-card">Realme C21 (Cross Black, 64 GB)</p>
-                <p className="product-price-on-card">Price: $120</p>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        <Row>{MyView}</Row>
       </Container>
-    </Fragment>
+    </>
   );
 };
 

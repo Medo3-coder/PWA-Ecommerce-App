@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 import ToastMessages from '../../toast-messages/toast';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from 'react-router-dom';
+import SuggestedProduct from './SuggestedProduct';
 
 
 const ProductDetails = ( {productData , message}) => {
@@ -70,7 +71,8 @@ const ProductDetails = ( {productData , message}) => {
   // Access subcategory
   
   return (
-        <Container fluid={true} className="BetweenTwoSection">
+    <>
+    <Container fluid={true} className="BetweenTwoSection">
              <div className="breadbody">
             
           <Breadcrumb>
@@ -91,11 +93,11 @@ const ProductDetails = ( {productData , message}) => {
                     <Row>
                       {[image_one, image_two, image_three, image_four].map((img , index)=> 
                          img ? (
-                          <Col key={index} className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
+                           <Col key={index} className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
                           <img className="small-image" src={img} alt={`Product ${index + 1}`} onClick={() => handleThumbnailClick(img)} style={{ cursor: "pointer" }} />
                           </Col>
                          ) : null
-                      )}
+                        )}
                      
                     </Row>
                   </Container>
@@ -118,7 +120,7 @@ const ProductDetails = ( {productData , message}) => {
                  </h6>
                  {/* <h6 className="mt-2">
                   SubCategory: <b>{category?.subcategories?.subcategory_name}</b>
-                </h6> */}
+                  </h6> */}
 
                 <h6 className="mt-2">
                   Brand: <b>{brand}</b>
@@ -129,7 +131,7 @@ const ProductDetails = ( {productData , message}) => {
                 </h6>
 
                 {color && color.length > 0 && (
-                <>
+                  <>
                 <h6 className="mt-2">Choose Color</h6>
                   <div className="input-group">
                     {color.map((colorOption , index)=> (
@@ -140,7 +142,7 @@ const ProductDetails = ( {productData , message}) => {
                         name="colorOptions"
                         value={colorOption}
                         id={`color-${index}`}
-                      />
+                        />
                       <label className="form-check-label" htmlFor={`color-${index}`}>
                         {colorOption}
                       </label>
@@ -163,7 +165,7 @@ const ProductDetails = ( {productData , message}) => {
                           name="sizeOptions"
                           value={sizeOption}
                           id={`color-${index}`}
-                        />
+                          />
                         <label className="form-check-label" htmlFor={`color-${index}`}>
                            {sizeOption}
                         </label>
@@ -181,7 +183,7 @@ const ProductDetails = ( {productData , message}) => {
                     type="number"
                     value={qty}
                     onChange={handleQuantityChange}
-                  />
+                    />
     
     
                   <div className="input-group mt-3">
@@ -230,7 +232,11 @@ const ProductDetails = ( {productData , message}) => {
             </Col>
           </Row>
         </Container>
-      );
-};
 
-export default ProductDetails;
+        <SuggestedProduct product_id = {product_id} />
+
+       </>
+      );
+    };
+    
+    export default ProductDetails;
