@@ -49,6 +49,7 @@ Route::get('/sliders', [SliderController::class, 'sliders']);
 
 //product_details
 Route::get('/product-details/{id}', [ProductDetailsController::class, 'productDetails']);
+Route::get('/related-product/{product_id}', [ProductDetailsController::class, 'relatedProduct']);
 
 //notifications
 Route::get('/notifications', [NotificationController::class, 'index']);
