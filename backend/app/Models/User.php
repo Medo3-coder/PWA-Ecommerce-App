@@ -82,6 +82,10 @@ class User extends Authenticatable {
         return $this->morphMany(Notification::class, 'Notifiable');
     }
 
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
+
     public function resetPassword(string $password): void {
         $this->update([
             'password'       => $password,

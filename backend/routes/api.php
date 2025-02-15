@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductDetailsController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,13 @@ Route::post('/password-reset', [AuthController::class, 'passwordReset']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [AuthController::class, 'userProfile']);
+
+    //reviews
+    Route::get('/products/{id}/reviews', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::patch('/reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
 });
 
 Route::post('/post-contact', [ContactController::class, 'postContact']);
@@ -55,7 +63,13 @@ Route::get('/related-product/{product_id}', [ProductDetailsController::class, 'r
 Route::get('/notifications', [NotificationController::class, 'index']);
 Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+
+// need to seprate
 Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
+
+
+
 
 // Track visitor middleware
 // Route::middleware([TrackVisitor::class])->group(function () {

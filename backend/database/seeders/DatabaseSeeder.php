@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder {
         $this->call(SliderSeeder::class);
         $this->call(ProductDetailSeeder::class);
         $this->call(NotificationSeeder::class);
+        $this->call(ReviewsTableSeeder::class);
 
     }
 }
