@@ -8,6 +8,7 @@ import ToastMessages from '../../toast-messages/toast';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from 'react-router-dom';
 import SuggestedProduct from './SuggestedProduct';
+import Review from './Review';
 
 
 const ProductDetails = ( {productData , message}) => {
@@ -213,21 +214,7 @@ const ProductDetails = ( {productData , message}) => {
                   </p>
                 </Col>
     
-                <Col md={6} lg={6} sm={12} xs={12}>
-                  <h6 className="mt-2">REVIEWS</h6>
-                  <p className="p-0 m-0">
-                    <span className="Review-Title">Kazi Ariyan</span>{' '}
-                    <span className="text-success">
-                      <i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i>{' '}
-                      <i className="fa fa-star"></i>{' '}
-                    </span>
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                    laoreet dolore magna aliquam erat volutpat.
-                  </p>
-                  {/* Additional reviews go here */}
-                </Col>
+              <Review product_id={product_id} />
               </Row>
             </Col>
           </Row>

@@ -9,27 +9,26 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller {
 
-
     public function index($productId) {
         $reviews = Review::with('user')->where('product_id', $productId)->limit(5)->get();
-        return response()->json($reviews);
+        return response()->json(['reviews' => $reviews], 200);
     }
 
     public function store(Store $request) {
-        $data = $request->validated();
-        $data['user_id']  = auth()->id();
-        $review = Review::create($data);
-        return response()->json($review, 201);
+        $data            = $request->validated();
+        $data['user_id'] = auth()->id();
+        $review          = Review::create($data);
+        return response()->json(['review' => $review], 201);
     }
 
     public function update(Update $request, $id) {
         $review = Review::findOrFail($id);
-        if ($review->user_id !==  Auth::id()) {
+        if ($review->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $review->update($request->validated());
-        return response()->json($review);
+        return response()->json(['review' => $review]);
     }
 
     public function destroy($id) {
