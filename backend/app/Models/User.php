@@ -86,6 +86,10 @@ class User extends Authenticatable {
         return $this->hasMany(Review::class);
     }
 
+    public function cartItems(){
+        return $this->hasMany(Cart::class);
+    }
+
     public function resetPassword(string $password): void {
         $this->update([
             'password'       => $password,
