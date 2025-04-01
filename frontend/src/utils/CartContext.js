@@ -38,6 +38,8 @@ export const CartProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             });
+            //All existing cart items (...prev) Creates a shallow copy 
+            //The newly added item (response.data) 
             setCart((prev) => [...prev, response.data]);
             return {
                 success: true,
