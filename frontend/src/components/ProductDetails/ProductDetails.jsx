@@ -10,11 +10,13 @@ import { Link, useNavigate } from "react-router-dom";
 import SuggestedProduct from "./SuggestedProduct";
 import Review from "./Review";
 import { AuthContext } from "../../utils/AuthContext";
+import { CartContext } from "../../utils/CartContext";
 
 const ProductDetails = ({ productData, message }) => {
   const [previewImg, setPreviewImg] = useState();
   const [qty, setQuantity] = useState(1);
   const { token } = useContext(AuthContext); // Get token and loading state from context
+  const { addToCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const navigate = useNavigate();
 
@@ -77,6 +79,35 @@ const ProductDetails = ({ productData, message }) => {
     // Navigate to login page
     navigate("/login");
   };
+
+  const handleAddToCart = async () => {
+
+    if (qty > stockQuantity) {
+      setErrorMessage(
+        ToastMessages.showWarning(
+          `Sorry, we only have ${stockQuantity} units in stock.`
+        )
+      );
+      return;
+    }
+
+    try {
+      const result = await addToCart(productData.product, qty);
+      if (result.success) {
+        ToastMessages.showSuccess("Product added to cart successfully!");
+      } else if (result.isUnauthorized) {
+        // This will handle the 401 case
+        handleLoginClick();
+        ToastMessages.showWarning("Please login to add items to cart");
+      } else {
+        ToastMessages.showError("Failed to add product to cart");
+      }
+    }catch (error) {
+      console.error("Add to cart error:", error);
+      ToastMessages.showError("An unexpected error occurred");
+    }
+  };
+
 
   return (
     <>
@@ -236,7 +267,10 @@ const ProductDetails = ({ productData, message }) => {
                 />
 
                 <div className="input-group mt-3">
-                  <button className="btn site-btn m-1">
+                  <button
+                    className="btn site-btn m-1"
+                    onClick={handleAddToCart}
+                  >
                     <i className="fa fa-shopping-cart"></i> Add To Cart
                   </button>
                   <button className="btn btn-primary m-1">
@@ -248,8 +282,6 @@ const ProductDetails = ({ productData, message }) => {
                 </div>
               </Col>
             </Row>
-
-     
 
             <Row>
               <Col md={6} lg={6} sm={12} xs={12}>
@@ -266,15 +298,17 @@ const ProductDetails = ({ productData, message }) => {
                   erat volutpat.
                 </p>
               </Col>
-  
-              {!token && (
-              <Col md={6} lg={6} sm={12} xs={12}>
-                <button className="btn site-btn m-1" onClick={handleLoginClick}>
-                  <i className="fa fa-comments"></i> Login to View Reviews
-                </button>
-              </Col>
-            )}
 
+              {!token && (
+                <Col md={6} lg={6} sm={12} xs={12}>
+                  <button
+                    className="btn site-btn m-1"
+                    onClick={handleLoginClick}
+                  >
+                    <i className="fa fa-comments"></i> Login to View Reviews
+                  </button>
+                </Col>
+              )}
 
               {token ? (
                 <Review product_id={product_id} />

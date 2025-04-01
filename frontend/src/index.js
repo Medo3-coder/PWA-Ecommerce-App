@@ -6,7 +6,7 @@ import '../src/assets/css/custom.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './utils/AuthContext';
-import { CartProvider } from "./CartContext";  // Import CartProvider
+import { CartProvider } from "./utils/CartContext";  // Import CartProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
