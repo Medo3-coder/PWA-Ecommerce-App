@@ -17,15 +17,14 @@ class CartController extends Controller
     {
         $cartItem = Cart::updateOrCreate(
             ['user_id' => auth()->id(), 'product_id' => $request->product_id],
-            ['quantity' => DB::raw("quantity + " . (int)$request->quantity)]
+            ['quantity' => DB::raw("quantity + " . (int) $request->quantity)]
         );
 
-        // Re-fetch to ensure corre ct quantity in JSON response
+        // Re-fetch to ensure correct quantity in JSON response
         $cartItem = Cart::find($cartItem->id);
 
         return response()->json($cartItem);
     }
-
 
     // public function addToCart(Request $request)
     // {
@@ -47,6 +46,27 @@ class CartController extends Controller
     //     return response()->json($cartItem);
     // }
 
+    public function updateCart(Request $request)
+    {
+        $cartItem = Cart::where('user_id', auth()->id())
+            ->where('product_id', $request->product_id)
+            ->first();
 
+            if (!$cartItem) {
+                return response()->json(['message' => 'Cart item not found'], 404);
+            }
+
+            $cartItem->update(['quantity' => $request->quantity]);
+
+            return response()->json([
+                'message' => 'Cart updated successfully',
+                'cart' => $cartItem
+            ]);
+    }
+
+    public function removeFromCart($id){
+        Cart::where('user_id' , auth()->id())->where('id',$id)->delete();
+        return response()->json(['message' => 'Item removed successfully']);
+    }
 
 }

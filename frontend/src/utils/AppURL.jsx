@@ -12,7 +12,13 @@ const AppURL = {
   UserRegister:`${BaseURL}/register`,
   ForgetPassword: `${BaseURL}/forget-password`,
   PasswordReset: `${BaseURL}/password-reset`,
-
+  //cart
+  addToCart : `${BaseURL}/cart/add`,
+  getCart : `${BaseURL}/cart`,
+  updateCart : `${BaseURL}/cart/update`,
+  removeFromCart(id){
+    return `${this.BaseURL}/cart/remove/${id}`;
+  },
 
   productByRemark(remark) {
     return `${this.BaseURL}/products/remark/${remark}`;
