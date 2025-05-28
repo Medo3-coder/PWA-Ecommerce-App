@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\Admin\SiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +51,6 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::post('/post-contact', [ContactController::class, 'postContact']);
-Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
 Route::get('/categories', [CategoryController::class, 'categories']);
 
 //products
@@ -71,12 +71,11 @@ Route::get('/notifications', [NotificationController::class, 'index']);
 Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 
-
-// need to seprate
-Route::get('/site-setting', [SiteSettingController::class, 'siteSetting']);
-
-
-
+// Site management routes
+Route::get('/content/{type}', [SiteController::class, 'getContent']);
+Route::post('/content/{type}', [SiteController::class, 'updateContent'])->middleware('auth:api');
+Route::get('/settings', [SiteController::class, 'getSettings']);
+Route::post('/settings', [SiteController::class, 'updateSettings'])->middleware('auth:api');
 
 // Track visitor middleware
 // Route::middleware([TrackVisitor::class])->group(function () {

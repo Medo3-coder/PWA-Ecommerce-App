@@ -3,20 +3,32 @@ const BaseURL = "http://127.0.0.1:8000/api";
 const AppURL = {
   BaseURL: BaseURL,
   PostContact: `${BaseURL}/post-contact`,
-  SiteSettings: `${BaseURL}/site-setting`,
+  Content: `${BaseURL}/content`,
+  //content route
+  getContent(type) {
+    return `${this.BaseURL}/content/${type}`;
+  },
+
+  updateContent(type) {
+    return `${this.BaseURL}/content/${type}`;
+  },
+  // Settings routes
+  getSettings: `${BaseURL}/settings`,
+  updateSettings: `${BaseURL}/settings`,
+  
   CategoryDetails: `${BaseURL}/categories`,
-  Sliders : `${BaseURL}/sliders`,
-  Notifications:`${BaseURL}/notifications`,
-  UserLogin:`${BaseURL}/login`,
-  UserProfile:`${BaseURL}/user`,
-  UserRegister:`${BaseURL}/register`,
+  Sliders: `${BaseURL}/sliders`,
+  Notifications: `${BaseURL}/notifications`,
+  UserLogin: `${BaseURL}/login`,
+  UserProfile: `${BaseURL}/user`,
+  UserRegister: `${BaseURL}/register`,
   ForgetPassword: `${BaseURL}/forget-password`,
   PasswordReset: `${BaseURL}/password-reset`,
   //cart
-  addToCart : `${BaseURL}/cart/add`,
-  getCart : `${BaseURL}/cart`,
-  updateCart : `${BaseURL}/cart/update`,
-  removeFromCart(id){
+  addToCart: `${BaseURL}/cart/add`,
+  getCart: `${BaseURL}/cart`,
+  updateCart: `${BaseURL}/cart/update`,
+  removeFromCart(id) {
     return `${this.BaseURL}/cart/remove/${id}`;
   },
 
@@ -40,7 +52,6 @@ const AppURL = {
     return `${this.BaseURL}/search/${query}`;
   },
 
-
   relatedProduct(product_id) {
     return `${this.BaseURL}/related-product/${product_id}`;
   },
@@ -48,9 +59,6 @@ const AppURL = {
   reviews(product_id) {
     return `${this.BaseURL}/products/${product_id}/reviews`;
   },
-
-
-  
 };
 
 export default AppURL;
