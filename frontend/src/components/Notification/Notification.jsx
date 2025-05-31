@@ -5,6 +5,7 @@ import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ResponsiveLayout } from "../../layouts/ResponsiveLayout";
 
 const Notification = () => {
   const [show, setShow] = useState(false);
@@ -51,24 +52,23 @@ const Notification = () => {
     fetchNotifications();
   }, []); // Empty dependency array to run this effect only once on mount
 
-    // Skeleton Loading UI
-    const renderSkeletons = Array.from({ length: 6 }).map((_, index) => (
-      <Col className="p-1" key={index} md={6} lg={6} sm={12} xs={12}>
-        <Card className="notification-card">
-          <Card.Body>
-            <h6>
-              <Skeleton width="60%" />
-            </h6>
-            <p className="py-1 px-0 text-primary m-0">
-              <i className="fa fa-bell"></i>
-              <Skeleton width="40%" />
-            </p>
-            <Skeleton width="100px" height={30} className="mt-2" />
-          </Card.Body>
-        </Card>
-      </Col>
-    ));
-
+  // Skeleton Loading UI
+  const renderSkeletons = Array.from({ length: 6 }).map((_, index) => (
+    <Col className="p-1" key={index} md={6} lg={6} sm={12} xs={12}>
+      <Card className="notification-card">
+        <Card.Body>
+          <h6>
+            <Skeleton width="60%" />
+          </h6>
+          <p className="py-1 px-0 text-primary m-0">
+            <i className="fa fa-bell"></i>
+            <Skeleton width="40%" />
+          </p>
+          <Skeleton width="100px" height={30} className="mt-2" />
+        </Card.Body>
+      </Card>
+    </Col>
+  ));
 
   if (error) {
     return <div>{error}</div>;
@@ -88,8 +88,12 @@ const Notification = () => {
             Date:{new Date(notifications.created_at).toLocaleDateString()}
             Status: {notifications.is_read ? "Read" : "Unread"}
           </p>
-            <Button variant="danger" onClick={() => handleShow(notifications)} className="mt-2">
-              View Details
+          <Button
+            variant="danger"
+            onClick={() => handleShow(notifications)}
+            className="mt-2"
+          >
+            View Details
           </Button>
         </Card.Body>
       </Card>
@@ -97,10 +101,12 @@ const Notification = () => {
   ));
 
   return (
-    <Fragment>
-      <Container className="TopSection">
-      <Row>{loading ? renderSkeletons : renderNotifications}</Row>
-      </Container>
+    <>
+      <ResponsiveLayout>
+        <Container className="TopSection">
+          <Row>{loading ? renderSkeletons : renderNotifications}</Row>
+        </Container>
+      </ResponsiveLayout>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -120,7 +126,7 @@ const Notification = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Fragment>
+    </>
   );
 };
 

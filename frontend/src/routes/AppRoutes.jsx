@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import ContactPage from "../pages/ContactPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
-import NotificationPage from "../pages/NotificationPage";
 import FavouritePage from "../pages/FavouritePage";
 import CartPage from "../pages/CartPage";
 import ProductCategoryPage from "../pages/ProductCategoryPage";
@@ -16,6 +15,7 @@ import UserLogin from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
 import ForgetPassword from "../components/Auth/ForgetPassword";
 import ResetPassword from "../components/Auth/ResetPassword";
+import Notification from "../components/Notification/Notification";
 
 const AppRoutes = () => {
   return (
@@ -24,7 +24,7 @@ const AppRoutes = () => {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/content/:type" element={<ContentPageWrapper />} />
       <Route path="/product-details/:productId" element={<ProductDetailsPage />} />
-      <Route path="/notification" element={<NotificationPage />} />
+      <Route path="/notification" element={<Notification />} />
       <Route path="/favourite" element={<FavouritePage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/:slug" element={<ProductCategoryPage />} />
