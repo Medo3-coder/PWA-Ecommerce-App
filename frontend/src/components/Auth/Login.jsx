@@ -10,6 +10,7 @@ import AppURL from "../../utils/AppURL";
 import ToastMessages from "../../toast-messages/toast";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../utils/AuthContext";
+import { ResponsiveLayout } from "../../layouts/ResponsiveLayout";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
@@ -38,6 +39,7 @@ const UserLogin = () => {
 
   return (
     <>
+    <ResponsiveLayout>  
       <Container>
         <Row className="p-2">
           <Col
@@ -93,6 +95,7 @@ const UserLogin = () => {
           </Col>
         </Row>
       </Container>
+    </ResponsiveLayout>
     </>
   );
 };
