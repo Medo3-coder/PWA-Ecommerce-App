@@ -1,64 +1,120 @@
-import FooterDesktop from "../components/common/FooterDesktop";
-import FooterMobile from "../components/common/FooterMobile";
-import NavMenuDesktop from "../components/common/NavMenuDesktop";
-import NavMenuMobile from "../components/common/NavMenuMoblie";
+import React, { useEffect, useState, lazy, Suspense } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { Container } from "react-bootstrap";
 import AppURL from "../utils/AppURL";
 import ToastMessages from "../toast-messages/toast";
-import SearchList from "../components/ProductDetails/SearchList";
-import { Container } from "react-bootstrap";
+
+// Lazy load components
+const NavMenuDesktop = lazy(() => import("../components/common/NavMenuDesktop"));
+const NavMenuMobile = lazy(() => import("../components/common/NavMenuMoblie"));
+const FooterDesktop = lazy(() => import("../components/common/FooterDesktop"));
+const FooterMobile = lazy(() => import("../components/common/FooterMobile"));
+const SearchList = lazy(() => import("../components/ProductDetails/SearchList"));
+
+// Loading component
+const LoadingFallback = () => (
+  <div className="text-center p-5">
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  </div>
+);
 
 const SearchPage = () => {
-  const { searchKey } = useParams(); // Use searchKey to match the URL parameter
-  const [error, setError] = useState(null); // State for errors
-  const [productData, setProductData] = useState([]);
+  const { searchKey } = useParams();
+  const [searchState, setSearchState] = useState({
+    products: [],
+    isLoading: true,
+    error: null
+  });
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top when the component mounts
-
-    const fetchProductData = async () => {
+    const fetchProducts = async () => {
       try {
+        setSearchState(prev => ({ ...prev, isLoading: true, error: null }));
         const response = await axios.get(AppURL.ProductBySearch(searchKey));
-        setProductData(response.data);
+        setSearchState({
+          products: response.data,
+          isLoading: false,
+          error: null
+        });
       } catch (error) {
-        // setError(ToastMessages.showError(error.response?.data?.message));
+        setSearchState({
+          products: [],
+          isLoading: false,
+          error: error.response?.data?.message || "Failed to fetch products"
+        });
+        ToastMessages.showError(error.response?.data?.message || "Failed to fetch products");
       }
     };
 
-    fetchProductData();
-  }, [searchKey]); // Depend on searchKey so it refetches when searchKey changes
+    // Scroll to top and fetch products
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    fetchProducts();
+  }, [searchKey]);
 
+  // Render navigation
+  const renderNavigation = () => (
+    <>
+      <div className="Desktop">
+        <Suspense fallback={<LoadingFallback />}>
+          <NavMenuDesktop />
+        </Suspense>
+      </div>
+      <div className="Mobile">
+        <Suspense fallback={<LoadingFallback />}>
+          <NavMenuMobile />
+        </Suspense>
+      </div>
+    </>
+  );
 
-  
-  if (error) {
+  // Render footer
+  const renderFooter = () => (
+    <>
+      <div className="Desktop">
+        <Suspense fallback={<LoadingFallback />}>
+          <FooterDesktop />
+        </Suspense>
+      </div>
+      <div className="Mobile">
+        <Suspense fallback={<LoadingFallback />}>
+          <FooterMobile />
+        </Suspense>
+      </div>
+    </>
+  );
+
+  // Render error state
+  if (searchState.error) {
     return (
-      <Container className="text-center">
-        <h4>{error.response?.data?.message}</h4>
-      </Container>
+      <>
+        {renderNavigation()}
+        <Container className="text-center py-5">
+          <h4 className="text-danger">{searchState.error}</h4>
+        </Container>
+        {renderFooter()}
+      </>
     );
   }
 
   return (
     <>
-      <div className="Desktop">
-        <NavMenuDesktop />
-      </div>
+      {renderNavigation()}
+      
+      <Suspense fallback={<LoadingFallback />}>
+        <SearchList 
+          SearchKey={searchKey} 
+          ProductData={searchState.products}
+          isLoading={searchState.isLoading}
+        />
+      </Suspense>
 
-      <div className="Mobile">
-        <NavMenuMobile />
-      </div>
-
-      <SearchList SearchKey={searchKey} ProductData={productData} />
-
-      <div className="Desktop">
-        <FooterDesktop />
-      </div>
-
-      <div className="Mobile">
-        <FooterMobile />
-      </div>
+      {renderFooter()}
     </>
   );
 };

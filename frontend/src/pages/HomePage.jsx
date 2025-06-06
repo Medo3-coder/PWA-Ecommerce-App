@@ -1,57 +1,104 @@
-import React, { useEffect } from "react";
-import FeaturedProducts from "../components/home/FeaturedProducts";
-import Categories from "../components/home/Categories";
-import Collection from "../components/home/Collection";
-import NewArrival from "../components/home/NewArrival";
-import NavMenuDesktop from "../components/common/NavMenuDesktop";
-import NavMenuMobile from "../components/common/NavMenuMoblie";
-import HomeTopMobile from "../components/home/HomeTopMobile";
-import HomeTop from "../components/home/HomeTop";
-import FooterDesktop from "../components/common/FooterDesktop";
-import FooterMobile from "../components/common/FooterMobile";
+import React, { lazy, Suspense, useEffect } from "react";
 import axios from "axios";
 import AppURL from "../utils/AppURL";
 
+// Layout Components
+const NavMenuDesktop = lazy(() => import("../components/common/NavMenuDesktop"));
+const NavMenuMobile = lazy(() => import("../components/common/NavMenuMoblie"));
+const FooterDesktop = lazy(() => import("../components/common/FooterDesktop"));
+const FooterMobile = lazy(() => import("../components/common/FooterMobile"));
+
+// Home Components
+const HomeTop = lazy(() => import("../components/home/HomeTop"));
+const HomeTopMobile = lazy(() => import("../components/home/HomeTopMobile"));
+const FeaturedProducts = lazy(() => import("../components/home/FeaturedProducts"));
+const NewArrival = lazy(() => import("../components/home/NewArrival"));
+const Categories = lazy(() => import("../components/home/Categories"));
+const Collection = lazy(() => import("../components/home/Collection"));
+
+// Loading component for Suspense fallback
+const LoadingFallback = () => (
+  <div className="text-center p-5">
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  </div>
+);
+
 const HomePage = () => {
   useEffect(() => {
-    window.scroll(0, 0);
+    // Scroll to top on mount
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
 
-    // Function to track the visitor
+    // Track visitor analytics
     const trackVisitor = async () => {
       try {
         const response = await axios.get(AppURL.BaseURL + "/track-visitor");
         console.log(response.data.message);
-      } catch (err) {
-        console.error("Error tracking visitor:", err);
+      } catch (error) {
+        console.error("Error tracking visitor:", error.message);
       }
     };
 
     trackVisitor();
   }, []); // Empty dependency array to run only once
 
-  return (
-    <>
-      <div className="Desktop">
+  // Render desktop layout
+  const renderDesktopLayout = () => (
+    <div className="Desktop">
+      <Suspense fallback={<LoadingFallback />}>
         <NavMenuDesktop />
         <HomeTop />
-      </div>
+      </Suspense>
+    </div>
+  );
 
-      <div className="Mobile">
+  // Render mobile layout
+  const renderMobileLayout = () => (
+    <div className="Mobile">
+      <Suspense fallback={<LoadingFallback />}>
         <NavMenuMobile />
         <HomeTopMobile />
-      </div>
+      </Suspense>
+    </div>
+  );
 
+  // Render main content
+  const renderMainContent = () => (
+    <Suspense fallback={<LoadingFallback />}>
       <FeaturedProducts />
       <NewArrival />
       <Categories />
       <Collection />
+    </Suspense>
+  );
 
+  // Render footer
+  const renderFooter = () => {
+    <>
       <div className="Desktop">
-        <FooterDesktop />
+        <Suspense fallback={<LoadingFallback />}>
+          <FooterDesktop />
+        </Suspense>
       </div>
-
       <div className="Mobile">
-        <FooterMobile />
+        <Suspense fallback={<LoadingFallback />}>
+          <FooterMobile />
+        </Suspense>
+      </div>
+    </>;
+  };
+
+  return (
+    <>
+      <div>
+        {renderDesktopLayout()}
+        {renderMobileLayout()}
+        {renderMainContent()}
+        {renderFooter()}
       </div>
     </>
   );
