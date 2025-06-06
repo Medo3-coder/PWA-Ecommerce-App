@@ -10,7 +10,7 @@ const NavMenuDesktop = lazy(() => import("../components/common/NavMenuDesktop"))
 const NavMenuMobile = lazy(() => import("../components/common/NavMenuMoblie"));
 const FooterDesktop = lazy(() => import("../components/common/FooterDesktop"));
 const FooterMobile = lazy(() => import("../components/common/FooterMobile"));
-const SearchList = lazy(() => import("../components/ProductDetails/SearchList"));
+const SearchList = lazy(() => import("../components/common/SearchList"));
 
 // Loading component
 const LoadingFallback = () => (
