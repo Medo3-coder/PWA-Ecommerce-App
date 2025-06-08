@@ -105,3 +105,6 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+//React.Suspense is a React component that allows you to "wait" for some other component to load
+//To show a fallback UI (like a spinner or message) while the component is loading in the background.

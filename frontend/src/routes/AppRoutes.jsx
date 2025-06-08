@@ -2,8 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
-import ProductCategoryPage from "../pages/ProductCategoryPage";
-import ProductSubCategoryPage from "../pages/ProductSubCategoryPage";
 import SearchPage from "../pages/SearchPage";
 import ProfilePage from "../pages/ProfilePage";
 import ProtectedAuthRoute from "./ProtectedAuthRoute";
@@ -16,6 +14,9 @@ import Notification from "../components/common/Notification";
 import Contact from "../components/common/Contact";
 import Cart from "../components/Cart/Cart";
 import Favourite from "../components/common/Favourite";
+import Category from "../components/categories/Category";
+import SubCategory from '../components/categories/SubCategory';
+
 
 const AppRoutes = () => {
   return (
@@ -27,8 +28,8 @@ const AppRoutes = () => {
       <Route path="/notification" element={<Notification />} />
       <Route path="/favourite" element={<Favourite />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/:slug" element={<ProductCategoryPage />} />
-      <Route path="/:category_slug/:subCategory_slug" element={<ProductSubCategoryPage />} />
+      <Route path="/:slug" element={<Category />} />
+      <Route path="/:category_slug/:subCategory_slug" element={<SubCategory />} />
       <Route path="/search/:searchKey" element={<SearchPage />} />
 
       {/* 🔒 Protect login and register pages */}
