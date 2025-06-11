@@ -7,9 +7,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductDetailsController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\User\AuthController;
-use App\Http\Controllers\User\CartController;
-use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\Admin\SiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -81,3 +81,11 @@ Route::post('/settings', [SiteController::class, 'updateSettings'])->middleware(
 // Route::middleware([TrackVisitor::class])->group(function () {
 //     // Add any routes that need to track visitors here
 // });
+//php artisan passport:client --personal
+
+// Category Routes
+Route::get('/', [App\Http\Controllers\Api\CategoryController::class, 'index']);
+Route::get('/search', [App\Http\Controllers\Api\CategoryController::class, 'search']);
+Route::get('/{slug}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
+Route::get('/{slug}/products', [App\Http\Controllers\Api\CategoryController::class, 'products']);
+Route::get('/{slug}/breadcrumb', [App\Http\Controllers\Api\CategoryController::class, 'breadcrumb']);

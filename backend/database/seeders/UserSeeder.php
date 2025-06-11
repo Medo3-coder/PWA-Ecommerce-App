@@ -25,14 +25,14 @@ class UserSeeder extends Seeder
             'password' => 'admin123',
             'role' => 'admin',
             'status' => 'active',
-            'email_verified_at' => Carbon::now(),
             'address' => '123 Admin Street',
             'city' => 'Admin City',
             'state' => 'Admin State',
+            'email_verified_at' => Carbon::now(),
             'country' => 'Admin Country',
-            'postal_code' => '00000',
             'created_at' => now(),
             'updated_at' => now(),
+
         ]);
 
         // Create 10 Regular Users (Customers)
@@ -44,12 +44,11 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('user123'),
                 'role' => 'user',
                 'status' => $faker->randomElement(['active', 'inactive']),
-                'email_verified_at' => $faker->optional()->dateTimeThisYear(),
                 'address' => $faker->address,
                 'city' => $faker->city,
                 'state' => $faker->state,
                 'country' => $faker->country,
-                'postal_code' => $faker->postcode,
+                'email_verified_at' => $faker->optional()->dateTimeThisYear(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

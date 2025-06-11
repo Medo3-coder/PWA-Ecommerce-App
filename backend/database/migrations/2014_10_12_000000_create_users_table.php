@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
+            // $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
 
              // Address Information
@@ -27,7 +27,7 @@ return new class extends Migration
              $table->string('city')->nullable();
              $table->string('state')->nullable();
              $table->string('country')->nullable();
-             $table->string('postal_code')->nullable();
+            //  $table->string('postal_code')->nullable();
 
              // Role & Status
              $table->enum('role', ['admin', 'user'])->default('user');
