@@ -4,45 +4,41 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model {
-    use HasFactory, SoftDeletes;
+class Product extends Model implements HasMedia
+{
+    use HasFactory, SoftDeletes, InteractsWithMedia;
+
     protected $fillable = [
-        'title',
+        'name',
         'description',
+        'product_category_id',
         'price',
-        'is_available',
-        'special_price',
-        'image',
-        'category_id',
-        'subcategory_id',
-        'remark',
-        'brand',
-        'star',
-        'product_code',
         'quantity',
+        'status',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'price'         => 'float',
-        'special_price' => 'float',
-        'star'          => 'float',
-    ];
-
-    public function productDetails() {
-        return $this->hasOne(ProductDetail::class);
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    // This allows each product to have multiple versions/variants.
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function reviews() {
-        return $this->hasMany(Review::class);
+    public function tags()
+    {
+        return $this->belongsToMany(ProductTag::class, 'product_tag');
     }
+
+
 }

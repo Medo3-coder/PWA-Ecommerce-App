@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\SiteSetting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SiteSettingSeeder extends Seeder
 {
@@ -12,24 +12,35 @@ class SiteSettingSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $settings = [
-            'address' => "<p>Phone: <a href=\"tel:+021120290147\">+02 01120290147</a></p><p>Email: <a href=\"mailto:medofarouk007@gmail.com\">medofarouk007@gmail.com</a></p>",
-            'android_app_link' => "https://play.google.com/store/apps",
-            'ios_app_link' => "https://apps.apple.com/us/app",
-            'facebook_link' => "https://www.facebook.com",
-            'twitter_link' => "https://twitter.com",
-            'instagram_link' => "https://www.instagram.com",
-            'copyright_text' => "© 2024 Company Name. All rights reserved.",
-            'default_image' => 'default.jpg',
+            'site_name' => 'E-Commerce Store',
+            'site_description' => 'Your one-stop shop for all your needs',
+            'contact_email' => 'contact@example.com',
+            'contact_phone' => '+1 234 567 8900',
+            'address' => '123 Commerce Street, Business City, 12345',
+            'facebook_url' => 'https://facebook.com/yourstore',
+            'twitter_url' => 'https://twitter.com/yourstore',
+            'instagram_url' => 'https://instagram.com/yourstore',
+            'linkedin_url' => 'https://linkedin.com/company/yourstore',
+            'currency' => 'USD',
+            'currency_symbol' => '$',
+            'tax_rate' => '10',
+            'shipping_fee' => '5.00',
+            'min_order_amount' => '50.00',
+            'maintenance_mode' => 'false',
+            'default_language' => 'en',
+            'timezone' => 'UTC',
         ];
 
         foreach ($settings as $key => $value) {
-            DB::table('site_settings')->insert([
+            SiteSetting::create([
                 'key' => $key,
-                'value' => $value
+                'value' => $value,
             ]);
         }
+
+        $this->command->info('Site settings seeded successfully!');
     }
 }

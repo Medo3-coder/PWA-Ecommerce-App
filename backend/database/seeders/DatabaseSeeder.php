@@ -11,16 +11,17 @@ class DatabaseSeeder extends Seeder {
      */
     public function run(): void {
         $this->call([
-            SiteContentSeeder::class,
-            SiteSettingSeeder::class,
             UserSeeder::class,
-            CategoriesSeeder::class,
+            ProductStatusSeeder::class,
+            ProductCategorySeeder::class,
+            ProductAttributeSeeder::class,
             ProductSeeder::class,
-            SliderSeeder::class,
-            ProductDetailSeeder::class,
-            NotificationSeeder::class,
-            ReviewsTableSeeder::class,
-            CartItemSeeder::class,
+            ProductVariantSeeder::class,
+            ProductTagSeeder::class,
+            ProductReviewSeeder::class,
+            CartSeeder::class,
+            ContactSeeder::class,
+            SiteSettingSeeder::class,
         ]);
     }
 }

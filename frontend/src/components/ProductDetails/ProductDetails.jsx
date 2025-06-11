@@ -1,11 +1,8 @@
-import React, { useContext, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useContext, useState, useEffect } from "react";
+import { Container, Row, Col, Breadcrumb } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import the required styles
 import ToastMessages from "../../toast-messages/toast";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link, useNavigate } from "react-router-dom";
 import SuggestedProduct from "./SuggestedProduct";
 import Review from "./Review";
@@ -13,15 +10,31 @@ import { AuthContext } from "../../utils/AuthContext";
 import { CartContext } from "../../utils/CartContext";
 
 const ProductDetails = ({ productData, message }) => {
-  const [previewImg, setPreviewImg] = useState();
+  const [previewImg, setPreviewImg] = useState(null);
   const [qty, setQuantity] = useState(1);
   const { token } = useContext(AuthContext); // Get token and loading state from context
   const { addToCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (productData?.product?.image) {
+      setPreviewImg(productData.product.image);
+    }
+  }, [productData]);
+
+  // Handle the case where productData is not loaded yet
   if (!productData || !productData.product) {
-    return <p>Loading...</p>; // Handle the case where productData is not loaded yet
+    return (
+      <Container fluid={true} className="BetweenTwoSection">
+        <Row className="p-2">
+          <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
+            <Skeleton height={400} />
+            <Skeleton count={5} />
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 
   const {
@@ -35,32 +48,25 @@ const ProductDetails = ({ productData, message }) => {
     remark,
     special_price,
     star,
-  } = productData.product || {};
-  // alert(category?.subcategories?.name);
-
-  const {
-    image_one,
-    image_two,
-    image_three,
-    image_four,
-    color,
-    size,
     product_id,
-    short_description,
-    long_description,
-  } = productData.product.product_details || {};
-
-  if (!previewImg) {
-    setPreviewImg(image);
-  }
+    product_details: {
+      image_one,
+      image_two,
+      image_three,
+      image_four,
+      color,
+      size,
+      short_description,
+      long_description,
+    } = {},
+  } = productData.product;
 
   const handleQuantityChange = (e) => {
-    const value = e.target.value;
-
+    const value = parseInt(e.target.value, 10);
     if (value > stockQuantity) {
       setErrorMessage(
         ToastMessages.showWarning(
-          `Sorry , we only have ${stockQuantity} units in stock.`
+          `Sorry, we only have ${stockQuantity} units in stock.`
         )
       );
     } else {
@@ -81,7 +87,6 @@ const ProductDetails = ({ productData, message }) => {
   };
 
   const handleAddToCart = async () => {
-
     if (qty > stockQuantity) {
       setErrorMessage(
         ToastMessages.showWarning(
@@ -102,12 +107,164 @@ const ProductDetails = ({ productData, message }) => {
       } else {
         ToastMessages.showError("Failed to add product to cart");
       }
-    }catch (error) {
+    } catch (error) {
       console.error("Add to cart error:", error);
       ToastMessages.showError("An unexpected error occurred");
     }
   };
 
+  const renderProductImages = () => (
+    <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
+      <img className="big-image" src={previewImg} alt={title} />
+      <Container className="my-3">
+        <Row>
+          {[image_one, image_two, image_three, image_four].map(
+            (img, index) =>
+              img && (
+                <Col
+                  key={index}
+                  className="p-0 m-0"
+                  md={3}
+                  lg={3}
+                  sm={3}
+                  xs={3}
+                >
+                  <img
+                    className="small-image"
+                    src={img}
+                    alt={`${title} ${index + 1}`}
+                    onClick={() => handleThumbnailClick(img)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Col>
+              )
+          )}
+        </Row>
+      </Container>
+    </Col>
+  );
+
+  const renderProductInfo = () => (
+    <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
+      <h5 className="Product-Name">{title}</h5>
+      <h6 className="section-sub-title">{short_description}</h6>
+      
+      <div className="input-group">
+        <div className="Product-price-card d-inline">
+          Was: ${special_price ? <del>{price}</del> : price}
+        </div>
+        {special_price && (
+          <div className="Product-price-card d-inline">
+            Now: ${special_price}
+          </div>
+        )}
+        <div className="Product-price-card d-inline">
+          Remark: {remark}
+        </div>
+      </div>
+      
+      {special_price && (
+        <h6 className="text-success mt-2">
+          <b>Saving: ${price - special_price}</b>
+        </h6>
+      )}
+
+      <h6 className="mt-2">
+        Category: <b>{category?.category_name || "No Category"}</b>
+      </h6>
+      <h6 className="mt-2">
+        Brand: <b>{brand}</b>
+      </h6>
+      <h6 className="mt-2">
+        Product Code: <b>{product_code}</b>
+      </h6>
+
+      {color?.length > 0 && (
+        <>
+          <h6 className="mt-2">Choose Color</h6>
+          <div className="input-group">
+            {color.map((colorOption, index) => (
+              <div key={index} className="form-check mx-1">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="colorOptions"
+                  value={colorOption}
+                  id={`color-${index}`}
+                />
+                <label className="form-check-label" htmlFor={`color-${index}`}>
+                  {colorOption}
+                </label>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {size?.length > 0 && (
+        <>
+          <h6 className="mt-2">Choose Size</h6>
+          <div className="input-group">
+            {size.map((sizeOption, index) => (
+              <div key={index} className="form-check mx-1">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="sizeOptions"
+                  value={sizeOption}
+                  id={`size-${index}`}
+                />
+                <label className="form-check-label" htmlFor={`size-${index}`}>
+                  {sizeOption}
+                </label>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      <h6 className="mt-2">Quantity</h6>
+      <input
+        className="form-control text-center w-50"
+        type="number"
+        value={qty}
+        onChange={handleQuantityChange}
+        min="1"
+        max={stockQuantity}
+      />
+
+      <div className="input-group mt-3">
+        <button className="btn site-btn m-1" onClick={handleAddToCart}>
+          <i className="fa fa-shopping-cart"></i> Add To Cart
+        </button>
+        <button className="btn btn-primary m-1">
+          <i className="fa fa-car"></i> Order Now
+        </button>
+        <button className="btn btn-primary m-1">
+          <i className="fa fa-heart"></i> Favourite
+        </button>
+      </div>
+    </Col>
+  );
+
+  const renderProductDescription = () => (
+    <Row>
+      <Col md={6} lg={6} sm={12} xs={12}>
+        <h6 className="mt-2">DETAILS</h6>
+        <p>{long_description || "No detailed description available."}</p>
+      </Col>
+
+      {!token && (
+        <Col md={6} lg={6} sm={12} xs={12}>
+          <button className="btn site-btn m-1" onClick={handleLoginClick}>
+            <i className="fa fa-comments"></i> Login to View Reviews
+          </button>
+        </Col>
+      )}
+
+      {token && <Review product_id={product_id} />}
+    </Row>
+  );
 
   return (
     <>
@@ -115,9 +272,7 @@ const ProductDetails = ({ productData, message }) => {
         <div className="breadbody">
           <Breadcrumb>
             <Breadcrumb.Item>
-              <Link className="text-link" to={`/`}>
-                Home
-              </Link>
+              <Link className="text-link" to="/">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               <Link className="text-link" to={`/${category?.slug}`}>
@@ -129,193 +284,16 @@ const ProductDetails = ({ productData, message }) => {
                 {title}
               </Link>
             </Breadcrumb.Item>
-            {/* <Breadcrumb.Item ><Link className="text-link" to={`/${category?.subcategories.slug}`}>{category?.subcategories.slug}</Link></Breadcrumb.Item> */}
           </Breadcrumb>
         </div>
+
         <Row className="p-2">
-          <Col
-            className="shadow-sm bg-white pb-3 mt-4"
-            md={12}
-            lg={12}
-            sm={12}
-            xs={12}
-          >
+          <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
             <Row>
-              <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                <img className="big-image" src={previewImg} alt="Product" />
-                <Container className="my-3">
-                  <Row>
-                    {[image_one, image_two, image_three, image_four].map(
-                      (img, index) =>
-                        img ? (
-                          <Col
-                            key={index}
-                            className="p-0 m-0"
-                            md={3}
-                            lg={3}
-                            sm={3}
-                            xs={3}
-                          >
-                            <img
-                              className="small-image"
-                              src={img}
-                              alt={`Product ${index + 1}`}
-                              onClick={() => handleThumbnailClick(img)}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </Col>
-                        ) : null
-                    )}
-                  </Row>
-                </Container>
-              </Col>
-              <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                <h5 className="Product-Name">{title || "Product Title"}</h5>
-                <h6 className="section-sub-title">
-                  {short_description || "Description goes here"}
-                </h6>
-                <div className="input-group">
-                  <div className="Product-price-card d-inline">
-                    Was: ${special_price ? <del>{price}</del> : price}
-                  </div>
-                  {special_price && (
-                    <div className="Product-price-card d-inline">
-                      Now: ${special_price}
-                    </div>
-                  )}
-
-                  <div className="Product-price-card d-inline">
-                    Remark: {remark}
-                  </div>
-                </div>
-                <h6 className="text-success mt-2">
-                  {" "}
-                  <b>Saving: ${price - special_price}</b>
-                </h6>
-
-                <h6 className="mt-2">
-                  Category: <b>{category?.category_name || "No Category"}</b>
-                </h6>
-                {/* <h6 className="mt-2">
-                  SubCategory: <b>{category?.subcategories?.subcategory_name}</b>
-                  </h6> */}
-
-                <h6 className="mt-2">
-                  Brand: <b>{brand}</b>
-                </h6>
-
-                <h6 className="mt-2">
-                  Product Code: <b>{product_code}</b>
-                </h6>
-
-                {color && color.length > 0 && (
-                  <>
-                    <h6 className="mt-2">Choose Color</h6>
-                    <div className="input-group">
-                      {color.map((colorOption, index) => (
-                        <div key={index} className="form-check mx-1">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="colorOptions"
-                            value={colorOption}
-                            id={`color-${index}`}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={`color-${index}`}
-                          >
-                            {colorOption}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                {size && size.length > 0 && (
-                  <>
-                    <h6 className="mt-2">Choose Size</h6>
-                    <div className="input-group">
-                      {size.map((sizeOption, index) => (
-                        <div className="form-check mx-1">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="sizeOptions"
-                            value={sizeOption}
-                            id={`color-${index}`}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={`color-${index}`}
-                          >
-                            {sizeOption}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                <h6 className="mt-2">Quantity</h6>
-                <input
-                  className="form-control text-center w-50"
-                  type="number"
-                  value={qty}
-                  onChange={handleQuantityChange}
-                />
-
-                <div className="input-group mt-3">
-                  <button
-                    className="btn site-btn m-1"
-                    onClick={handleAddToCart}
-                  >
-                    <i className="fa fa-shopping-cart"></i> Add To Cart
-                  </button>
-                  <button className="btn btn-primary m-1">
-                    <i className="fa fa-car"></i> Order Now
-                  </button>
-                  <button className="btn btn-primary m-1">
-                    <i className="fa fa-heart"></i> Favourite
-                  </button>
-                </div>
-              </Col>
+              {renderProductImages()}
+              {renderProductInfo()}
             </Row>
-
-            <Row>
-              <Col md={6} lg={6} sm={12} xs={12}>
-                <h6 className="mt-2">DETAILS</h6>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-                  aliquam erat volutpat.
-                </p>
-                <p>
-                  Ut wisi enim ad minim veniam, quis nostrud exerci tation Lorem
-                  ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-                  nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-                  erat volutpat.
-                </p>
-              </Col>
-
-              {!token && (
-                <Col md={6} lg={6} sm={12} xs={12}>
-                  <button
-                    className="btn site-btn m-1"
-                    onClick={handleLoginClick}
-                  >
-                    <i className="fa fa-comments"></i> Login to View Reviews
-                  </button>
-                </Col>
-              )}
-
-              {token ? (
-                <Review product_id={product_id} />
-              ) : (
-                <p>Please log in to view reviews.</p>
-              )}
-            </Row>
+            {renderProductDescription()}
           </Col>
         </Row>
       </Container>
