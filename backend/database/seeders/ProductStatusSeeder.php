@@ -10,11 +10,9 @@ class ProductStatusSeeder extends Seeder
     public function run(): void
     {
         $statuses = [
-            ['name' => 'Active'],
-            ['name' => 'Draft'],
-            ['name' => 'Out of Stock'],
-            ['name' => 'Discontinued'],
-            ['name' => 'Coming Soon'],
+            ['name' => 'draft'],
+            ['name' => 'published'],
+            ['name' => 'archived'],
         ];
 
         foreach ($statuses as $status) {

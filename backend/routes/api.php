@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Api\CategoryController as ApiCategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductDetailsController;
-use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
@@ -51,7 +51,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::post('/post-contact', [ContactController::class, 'postContact']);
-Route::get('/categories', [CategoryController::class, 'categories']);
+Route::get('/categories', [ApiCategoryController::class, 'categories']);
 
 //products
 Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
@@ -83,9 +83,21 @@ Route::post('/settings', [SiteController::class, 'updateSettings'])->middleware(
 // });
 //php artisan passport:client --personal
 
-// Category Routes
-Route::get('/', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-Route::get('/search', [App\Http\Controllers\Api\CategoryController::class, 'search']);
-Route::get('/{slug}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
-Route::get('/{slug}/products', [App\Http\Controllers\Api\CategoryController::class, 'products']);
-Route::get('/{slug}/breadcrumb', [App\Http\Controllers\Api\CategoryController::class, 'breadcrumb']);
+// Admin Category Routes
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/categories', [AdminCategoryController::class, 'index']);
+    Route::post('/categories', [AdminCategoryController::class, 'store']);
+    Route::get('/categories/{category}', [AdminCategoryController::class, 'show']);
+    Route::put('/categories/{category}', [AdminCategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
+    Route::post('/categories/order', [AdminCategoryController::class, 'updateOrder']);
+});
+
+// Public Category Routes
+Route::prefix('categories')->group(function () {
+    Route::get('/', [ApiCategoryController::class, 'index']);
+    Route::get('/search', [ApiCategoryController::class, 'search']);
+    Route::get('/{slug}', [ApiCategoryController::class, 'show']);
+    Route::get('/{slug}/products', [ApiCategoryController::class, 'products']);
+    Route::get('/{slug}/breadcrumb', [ApiCategoryController::class, 'breadcrumb']);
+});

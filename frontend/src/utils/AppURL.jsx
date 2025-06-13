@@ -16,7 +16,16 @@ const AppURL = {
   getSettings: `${BaseURL}/settings`,
   updateSettings: `${BaseURL}/settings`,
   
+  // Category routes
   CategoryDetails: `${BaseURL}/categories`,
+  CategorySearch: `${BaseURL}/categories/search`,
+  CategoryProducts(slug) {
+    return `${this.BaseURL}/categories/${slug}/products`;
+  },
+  CategoryBreadcrumb(slug) {
+    return `${this.BaseURL}/categories/${slug}/breadcrumb`;
+  },
+
   Sliders: `${BaseURL}/sliders`,
   Notifications: `${BaseURL}/notifications`,
   UserLogin: `${BaseURL}/login`,

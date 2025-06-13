@@ -77,21 +77,23 @@ class CategoryController extends Controller
                 'status'  => 'error',
                 'message' => 'Category Not Found',
             ], 404);
-
-            $products = $category->products()
-                ->with(['category', 'images'])
-                ->where('is_active', true)
-                ->orderBy('created_at', 'desc')
-                ->paginate(12);
-
-            return response()->json([
-                'status' => 'success',
-                'data'   => [
-                    'category' => $category,
-                    'products' => $products,
-                ],
-            ]);
         }
+
+        $products = $category->products()
+            ->with(['category'])
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
+
+            // dd($products);
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'category' => $category,
+                'products' => $products,
+            ],
+        ]);
     }
 
     /**
