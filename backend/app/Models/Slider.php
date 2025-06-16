@@ -11,7 +11,17 @@ use Illuminate\Support\Facades\File;
 class Slider extends Model
 {
     use HasFactory , UploadTrait;
-    protected $fillable = ['image'];
+    protected $fillable = ['image', 'is_active'];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+
+    // Scope to get only active sliders
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     public function getImageAttribute(){
         if(isset($this->attributes['image']) && File::exists(public_path('storage/images/sliders/' . $this->attributes['image']))){
@@ -36,6 +46,8 @@ class Slider extends Model
             $this->attributes['image'] = $this->uploadAllTypes($value, 'sliders');
 
         }
+
     }
 
 }
+

@@ -44,14 +44,14 @@ const MegaMenu = ({ data = [] }) => {
                 src="https://img.icons8.com/?size=50&id=53386&format=png"
                 alt="icon"
               />
-              &nbsp; {item.category_name}
+              &nbsp; {item.name}
             </button>
             <div className="panel">
               <ul>
-                {item.subcategories.map((subcategory, subIndex) => (
+                {item.children.map((subcategory, subIndex) => (
                   <li key={subIndex}>
                     <Link to={`/${item.slug}/${subcategory.slug}`} className="accordionItem">
-                      {subcategory.subcategory_name}
+                      {subcategory.name}
                     </Link>
                   </li>
                 ))}

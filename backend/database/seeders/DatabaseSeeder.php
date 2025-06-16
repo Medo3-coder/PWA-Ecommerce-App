@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder {
             CartSeeder::class,
             ContactSeeder::class,
             SiteSettingSeeder::class,
+            SliderSeeder::class
         ]);
     }
 }

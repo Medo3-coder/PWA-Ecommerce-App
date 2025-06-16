@@ -13,24 +13,29 @@ class SliderSeeder extends Seeder {
      */
 
     public function run() {
-        // Insert default slider records
-        Slider::insert([
+        $sliders = [
             [
-                'image'      => "slider1.jpg",
+                'image' => 'slider1.jpg',
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'image'      => "slider2.jpg",
+                'image' => 'slider2.jpg',
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'image'      => "slider3.jpg",
+                'image' => 'slider3.jpg',
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ];
 
+        foreach ($sliders as $slider) {
+            Slider::create($slider);
+        }
     }
 }

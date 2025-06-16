@@ -7,7 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 
 const MegaMenuDesktop = () => {
-  const [category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,10 +17,11 @@ const MegaMenuDesktop = () => {
       try {
         const response = await axios.get(AppURL.CategoryDetails);
         if (response.status === 200) {
-          setCategory(response.data.categories);
+          setCategories(response.data.data.categories);
         }
       } catch (error) {
         setError("Failed to load categories in Mega Menu");
+        console.error("Error fetching categories:", error);
       } finally {
         setIsLoading(false);
       }
@@ -40,11 +41,10 @@ const MegaMenuDesktop = () => {
     }
   };
 
-
-  if(isLoading){
+  if (isLoading) {
     return (
       <Container className="text-center">
-       <Skeleton count={8} height={20} />
+        <Skeleton count={8} height={20} />
       </Container>
     );
   }
@@ -54,8 +54,8 @@ const MegaMenuDesktop = () => {
       <div className="accordionMenuDivAll">
         {error ? (
           <div className="text-danger">{error}</div>
-        ) : category.length > 0 ? (
-          category.map((item, index) => (
+        ) : categories.length > 0 ? (
+          categories.map((category, index) => (
             <div className="accordionMenuDivInsideAll" key={index}>
               <button className="accordionAll" onClick={handleAccordionClick}>
                 <img
@@ -63,14 +63,17 @@ const MegaMenuDesktop = () => {
                   src="https://img.icons8.com/?size=50&id=53386&format=png"
                   alt="icon"
                 />
-                &nbsp; {item.category_name}
+                &nbsp; {category.name}
               </button>
               <div className="panelAll">
                 <ul>
-                {item.subcategories.map((subcategory, subIndex) => (  
+                  {category.children && category.children.map((subcategory, subIndex) => (
                     <li key={subIndex}>
-                      <Link to={`/${item.slug}/${subcategory.slug}`} className="accordionItemAll">
-                        {subcategory.subcategory_name}
+                      <Link 
+                        to={`/category/${category.slug}/${subcategory.slug}`} 
+                        className="accordionItemAll"
+                      >
+                        {subcategory.name}
                       </Link>
                     </li>
                   ))}

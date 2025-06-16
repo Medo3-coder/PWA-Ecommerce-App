@@ -42,19 +42,37 @@ const HomeSlider = ({ data = [] }) => {
     ],
   };
 
-  const MyView = data.map((slider, index) => (
-    <div key={index}>
+  const renderSlides = () => {
+    if (!data || data.length === 0) {
+      return (
+        <div>
+          <img
+            className="slider-img"
+            src="/images/default-slider.jpg"
+            alt="default-slider"
+          />
+        </div>
+      );
+    }
+
+  return data.map((slider, index) => (
+    <div key={slider.id || index}>
       <img
         className="slider-img"
         src={slider.image}
         alt={`slider-${index + 1}`}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "/images/default-slider.jpg";
+        }}
       />
     </div>
   ));
+};
 
   return (
     <div className="slider-container">
-      <Slider {...settings}>{MyView}</Slider>
+      <Slider {...settings}>{renderSlides()}</Slider>
     </div>
   );
 };

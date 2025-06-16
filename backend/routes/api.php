@@ -6,11 +6,12 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductDetailsController;
-use App\Http\Controllers\Admin\SliderController;
+// use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\API\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,7 +61,7 @@ Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::cl
 Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
 
 //slider
-Route::get('/sliders', [SliderController::class, 'sliders']);
+Route::get('/sliders', [SliderController::class, 'index']);
 
 //product_details
 Route::get('/product-details/{id}', [ProductDetailsController::class, 'productDetails']);

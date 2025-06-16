@@ -16,33 +16,11 @@ function Categories() {
 
   const { data, error, isLoading } = useQuery('categories', async () => {
     const response = await axios.get(AppURL.CategoryDetails);
-    return response.data.categories;
+    // console.log(response.data.data.categories);
+    return response.data.data.categories;
   });
-  // const [menuData, setMenuData] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null); // State for errors
 
-  // useEffect(() => {
-  //   const categories = async () => {
-  //     try {
-  //       const response = await axios.get(AppURL.CategoryDetails);
-  //       if (response.status === 200) {
-  //         setMenuData(response.data.categories);
-  //       }
-  //     } catch (e) {
-  //       setError(
-  //         ToastMessages.showError(
-  //           "Failed to load Category Information in page section."
-  //         )
-  //       );
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   categories();
-  // }, []); // Empty dependency array to run this effect only once on mount
-
+  
   const renderSkeletons = Array.from({ length: 12 }).map((_, index) => (
     <Col key={index} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
       <Card className="h-100 w-100 text-center">
@@ -80,10 +58,10 @@ function Categories() {
           <Card.Body>
             <Card.Img
               className="center"
-              src={category.category_image}
-              alt={category.category_name}
+              src={category.image}
+              alt={category.name}
             />
-            <h5 className="category-name">{category.category_name}</h5>
+            <h5 className="category-name">{category.name}</h5>
           </Card.Body>
         </Card>
       </Link>

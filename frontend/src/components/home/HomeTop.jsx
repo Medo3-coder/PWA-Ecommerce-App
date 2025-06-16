@@ -28,14 +28,14 @@ function HomeTop() {
 
         // Handle menu response
         if (menuResponse.status === "fulfilled") {
-          setMenuData(menuResponse.value.data.categories);
+          setMenuData(menuResponse.value.data.data.categories);
         } else {
           setError(ToastMessages.showError("Failed to load categories"));
         }
         setMenuLoading(false);
         // Handle slider response
         if (sliderResponse.status === "fulfilled") {
-          setSliderData(sliderResponse.value.data.sliders);
+          setSliderData(sliderResponse.value.data.data.sliders);
         } else {
           ToastMessages.showError("Failed to load sliders");
         }
