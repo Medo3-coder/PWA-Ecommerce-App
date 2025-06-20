@@ -11,6 +11,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,9 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
 
 });
+
+Route::post('/payment/charge', [PaymentController::class, 'charge']);
+Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
 
 Route::post('/post-contact', [ContactController::class, 'postContact']);
 Route::get('/categories', [ApiCategoryController::class, 'categories']);

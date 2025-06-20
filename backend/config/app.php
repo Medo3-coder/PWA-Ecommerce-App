@@ -187,6 +187,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\PaymentServiceProvider::class,
 
         /*
          * Application Service Providers...
