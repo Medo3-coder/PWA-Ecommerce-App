@@ -68,6 +68,8 @@ const AppURL = {
   reviews(product_id) {
     return `${this.BaseURL}/products/${product_id}/reviews`;
   },
+
+  HomepageSections: `${BaseURL}/products/homepage-sections`,
 };
 
 export default AppURL;

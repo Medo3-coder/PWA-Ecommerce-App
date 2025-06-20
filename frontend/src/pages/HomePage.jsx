@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import axios from "axios";
 import AppURL from "../utils/AppURL";
+import Sections from "../components/home/Sections";
 
 // Layout Components
 const NavMenuDesktop = lazy(() => import("../components/common/NavMenuDesktop"));
@@ -69,10 +70,11 @@ const HomePage = () => {
   // Render main content
   const renderMainContent = () => (
     <Suspense fallback={<LoadingFallback />}>
-      <FeaturedProducts />
-      <NewArrival />
+      {/* <FeaturedProducts />
+      <NewArrival /> */}
       <Categories />
-      <Collection />
+      <Sections />
+      {/* <Collection /> */}
     </Suspense>
   );
 

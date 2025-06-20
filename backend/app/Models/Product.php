@@ -40,5 +40,9 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(ProductTag::class, 'product_tag');
     }
 
+    public function sections()
+    {
+       return $this->belongsToMany(Section::class , 'product_section');
+    }
 
 }

@@ -2,73 +2,63 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
-use App\Models\Subcategory;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
-    public function getProductByRemark(Request $request) {
-        $products = Product::where('remark', $request->remark)->limit(8)->get();
-
-        if ($products->isEmpty()) {
-            return response()->json(['message' => 'No products found for the given remark'], 404);
-        }
-
-        return response()->json($products, 200);
-    }
-
-    public function getProductByCategory(Request $request) {
-        $category = Category::where('slug', $request->slug)->firstOrFail();
-        $products = Product::where('category_id', $category->id)->get();
-
-        if ($products->isEmpty()) {
-            // Return a success response with an empty array and a message
-            return response()->json([
-                'message'  => 'No products found for the given category',
-                'products' => [],
-            ], 200);
-        }
-
-        return response()->json(['products' => $products], 200);
-    }
-
-    public function getProductBySubCategory(Request $request, $category_slug, $subcategory_slug) {
-
-        $category    = Category::where('slug', $category_slug)->first();
-        $subCategory = Subcategory::where('slug', $subcategory_slug)->first();
-
-        if (! $category || ! $subCategory) {
-            return response()->json(['message' => 'Category or Subcategory not found'], 404);
-        }
-
-        $products = Product::where('category_id', $category->id)
-            ->where('subcategory_id', $subCategory->id)
-            ->get();
-
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message'  => 'No products found for the this subcategory',
-                'products' => [],
-            ], 200);
-        }
-        return response()->json(['products' => $products], 200);
-
-    }
-
-    public function ProductBySearh($query)
+class ProductController extends Controller
+{
+    // List all sections
+    public function sections()
     {
-        $results = Product::where('title', 'like', "%{$query}%")
-                          ->orWhere('brand', 'like', "%{$query}%")
-                          ->get();
+        return response()->json(Section::all());
+    }
 
-        if ($results->isEmpty()) {
-            return response()->json([
-                'message' => 'No products found.',
-            ], 404);
-        }
+    // Create a new section
+    public function storeSection(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|unique:sections,name',
+            'label' => 'required|string',
+        ]);
+        $section = Section::create($validated);
+        return response()->json($section , 201);
+    }
 
-        return response()->json($results);
+    // Update a section
+    public function updateSection(Request $request , Section $section)
+    {
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|unique:sections,name,' . $section->id,
+            'label' => 'sometimes|required|string',
+        ]);
+        $section->update($validated);
+        return response()->json($section);
+    }
+
+    // Delete a section
+    public function destroySection(Section $section)
+    {
+        $section->delete();
+        return response()->json(['message' => 'Section deleted']);
+    }
+
+    // Assign products to a section
+    public function assignProducts(Request $request, Section $section)
+    {
+        $validated = $request->validate([
+            'product_ids' => 'required|array',
+            'product_ids.*' => 'exists:products,id',
+        ]);
+        $section->products()->sync($validated['product_ids']);
+        return response()->json(['message' => 'Products assigned to section']);
+    }
+
+    // Get products for a section
+    public function productsBySection(Section $section)
+    {
+        $products = $section->products()->where('status', 'published')->get();
+        return response()->json($products);
     }
 
 }

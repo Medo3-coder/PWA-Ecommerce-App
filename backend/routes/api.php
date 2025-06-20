@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CategoryController as ApiCategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
+
 use App\Http\Controllers\Admin\ProductDetailsController;
 // use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\API\AuthController;
@@ -63,6 +64,7 @@ Route::get('/products/remark/{remark}', [ProductController::class, 'getProductBy
 Route::get('/products/category/{slug}', [ProductController::class, 'getProductByCategory']);
 Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::class, 'getProductBySubCategory']);
 Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
+Route::get('/products/homepage-sections', [App\Http\Controllers\API\ProductController::class, 'homepageSections']);
 
 //slider
 Route::get('/sliders', [SliderController::class, 'index']);
@@ -90,12 +92,21 @@ Route::post('/settings', [SiteController::class, 'updateSettings'])->middleware(
 
 // Admin Category Routes
 Route::prefix('admin')->middleware('auth:api')->group(function () {
+    //categories
     Route::get('/categories', [AdminCategoryController::class, 'index']);
     Route::post('/categories', [AdminCategoryController::class, 'store']);
     Route::get('/categories/{category}', [AdminCategoryController::class, 'show']);
     Route::put('/categories/{category}', [AdminCategoryController::class, 'update']);
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
     Route::post('/categories/order', [AdminCategoryController::class, 'updateOrder']);
+
+    //sections
+    Route::get('/sections', [\App\Http\Controllers\Admin\ProductController::class, 'sections']);
+    Route::post('/sections', [\App\Http\Controllers\Admin\ProductController::class, 'storeSection']);
+    Route::put('/sections/{section}', [\App\Http\Controllers\Admin\ProductController::class, 'updateSection']);
+    Route::delete('/sections/{section}', [\App\Http\Controllers\Admin\ProductController::class, 'destroySection']);
+    Route::post('/sections/{section}/assign-products', [\App\Http\Controllers\Admin\ProductController::class, 'assignProducts']);
+    Route::get('/sections/{section}/products', [\App\Http\Controllers\Admin\ProductController::class, 'productsBySection']);
 });
 
 // Public Category Routes
