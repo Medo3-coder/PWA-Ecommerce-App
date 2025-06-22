@@ -70,11 +70,12 @@ const HomePage = () => {
   // Render main content
   const renderMainContent = () => (
     <Suspense fallback={<LoadingFallback />}>
+      {/* i need to remove all commented components after make sure sctions is working  */}
       {/* <FeaturedProducts />
       <NewArrival /> */}
       <Categories />
       <Sections />
-      {/* <Collection /> */}
+      {/* <Collection /> */}  
     </Suspense>
   );
 
