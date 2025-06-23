@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -47,9 +46,16 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception) {
-        return response()->json([
-            'message' => 'Unauthorized. Please log in to access this resource.',
-        ], 401);
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Unauthorized. Please log in to access this resource.',
+            ], 401);
+        }
+        if ($request->is('admin') || $request->is('admin/*')) {
+            return redirect()->route('admin.login');
+        }
+        return redirect()->guest(route('login'));
     }
 }

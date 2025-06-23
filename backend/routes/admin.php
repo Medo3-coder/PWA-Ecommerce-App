@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,17 @@ use App\Http\Controllers\Admin\ReportController;
 |
 */
 
+// Admin Auth API (public)
+Route::post('admin/login', [AuthController::class, 'loginAdmin']);
+Route::post('admin/register', [AuthController::class, 'registerAdmin']);
+
+// Admin Login Page (web)
+Route::get('admin/login', [AuthController::class , 'loginPage'])->name('admin.login');
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
 
     // Products
@@ -112,4 +120,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('system', [DashboardController::class, 'system'])->name('system');
     Route::post('system/clear-cache', [DashboardController::class, 'clearCache'])->name('system.clear-cache');
     Route::post('system/optimize', [DashboardController::class, 'optimize'])->name('system.optimize');
+
+    // Admin Profile & Password
+    Route::post('profile/update', [AuthController::class, 'updateAdminProfile']);
+    Route::post('password/change', [AuthController::class, 'changeAdminPassword']);
 });
