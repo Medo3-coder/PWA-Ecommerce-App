@@ -404,7 +404,7 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-transparent">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('admin/assets/') }}images/avatars/avatar-1.png"
+                                        <img src="{{ asset('admin/assets/images/avatars/avatar-1.png') }}"
                                             alt="user avatar" class="rounded-circle" width="55" height="55">
                                         <div class="ms-3">
                                             <h6 class="mb-0">iPhone X <small class="ms-4">08.34 AM</small></h6>
@@ -422,7 +422,7 @@
                                 </li>
                                 <li class="list-group-item bg-transparent">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('admin/assets/') }}images/avatars/avatar-2.png"
+                                        <img src="{{ asset('admin/assets/images/avatars/avatar-2.png') }}"
                                             alt="user avatar" class="rounded-circle" width="55" height="55">
                                         <div class="ms-3">
                                             <h6 class="mb-0">Air Pod <small class="ml-4">05.26 PM</small></h6>
@@ -439,7 +439,7 @@
                                 </li>
                                 <li class="list-group-item bg-transparent">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('admin/assets/') }}images/avatars/avatar-3.png"
+                                        <img src="{{ asset('admin/assets/images/avatars/avatar-3.png') }}"
                                             alt="user avatar" class="rounded-circle" width="55" height="55">
                                         <div class="ms-3">
                                             <h6 class="mb-0">Mackbook Pro <small class="ml-4">06.45 AM</small>
@@ -458,7 +458,7 @@
                                 </li>
                                 <li class="list-group-item bg-transparent">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('admin/assets/') }}images/avatars/avatar-4.png"
+                                        <img src="{{ asset('admin/assets/images/avatars/avatar-4.png') }}"
                                             alt="user avatar" class="rounded-circle" width="55" height="55">
                                         <div class="ms-3">
                                             <h6 class="mb-0">Air Pod <small class="ml-4">08.34 AM</small></h6>
@@ -475,7 +475,7 @@
                                 </li>
                                 <li class="list-group-item bg-transparent">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('admin/assets/') }}images/avatars/avatar-7.png"
+                                        <img src="{{ asset('admin/assets/images/avatars/avatar-7.png') }}"
                                             alt="user avatar" class="rounded-circle" width="55" height="55">
                                         <div class="ms-3">
                                             <h6 class="mb-0">Mackbook <small class="ml-4">08.34 AM</small></h6>
@@ -525,7 +525,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/chair.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/chair.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -553,7 +553,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/shoes.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/shoes.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -581,7 +581,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/headphones.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/headphones.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -609,7 +609,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/idea.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/idea.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -637,7 +637,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/user-interface.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/user-interface.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -665,7 +665,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/watch.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/watch.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">
@@ -693,7 +693,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="recent-product-img">
-                                                    <img src="{{ asset('admin/assets/') }}images/icons/tshirt.png"
+                                                    <img src="{{ asset('admin/assets/images/icons/tshirt.png') }}"
                                                         alt="">
                                                 </div>
                                                 <div class="ms-2">

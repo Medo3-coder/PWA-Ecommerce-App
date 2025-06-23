@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
@@ -124,4 +125,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Admin Profile & Password
     Route::post('profile/update', [AuthController::class, 'updateAdminProfile']);
     Route::post('password/change', [AuthController::class, 'changeAdminPassword']);
+    Route::get('logout', [AdminController::class, 'logout'])->name('logout');
+
 });
