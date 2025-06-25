@@ -3,9 +3,17 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 trait UploadTrait {
+
+
+    public function __construct()
+    {
+        $this->ImageManager = new ImageManager(new Driver);
+    }
 
     public function uploadAllTypes($file, $directory, $width = null, $height = null) {
         $storagePath = 'storage/images/' . $directory;
@@ -56,11 +64,13 @@ trait UploadTrait {
     }
 
     public function uploadImage($file, $directory, $width = null, $height = null) {
-
         $storagePath = public_path('storage/images/' . $directory);
         $this->createDirectoryIfNotExists($storagePath);
         $filename = time() . '_' . rand(1000000, 9999999) . '.' . $file->getClientOriginalExtension();
-        $img      = Image::make($file)->orientate();
+
+        $manager = new ImageManager(new Driver());
+        $img = $manager->read($file);
+
         // Resize image if width and height are provided
         if ($width && $height) {
             $img->resize($width, $height, function ($constraint) {

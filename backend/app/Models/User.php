@@ -3,6 +3,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Traits\UploadTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +15,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     // use HasApiTokens;
     use PassportHasApiTokens;
     use HasFactory;
@@ -22,6 +24,7 @@ class User extends Authenticatable {
     use Notifiable;
     use TwoFactorAuthenticatable;
     use SoftDeletes;
+    use UploadTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -40,6 +43,7 @@ class User extends Authenticatable {
         'postal_code',
         'role',
         'status',
+        'image'
 
     ];
 
@@ -64,47 +68,69 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    public function getImageAttribute()
+    {
+        if (isset($this->attributes['image']) && file_exists((public_path('storage/images/users/' . $this->attributes['image'])))) {
+            // Retrieve the image path if it exists
+            $image = $this->getImage($this->attributes['image'], 'users');
+        } else {
+            $image = $this->defaultImage('default.jpg');
+        }
+        return $image;
+    }
 
-    public function setPasswordAttribute($value) {
+    public function setImageAttribute($value)
+    {
+
+        if ($value != null && is_file($value)) {
+            // Delete the old image if it exists
+            if (isset($this->attributes['image'])) {
+                $this->deleteFile($this->attributes['image'], 'users');
+            }
+            // Upload the new image and set the attribute
+            $this->attributes['image'] = $this->uploadAllTypes($value, 'users');
+        }
+    }
+
+    public function setPasswordAttribute($value)
+    {
         if ($value) {
             $this->attributes['password'] = bcrypt($value);
         }
     }
 
-    public function notifications() {
+    public function notifications()
+    {
         return $this->morphMany(Notification::class, 'Notifiable');
     }
 
-    public function reviews() {
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function cartItems(){
+    public function cartItems()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function resetPassword(string $password): void {
+    public function resetPassword(string $password): void
+    {
         $this->update([
             'password'       => $password,
             'remember_token' => Str::random(60),
         ]);
     }
 
-    public static function isValidEmail(string $email): bool {
+    public static function isValidEmail(string $email): bool
+    {
         return DB::table('password_reset_tokens')
             ->where('email', $email)
             ->exists();
     }
 
-    public static function isValidToken(string $email, string $token): bool {
+    public static function isValidToken(string $email, string $token): bool
+    {
         $tokenRecord = DB::table('password_reset_tokens')
             ->where('email', $email)
             ->first();
@@ -121,7 +147,8 @@ class User extends Authenticatable {
         return now()->lessThanOrEqualTo(Carbon::parse($tokenRecord->created_at)->addMinutes($tokenExpiration));
     }
 
-    public static function deleteToken(string $email): void {
+    public static function deleteToken(string $email): void
+    {
         DB::table('password_reset_tokens')
             ->where('email', $email)
             ->delete();
