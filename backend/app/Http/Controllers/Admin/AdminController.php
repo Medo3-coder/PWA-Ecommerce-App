@@ -45,10 +45,17 @@ class AdminController extends Controller
         return response()->json(['message' => 'Profile updated successfully.', 'user' => $user], 200);
     }
 
+
+    public function changePassword()
+    {
+        $user = auth()->user();
+        return view('admin.profile.change_password', compact('user'));
+    }
+
     /**
-     * Admin Change Password
+     * Admin update Password
      */
-    public function changeAdminPassword(Request $request)
+    public function updatePassword(Request $request)
     {
         $user = auth()->user();
         if (! $user || $user->role !== 'admin') {

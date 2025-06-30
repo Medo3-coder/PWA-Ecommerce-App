@@ -42,7 +42,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
      // Admin Profile & Password
     Route::get('profile', [AdminController::class, 'AdminProfile'])->name('profile');
     Route::patch('profile/update', [AdminController::class, 'updateAdminProfile'])->name('profile.update');
-    Route::post('password/change', [AdminController::class, 'changeAdminPassword'])->name('password.change');
+    Route::get('password/change', [AdminController::class, 'changePassword'])->name('password.change');
+    Route::post('password/update', [AdminController::class, 'updatePassword'])->name('password.update');
     Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 
     // Admin Dashboard Stats

@@ -26,7 +26,7 @@
 							<div class="col-lg-12">
 								<div class="card">
 									<div class="card-body">
-										<form id="profileUpdateForm" enctype="multipart/form-data">
+										<form id="profileUpdateForm" enctype="multipart/form-data" class="ajax-form">
 											<div class="d-flex flex-column align-items-center text-center">
 												<img id="profileImagePreview" src="{{ $user->image }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
 												<div class="mt-3">
@@ -120,7 +120,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#image").change(function(e){
@@ -133,53 +132,7 @@
     })
 </script>
 <script>
-$(document).ready(function() {
-    $('#profileUpdateForm').on('submit', function(e) {
-        e.preventDefault();
-        var form = $(this)[0]; //
-        var formData = new FormData(form);
-        formData.append('_method', 'PATCH'); // Laravel method spoofing
-        // 🔍 Debug: Log each key-value in the FormData
-        console.log('--- FormData Contents ---');
-        for (var pair of formData.entries()) {
-            console.log(`${pair[0]}:`, pair[1]);
-        }
-        $.ajax({
-            url: '{{ route('admin.profile.update') }}',
-            type: 'POST', // Use POST, Laravel will treat as PATCH
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.message,
-                    confirmButtonColor: '#3085d6',
-                }).then(function() {
-                    location.reload(); // Reload the page after success
-                });
-            },
-            error: function(xhr) {
-                let msg = 'An error occurred.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
-                }
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    msg += '\n' + Object.values(xhr.responseJSON.errors).join('\n');
-                }
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: msg,
-                    confirmButtonColor: '#d33',
-                });
-            }
-        });
-    });
-});
-</script>
+@include('admin.components.ajax-form-handler')
 @endpush
+
+
