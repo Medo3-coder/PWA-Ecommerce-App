@@ -3,14 +3,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Categories\StoreRequest;
-use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Http\Requests\Admin\Categories\UpdateOrderRequest;
+use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Models\ProductCategory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -20,14 +18,12 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Cache::remember('categories.all', 3600, function () {
-            return ProductCategory::with('children')
-                ->whereNull('parent_id')
-                ->orderBy('order')
-                ->get();
-        });
+        $categories = ProductCategory::with('children')
+        // ->whereNull('parent_id')
+            ->orderBy('order')
+            ->get();
 
-        return response()->json(['categories' => $categories], 200);
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -37,16 +33,9 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $path               = $request->file('image')->store('categories', 'public');
-            $validated['image'] = $path;
-        }
-
         $validated['slug'] = Str::slug($validated['name']);
 
         $category = ProductCategory::create($validated);
-
-        Cache::forget('categories.all');
 
         return response()->json([
             'message'  => 'Category created successfully',
@@ -57,10 +46,19 @@ class CategoryController extends Controller
     /**
      * Display the specified category.
      */
-    public function show(ProductCategory $category)
+    public function create()
     {
-        $category->load(['children', 'parent']);
-        return response()->json(['category' => $category], 200);
+        $categories = ProductCategory::whereNULL('parent_id')->get();
+        return view('admin.categories.create', compact('categories'));
+    }
+
+    public function edit($id)
+    {
+        $category   = ProductCategory::findOrFail($id);
+        $categories = ProductCategory::where('id', '!=', $id)
+            ->whereNull('parent_id')
+            ->get();
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -70,24 +68,13 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
-            }
-            $path = $request->file('image')->store('categories', 'public');
-            $validated['image'] = $path;
-        }
-
         $validated['slug'] = Str::slug($validated['name']);
 
         $category->update($validated);
 
-        Cache::forget('categories.all');
-
         return response()->json([
-            'message' => 'Category updated successfully',
-            'category' => $category
+            'message'  => 'Category updated successfully',
+            'category' => $category,
         ], 200);
     }
 

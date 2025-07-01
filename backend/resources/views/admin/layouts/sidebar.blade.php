@@ -11,8 +11,8 @@
 			</div>
 			<!--navigation-->
 			<ul class="metismenu" id="menu">
-				{{-- <li>
-					<a href="javascript:;" class="has-arrow">
+				<li>
+					<a href="{{route('admin.dashboard')}}" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-home-circle'></i>
 						</div>
 						<div class="menu-title">Dashboard</div>
@@ -29,26 +29,31 @@
 						<li> <a href="dashboard-human-resources.html"><i class="bx bx-right-arrow-alt"></i>Human Resources</a>
 						</li>
 					</ul>
+				</li>
+
+
+            	{{-- <li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-cart'></i>
+						</div>
+						<div class="menu-title">sdsdasd</div>
+					</a>
+					<ul>
+						<li> <a href="ecommerce-products.html"><i class="bx bx-right-arrow-alt"></i>Products</a>
+						</li>
+						<li> <a href="ecommerce-products-details.html"><i class="bx bx-right-arrow-alt"></i>Product Details</a>
+						</li>
+						<li> <a href="ecommerce-add-new-products.html"><i class="bx bx-right-arrow-alt"></i>Add New Products</a>
+						</li>
+						<li> <a href="ecommerce-orders.html"><i class="bx bx-right-arrow-alt"></i>Orders</a>
+						</li>
+					</ul>
 				</li> --}}
                 	<li>
-					<a href="widgets.html">
+					<a href="{{route('admin.categories.index')}}">
 						<div class="parent-icon"><i class='bx bx-cookie'></i>
 						</div>
-						<div class="menu-title">Widgets</div>
-					</a>
-				</li>
-                	<li>
-					<a href="widgets.html">
-						<div class="parent-icon"><i class='bx bx-cookie'></i>
-						</div>
-						<div class="menu-title">Widgets</div>
-					</a>
-				</li>
-                	<li>
-					<a href="widgets.html">
-						<div class="parent-icon"><i class='bx bx-cookie'></i>
-						</div>
-						<div class="menu-title">Widgets</div>
+						<div class="menu-title">Categories</div>
 					</a>
 				</li>
                 	<li>
