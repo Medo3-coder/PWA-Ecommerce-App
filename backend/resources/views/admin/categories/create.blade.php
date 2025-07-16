@@ -10,7 +10,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form class="ajax-form" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
+                <form class="ajax-form" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data" data-redirect="{{ route('admin.categories.index') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>

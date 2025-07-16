@@ -17,6 +17,15 @@ $(document).ready(function() {
                     title: 'Success',
                     text: response.message || 'Operation successful!',
                     confirmButtonColor: '#3085d6',
+                }).then(function() {
+                    // General redirect logic
+                    var redirectUrl = response.redirect || form.data('redirect');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        // Optionally reload page if no redirect specified
+                        location.reload();
+                    }
                 });
                 form[0].reset();
             },

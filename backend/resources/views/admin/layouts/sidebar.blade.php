@@ -57,10 +57,10 @@
 					</a>
 				</li>
                 	<li>
-					<a href="widgets.html">
+					<a href="{{route('admin.sliders.index')}}">
 						<div class="parent-icon"><i class='bx bx-cookie'></i>
 						</div>
-						<div class="menu-title">Widgets</div>
+						<div class="menu-title">Sliders</div>
 					</a>
 				</li>
                 	<li>

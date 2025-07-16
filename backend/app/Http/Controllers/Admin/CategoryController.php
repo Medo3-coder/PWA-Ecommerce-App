@@ -128,4 +128,10 @@ class CategoryController extends Controller
             'message' => 'Category order updated successfully',
         ], 200);
     }
+
+
+    public function show(ProductCategory $category)
+    {
+        return view('admin.categories.show', compact('category'));
+    }
 }

@@ -10,7 +10,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form class="ajax-form" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
+                <form class="ajax-form" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data" data-redirect="{{ route('admin.categories.index') }}">
                     @csrf
                     @method('PATCH')
                     <div class="mb-3">

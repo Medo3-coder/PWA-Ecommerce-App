@@ -89,7 +89,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('contacts/bulk-action', [ContactController::class, 'bulkAction'])->name('contacts.bulk-action');
 
     // Sliders
-    Route::resource('sliders', SliderController::class);
+    Route::get('sliders', [SliderController::class, 'index'])->name('sliders.index');
+    Route::get('sliders/create', [SliderController::class, 'create'])->name('sliders.create');
+    Route::post('sliders', [SliderController::class, 'store'])->name('sliders.store');
+    Route::get('sliders/{slider}', [SliderController::class, 'show'])->name('sliders.show');
+    Route::get('sliders/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+    Route::patch('sliders/{slider}', [SliderController::class, 'update'])->name('sliders.update');
+    Route::delete('sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
     Route::post('sliders/update-order', [SliderController::class, 'updateOrder'])->name('sliders.update-order');
     Route::post('sliders/{slider}/toggle-status', [SliderController::class, 'toggleStatus'])->name('sliders.toggle-status');
 
