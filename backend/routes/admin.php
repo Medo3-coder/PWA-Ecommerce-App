@@ -3,13 +3,14 @@
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ProductController;
+// use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 // use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CustomerController;
 // use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\ProductSectionsController;
 // use App\Http\Controllers\Admin\SettingController;
 // use App\Http\Controllers\Admin\ContentController;
 // use App\Http\Controllers\Admin\ReportController;
@@ -50,10 +51,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
 
     // Products
-    Route::resource('products', ProductController::class);
-    Route::post('products/bulk-action', [ProductController::class, 'bulkAction'])->name('products.bulk-action');
-    Route::post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
-    Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
+    // Route::resource('products', ProductController::class);
+    // Route::post('products/bulk-action', [ProductController::class, 'bulkAction'])->name('products.bulk-action');
+    // Route::post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+    // Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -98,6 +99,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
     Route::post('sliders/update-order', [SliderController::class, 'updateOrder'])->name('sliders.update-order');
     Route::post('sliders/{slider}/toggle-status', [SliderController::class, 'toggleStatus'])->name('sliders.toggle-status');
+
+    // Sections
+    Route::get('sections', [ProductSectionsController::class, 'index'])->name('sections.index');
+    Route::get('sections/create', [ProductSectionsController::class, 'create'])->name('sections.create');
+    Route::post('sections', [ProductSectionsController::class, 'store'])->name('sections.store');
+    Route::get('sections/{section}', [ProductSectionsController::class, 'show'])->name('sections.show');
+    Route::get('sections/{section}/edit', [ProductSectionsController::class, 'edit'])->name('sections.edit');
+    Route::patch('sections/{section}', [ProductSectionsController::class, 'update'])->name('sections.update');
+    Route::delete('sections/{section}', [ProductSectionsController::class, 'destroy'])->name('sections.destroy');
+    Route::post('sections/{section}/assign-products', [ProductSectionsController::class, 'assignProducts'])->name('sections.assign-products');
 
     // Settings
     // Route::resource('settings', SettingController::class);
