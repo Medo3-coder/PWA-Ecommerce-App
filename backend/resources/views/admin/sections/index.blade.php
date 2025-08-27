@@ -4,9 +4,11 @@
 @section('content')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4>Sections</h4>
-            <a href="{{ route('admin.sections.create') }}" class="btn btn-primary">Add Section</a>
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h4 class="mb-0">Sections</h4>
+            <a href="{{ route('admin.sections.create') }}" class="btn btn-primary">
+                <i class="bx bx-plus me-1"></i> Add Section
+            </a>
         </div>
         @include('admin.components.flash-messages')
 
@@ -17,7 +19,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped table-bordered dataTable" style="width: 100%;">
+                    <table id="sectionsTable" class="table table-striped table-bordered" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -66,12 +68,19 @@
 @endsection
 
 @push('scripts')
-<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
-<script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+<script src="{{ asset('admin/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('admin/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        $('#example').DataTable();
+    $(function() {
+        $('#sectionsTable').DataTable({
+            pageLength: 10,
+            lengthChange: false,
+            ordering: true,
+            columnDefs: [
+                { orderable: false, targets: [3] }
+            ]
+        });
     });
-</script>
+    </script>
 @include('admin.components.ajax-delete-file-handler')
 @endpush

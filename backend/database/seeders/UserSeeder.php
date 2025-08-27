@@ -17,8 +17,27 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
 
+        // Create Super Admin User
+        $superAdmin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'phone' => '1234567891',
+            'password' => 'superadmin123',
+            'role' => 'admin',
+            'status' => 'active',
+            'address' => '1 Admin Plaza',
+            'city' => 'Admin City',
+            'state' => 'Admin State',
+            'email_verified_at' => Carbon::now(),
+            'country' => 'Admin Country',
+            'created_at' => now(),
+            'updated_at' => now(),
+
+        ]);
+        $superAdmin->assignRole('super_admin');
+
         // Create Admin User
-        User::create([
+        $admin = User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'phone' => '1234567890',
@@ -34,10 +53,11 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
 
         ]);
+        $admin->assignRole('admin');
 
         // Create 10 Regular Users (Customers)
         for ($i = 0; $i < 10; $i++) {
-            User::create([
+            $user = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'phone' => $faker->phoneNumber,
@@ -52,6 +72,7 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            $user->assignRole('user');
         }
     }
 }

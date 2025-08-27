@@ -4,9 +4,11 @@
 @section('content')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4>Create New Section</h4>
-            <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary">Back to Sections</a>
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h4 class="mb-0">Create New Section</h4>
+            <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary">
+                <i class="bx bx-arrow-back me-1"></i> Back to Sections
+            </a>
         </div>
 
         <div class="card">
@@ -31,8 +33,11 @@
                         <small class="form-text text-muted">Human-readable label (e.g., Featured Products, New Arrivals)</small>
                     </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Create Section</button>
+                    <div class="d-grid d-sm-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bx bx-save me-1"></i> Create Section
+                        </button>
+                        <a href="{{ route('admin.sections.index') }}" class="btn btn-light">Cancel</a>
                     </div>
                 </form>
             </div>

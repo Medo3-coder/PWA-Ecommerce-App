@@ -5,7 +5,7 @@
 <div class="page-wrapper">
     <div class="page-content">
         <!-- Header Section -->
-        <div class="page-header d-flex justify-content-between align-items-center">
+        <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
                 <h4 class="page-title mb-1">Edit Section</h4>
                 <nav aria-label="breadcrumb">
@@ -18,10 +18,10 @@
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ route('admin.sections.show', $section->id) }}" class="btn btn-outline-info">
-                    <i class="bx bx-show me-1"></i>View Details
+                    <i class="bx bx-show me-1"></i> View Details
                 </a>
                 <a href="{{ route('admin.sections.index') }}" class="btn btn-outline-secondary">
-                    <i class="bx bx-arrow-back me-1"></i>Back to List
+                    <i class="bx bx-arrow-back me-1"></i> Back to List
                 </a>
             </div>
         </div>
