@@ -12,6 +12,22 @@
 			<!--navigation-->
 			<ul class="metismenu" id="menu">
 				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-shield-alt-2'></i>
+						</div>
+						<div class="menu-title">Access Control</div>
+					</a>
+					<ul>
+						@can('roles.view')
+							<li> <a href="{{ route('admin.roles.index') }}"><i class="bx bx-right-arrow-alt"></i>Roles</a>
+							</li>
+						@endcan
+						@can('permissions.view')
+							<li> <a href="{{ route('admin.permissions.index') }}"><i class="bx bx-right-arrow-alt"></i>Permissions</a>
+							</li>
+						@endcan
+					</ul>
+				</li>
 					<a href="{{route('admin.dashboard')}}" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-home-circle'></i>
 						</div>
