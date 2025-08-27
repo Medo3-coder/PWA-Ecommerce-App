@@ -21,7 +21,7 @@ class AdminMiddleware
              return redirect()->route('admin.login');
          }
          // Check if user has admin role
-         if (auth()->user()->role !== 'admin') {
+         if (!auth()->user()->hasAnyRole(['super_admin', 'admin'])) {
              abort(403, 'Access denied. Admin privileges required.');
          }
          return $next($request);
