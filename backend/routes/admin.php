@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\ProductSectionsController;
 // use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +128,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('notifications', NotificationController::class);
     Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark-all-read');
     Route::post('notifications/{notification}/mark-read', [NotificationController::class, 'markRead'])->name('notifications.mark-read');
+
+    // Roles & Permissions Management
+    Route::resource('roles', RoleController::class);
+    Route::post('roles/bulk-action', [RoleController::class, 'bulkAction'])->name('roles.bulk-action');
+    
+    Route::resource('permissions', PermissionController::class);
+    Route::post('permissions/bulk-action', [PermissionController::class, 'bulkAction'])->name('permissions.bulk-action');
 
     // Search
     Route::get('search', [DashboardController::class, 'search'])->name('search');
