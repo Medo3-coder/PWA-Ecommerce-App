@@ -52,7 +52,7 @@
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-cart'></i>
 						</div>
-						<div class="menu-title">Product Management</div>
+						<div class="menu-title">Sections Management</div>
 					</a>
 					<ul>
 						<li> <a href="{{route('admin.sections.index')}}"><i class="bx bx-right-arrow-alt"></i>Product Sections</a>
@@ -80,10 +80,10 @@
 					</a>
 				</li>
                 	<li>
-					<a href="widgets.html">
-						<div class="parent-icon"><i class='bx bx-cookie'></i>
+                        <a href="{{route('admin.products.index')}}">
+                        <div class="parent-icon"><i class='bx bx-cookie'></i>
 						</div>
-						<div class="menu-title">Widgets</div>
+						<div class="menu-title">Product Management</div>
 					</a>
 				</li>
                 	<li>

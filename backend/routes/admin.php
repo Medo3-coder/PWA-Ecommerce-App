@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ProductSectionsController;
 // use App\Http\Controllers\Admin\ContentController;
 // use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\AuthController;
@@ -71,10 +72,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware(['permission:permissions.delete'])->delete('permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
     // Products
-    // Route::resource('products', ProductController::class);
-    // Route::post('products/bulk-action', [ProductController::class, 'bulkAction'])->name('products.bulk-action');
-    // Route::post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
-    // Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
+    Route::/*middleware('permission:products.view')->*/get('products', [ProductController::class, 'index'])->name('products.index');
+    Route::/*middleware('permission:products.create')->*/get('products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::/*middleware('permission:products.create')->*/post('products', [ProductController::class, 'store'])->name('products.store');
+    Route::/*middleware('permission:products.view')->*/get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::/*middleware('permission:products.edit')->*/get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::/*middleware('permission:products.edit')->*/patch('products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::/*middleware('permission:products.delete')->*/delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::/*middleware('permission:products.edit')->*/post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+    Route::/*middleware('permission:products.edit')->*/post('products/bulk-action', [ProductController::class, 'bulkAction'])->name('products.bulk-action');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');

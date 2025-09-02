@@ -35,9 +35,10 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(ProductCategory::class);
     }
 
+    // pivot table
     public function tags()
     {
-        return $this->belongsToMany(ProductTag::class, 'product_tag');
+        return $this->belongsToMany(ProductTag::class, 'product_tag', 'product_id', 'product_tag_id');
     }
 
     public function sections()
