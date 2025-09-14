@@ -15,9 +15,14 @@ class ProductVariant extends Model
         'additional_price',
         'quantity',
     ];
-    
+
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function productAttribute()
+    {
+        return $this->belongsTo(ProductAttribute::class, 'product_attribute_id');
     }
 }

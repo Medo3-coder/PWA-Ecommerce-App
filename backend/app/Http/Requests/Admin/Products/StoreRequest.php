@@ -26,9 +26,9 @@ final class StoreRequest extends FormRequest
             'sections' => 'array',
             'sections.*' => 'integer|exists:sections,id',
 
-            'variants' => 'array',
-            'variants.*.product_attribute_id' => 'required_with:variants|integer|exists:product_attributes,id',
-            'variants.*.value' => 'required_with:variants|string|max:255',
+            'variants' => 'nullable|array',
+            'variants.*.product_attribute_id' => 'nullable|integer|exists:product_attributes,id',
+            'variants.*.value' => 'nullable|string|max:255',
             'variants.*.additional_price' => 'nullable|numeric|min:0',
             'variants.*.quantity' => 'nullable|integer|min:0',
         ];

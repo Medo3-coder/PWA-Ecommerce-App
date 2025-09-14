@@ -43,7 +43,18 @@ class Product extends Model implements HasMedia
 
     public function sections()
     {
-       return $this->belongsToMany(Section::class , 'product_section');
+        return $this->belongsToMany(Section::class, 'product_section');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover')->singleFile();
+        $this->addMediaCollection('gallery');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('cover') ?: null;
     }
 
 }

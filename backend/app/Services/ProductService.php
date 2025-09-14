@@ -8,10 +8,11 @@ use App\Models\ProductTag;
 use App\Models\Section;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 final class ProductService
 {
-    public function list(array $filters, int $perPage = 15)
+    public function list(array $filters = [])
     {
         $query = Product::query()->with(['category', 'tags', 'sections'])->latest();
 
@@ -28,7 +29,7 @@ final class ProductService
             $dir = Arr::get($filters, 'dir', 'asc');
             $query->orderBy($sort, $dir);
         }
-        return $query->paginate($perPage)->withQueryString();
+        return $query->get();
     }
 
     public function formData(): array
@@ -67,7 +68,7 @@ final class ProductService
         DB::transaction(function () use ($product) {
             $product->tags()->detach();
             $product->sections()->detach();
-            $product->variants()->delete();
+            $product->productVariants()->delete();
             $product->delete();
         });
     }
@@ -90,5 +91,47 @@ final class ProductService
                 };
             }
         });
+    }
+
+    public function syncRelations(Product $product, array $data): void
+    {
+        if (isset($data['tags'])) {
+            $product->tags()->sync($data['tags']);
+        }
+
+        if (isset($data['sections'])) {
+            $product->sections()->sync($data['sections']);
+        }
+
+        if (isset($data['variants'])) {
+            Log::info('Variants data received:', $data['variants']);
+            $product->productVariants()->delete();
+
+            $createdVariants = 0;
+            foreach ($data['variants'] as $index => $variant) {
+                Log::info("Processing variant $index:", $variant);
+
+                if (! isset($variant['product_attribute_id'], $variant['value'])) {
+                    Log::info("Skipping variant $index - missing required fields");
+                    continue;
+                }
+
+                if (empty($variant['product_attribute_id']) || empty($variant['value'])) {
+                    Log::info("Skipping variant $index - empty values");
+                    continue;
+                }
+
+                $product->productVariants()->create([
+                    'product_attribute_id' => $variant['product_attribute_id'],
+                    'value'                => $variant['value'],
+                    'additional_price'     => $variant['additional_price'] ?? null,
+                    'quantity'             => $variant['quantity'] ?? null,
+                ]);
+                $createdVariants++;
+            }
+            Log::info("Created $createdVariants variants for product {$product->id}");
+        } else {
+            Log::info('No variants data in request');
+        }
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->integer('quantity');
             $table->foreignId('product_status_id')->default(1)->constrained('product_statuses')->onDelete('restrict');
-            $table->string('status')->default('draft'); // draft, published, archived
+            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->timestamps();
             $table->softDeletes();
         });
