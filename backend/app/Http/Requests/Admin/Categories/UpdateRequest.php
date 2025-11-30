@@ -22,26 +22,27 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // route('category') may be a model instance or an id string.
+        $routeCategory = $this->route('category');
+        $id = is_object($routeCategory) ? ($routeCategory->id ?? null) : $routeCategory;
+
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('product_categories')->ignore($this->category->id)
-            ],
-            'description' => 'nullable|string',
+            // use "sometimes" so partial updates (e.g. only is_active) are allowed
+            'name' => ['sometimes', 'required', 'string', 'max:255', Rule::unique('product_categories')->ignore($id)],
+            'description' => 'sometimes|nullable|string',
             'parent_id' => [
+                'sometimes',
                 'nullable',
                 'exists:product_categories,id',
-                function ($attribute, $value, $fail) {
-                    if ($value == $this->category->id) {
+                function ($attribute, $value, $fail) use ($id) {
+                    if ($value == $id) {
                         $fail('A category cannot be its own parent.');
                     }
                 },
             ],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'boolean',
-            'order' => 'integer|min:0',
+            'image' => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'sometimes|boolean',
+            'order' => 'sometimes|integer|min:0',
         ];
     }
 
@@ -71,9 +72,7 @@ class UpdateRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         if ($this->has('is_active')) {
-            $this->merge([
-                'is_active' => filter_var($this->is_active, FILTER_VALIDATE_BOOLEAN)
-            ]);
+            $this->merge(['is_active' => filter_var($this->is_active, FILTER_VALIDATE_BOOLEAN)]);
         }
     }
 }

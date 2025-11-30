@@ -80,6 +80,7 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
+        // image preview
         $('#image').change(function(e){
             var reader = new FileReader();
             reader.onload = function(e){
@@ -89,5 +90,5 @@
         });
     });
 </script>
-    @include('admin.components.ajax-form-handler')
+@include('admin.components.ajax-form-handler')
 @endpush

@@ -6,36 +6,32 @@ use App\Http\Requests\Admin\Categories\StoreRequest;
 use App\Http\Requests\Admin\Categories\UpdateOrderRequest;
 use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Models\ProductCategory;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of categories.
-     */
+    protected $categoryRepository;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
 
     public function index()
     {
-        $categories = ProductCategory::with('children')
-        // ->whereNull('parent_id')
-            ->orderBy('order')
-            ->get();
-
+        $categories = $this->categoryRepository->all();
         return view('admin.categories.index', compact('categories'));
     }
 
-    /**
-     * Store a newly created category.
-     */
+    public function create()
+    {
+        $categories = $this->categoryRepository->getParentCategories();
+        return view('admin.categories.create', compact('categories'));
+    }
+
     public function store(StoreRequest $request)
     {
-        $validated = $request->validated();
-
-        $validated['slug'] = Str::slug($validated['name']);
-
-        $category = ProductCategory::create($validated);
+        $category = $this->categoryRepository->create($request->validated());
 
         return response()->json([
             'message'  => 'Category created successfully',
@@ -43,34 +39,16 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified category.
-     */
-    public function create()
-    {
-        $categories = ProductCategory::whereNULL('parent_id')->get();
-        return view('admin.categories.create', compact('categories'));
-    }
-
     public function edit($id)
     {
-        $category   = ProductCategory::findOrFail($id);
-        $categories = ProductCategory::where('id', '!=', $id)
-            ->whereNull('parent_id')
-            ->get();
+        $category   = $this->categoryRepository->find($id);
+        $categories = $this->categoryRepository->getParentCategories();
         return view('admin.categories.edit', compact('category', 'categories'));
     }
 
-    /**
-     * Update the specified category.
-     */
-    public function update(UpdateRequest $request, ProductCategory $category)
+    public function update(UpdateRequest $request, $id)
     {
-        $validated = $request->validated();
-
-        $validated['slug'] = Str::slug($validated['name']);
-
-        $category->update($validated);
+        $category = $this->categoryRepository->update($id, $request->validated());
 
         return response()->json([
             'message'  => 'Category updated successfully',
@@ -78,60 +56,34 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified category.
-     */
-    public function destroy(ProductCategory $category)
+    public function show($id)
     {
-        // Check if category has children
-        if ($category->children()->exists()) {
-            return response()->json([
-                'message' => 'Cannot delete category with subcategories. Please delete subcategories first.',
-            ], 422);
-        }
-
-        // Check if category has products
-        if ($category->products()->exists()) {
-            return response()->json([
-                'message' => 'Cannot delete category with associated products. Please remove products first.',
-            ], 422);
-        }
-
-        // Delete category image if exists
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
-
-        $category->delete();
-
-        Cache::forget('categories.all');
-
-        return response()->json([
-            'message' => 'Category deleted successfully',
-        ], 200);
+        $category = $this->categoryRepository->find($id);
+        return view('admin.categories.show', compact('category'));
     }
 
-    /**
-     * Update category order.
-     */
+    public function destroy($id)
+    {
+        try {
+            $this->categoryRepository->delete($id);
+            return response()->json([
+                'message' => 'Category deleted successfully',
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
     public function updateOrder(UpdateOrderRequest $request)
     {
-        $validated = $request->validated();
-
-        foreach ($validated['categories'] as $item) {
-            ProductCategory::where('id', $item['id'])->update(['order' => $item['order']]);
-        }
-
-        Cache::forget('categories.all');
+        $this->categoryRepository->updateOrder($request->validated()['categories']);
 
         return response()->json([
             'message' => 'Category order updated successfully',
         ], 200);
     }
 
-
-    public function show(ProductCategory $category)
-    {
-        return view('admin.categories.show', compact('category'));
-    }
 }

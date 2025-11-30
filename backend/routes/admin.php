@@ -86,13 +86,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::post('categories/update-order', [CategoryController::class, 'updateOrder'])->name('categories.update-order');
     Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
-    Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-    Route::post('categories/update-order', [CategoryController::class, 'updateOrder'])->name('categories.update-order');
-    Route::post('categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
-
     // Orders
     // Route::resource('orders', OrderController::class);
     // Route::post('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
