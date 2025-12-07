@@ -1,20 +1,25 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'session_id',
+        'product_id',
+        'quantity',
+        'meta',
+        'price',
+    ];
 
-    protected $fillable = ['user_id', 'product_id', 'quantity'];
+    protected $casts = [
+        'meta' => 'array',
+    ];
 
-    // protected $casts = [
-    //     'quantity' => 'integer',
-    // ];
-
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
 }

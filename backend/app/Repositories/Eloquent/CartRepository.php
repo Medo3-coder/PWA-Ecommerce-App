@@ -1,0 +1,103 @@
+<?php
+namespace App\Repositories\Eloquent;
+
+use App\Models\Cart;
+use App\Repositories\Contracts\CartRepositoryInterface;
+
+class CartRepository implements CartRepositoryInterface
+{
+    protected $model;
+
+    public function __construct(Cart $model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * Get or query cart for user or session
+     */
+    public function forUserOrSession(?int $userId, ?string $sessionId)
+    {
+        return Cart::where(function ($query) use ($userId, $sessionId) {
+            if ($userId) {
+                $query->where('user_id', $userId);
+            } else {
+                $query->where('session_id', $sessionId);
+            }
+        });
+    }
+
+    /**
+     * Get all cart items for user or session
+     */
+    public function getItems(?int $userId, ?string $sessionId)
+    {
+        return $this->forUserOrSession($userId, $sessionId)->with('product')->get();
+    }
+
+    /**
+     * Add item to cart
+     */
+
+    public function addItem(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    /**
+     * Update cart item (quantity, etc)
+     */
+    public function updateItem(int $id, array $data)
+    {
+        $item = $this->find($id);
+        $item->update($data);
+        return $item;
+    }
+
+    /**
+     * Remove item from cart
+     */
+    public function removeItem(int $id)
+    {
+        $item = $this->find($id);
+        $item->delete();
+        return true;
+    }
+
+    /**
+     * Clear all cart items for user or session
+     */
+    public function clear(?int $userId, ?string $sessionId)
+    {
+        return $this->forUserOrSession($userId, $sessionId)->delete();
+    }
+
+    /**
+     * Find single cart item by id
+     */
+    public function find(int $id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    /**
+     * Get cart total price for user or session
+     */
+    public function getTotal(?int $userId, ?string $sessionId)
+    {
+        return $this->forUserOrSession($userId, $sessionId)
+            ->with('product')
+            ->get()
+            ->sum(function ($item) {
+                return $item->quantity * $item->product->price;
+            });
+    }
+     /**
+     * Get cart count for user or session
+     */
+    public function getCount(?int $userId, ?string $sessionId)
+    {
+        return $this->forUserOrSession($userId, $sessionId)->count();
+    }
+
+}
