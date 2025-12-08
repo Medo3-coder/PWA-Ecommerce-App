@@ -1,4 +1,5 @@
 <?php
+// filepath: e:\PWA-Ecommerce-App\backend\database\seeders\CartSeeder.php
 namespace Database\Seeders;
 
 use App\Models\Cart;
@@ -22,11 +23,16 @@ class CartSeeder extends Seeder
         foreach ($users as $user) {
             $cartItemCount    = fake()->numberBetween(1, 3);
             $selectedProducts = $products->random($cartItemCount);
+
             foreach ($selectedProducts as $product) {
+                $quantity = fake()->numberBetween(1, min(5, $product->quantity));
+
                 Cart::create([
                     'user_id'    => $user->id,
                     'product_id' => $product->id,
-                    'quantity'   => fake()->numberBetween(1, min(5, $product->quantity)),
+                    'quantity'   => $quantity,
+                    'price'      => $product->price, // snapshot price at time of add
+                    'meta'       => null,
                 ]);
             }
         }

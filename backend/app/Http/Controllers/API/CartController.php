@@ -2,70 +2,53 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddCartItemRequest;
+use App\Http\Requests\Api\Cart\UpdateCartItemRequest;
 use App\Models\Cart;
+use CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function getCart()
+
+    public function __construct(private CartService $cartService){}
+
+    protected function userId(): ?int
     {
-        return response()->json(auth()->user()->cartItems()->with('product')->get());
+        return auth()->check() ? auth()->id() : null;
     }
 
-    public function addToCart(Request $request)
+    protected function sessionId(): ?string
     {
-        $cartItem = Cart::updateOrCreate(
-            ['user_id' => auth()->id(), 'product_id' => $request->product_id],
-            ['quantity' => DB::raw("quantity + " . (int) $request->quantity)]
-        );
+        return session()->getId();
+    }
 
-        // Re-fetch to ensure correct quantity in JSON response
-        $cartItem = Cart::find($cartItem->id);
-
+    public function getCartItems(Request $request)
+    {
+        $cartItems = $this->cartService->getCartItems($this->userId() , $this->sessionId());
+        return CartResource::collection($cartItems);
+    }
+    public function addToCart(AddCartItemRequest $request)
+    {
+        $data = $request->validated();
+        $cartItem = $this->cartService->addItem($data);
         return response()->json($cartItem);
     }
 
-    // public function addToCart(Request $request)
-    // {
-    //     $cartItem = Cart::where('user_id', auth()->id())
-    //         ->where('product_id', $request->product_id)
-    //         ->first();
+   public function updateCart(UpdateCartItemRequest $request , $id)
+   {
+        $data = $request->validated();
+        $item = $this->cartService->updateItem($id , $data);
 
-    //     if ($cartItem) {
-    //         $cartItem->increment('quantity', $request->quantity);
-    //     } else {
-    //         // Create new cart item if not exists
-    //         $cartItem = Cart::create([
-    //             'user_id'    => auth()->id(),
-    //             'product_id' => $request->product_id,
-    //             'quantity'   => $request->quantity,
-    //         ]);
-    //     }
-
-    //     return response()->json($cartItem);
-    // }
-
-    public function updateCart(Request $request)
-    {
-        $cartItem = Cart::where('user_id', auth()->id())
-            ->where('product_id', $request->product_id)
-            ->first();
-
-            if (!$cartItem) {
-                return response()->json(['message' => 'Cart item not found'], 404);
-            }
-
-            $cartItem->update(['quantity' => $request->quantity]);
-
-            return response()->json([
-                'message' => 'Cart updated successfully',
-                'cart' => $cartItem
-            ]);
-    }
+        return response()->json([
+            'message' => 'Cart item updated successfully',
+            'cart_item' => $item
+        ]);
+   }
 
     public function removeFromCart($id){
-        Cart::where('user_id' , auth()->id())->where('id',$id)->delete();
+        $this->cartService->removeItem($id);
         return response()->json(['message' => 'Item removed successfully']);
     }
 
