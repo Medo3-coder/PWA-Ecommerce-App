@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Controllers\API;
 
+use App\DTOs\Cart\CartItemData;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCartItemRequest;
+use App\Http\Requests\Api\Cart\AddCartItemRequest;
 use App\Http\Requests\Api\Cart\UpdateCartItemRequest;
+use App\Http\Resources\Cart\CartResource;
 use App\Models\Cart;
-use CartService;
+use App\Services\Cart\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,8 +33,19 @@ class CartController extends Controller
     }
     public function addToCart(AddCartItemRequest $request)
     {
-        $data = $request->validated();
-        $cartItem = $this->cartService->addItem($data);
+        $validated = $request->validated();
+
+        $cartItemData = new CartItemData(
+            id: null,
+            userId: $this->userId(),
+            sessionId: $this->sessionId(),
+            productId: $validated['product_id'],
+            quantity: $validated['quantity'],
+            meta: $validated['meta'] ?? null,
+            price: $validated['price'] ?? 0
+        );
+
+        $cartItem = $this->cartService->addItem($cartItemData);
         return response()->json($cartItem);
     }
 

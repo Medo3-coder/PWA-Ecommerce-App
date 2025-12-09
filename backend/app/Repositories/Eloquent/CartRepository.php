@@ -18,13 +18,15 @@ class CartRepository implements CartRepositoryInterface
      */
     public function forUserOrSession(?int $userId, ?string $sessionId)
     {
-        return Cart::where(function ($query) use ($userId, $sessionId) {
-            if ($userId) {
-                $query->where('user_id', $userId);
-            } else {
-                $query->where('session_id', $sessionId);
-            }
-        });
+        $query = Cart::query();
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        } else if ($sessionId) {
+            $query->where('session_id', $sessionId);
+        }
+
+        return $query;
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
+namespace App\Services\Cart;
 
-use App\Cart\Actions\AddCartItemAction;
-use App\Cart\Actions\ClearCartAction;
-use App\Domain\Cart\Actions\RemoveCartItemAction;
-use App\Domain\Cart\Actions\UpdateCartItemAction;
+use App\Actions\Cart\ClearCartAction;
+use App\Actions\Cart\RemoveCartItemAction;
+use App\Actions\Cart\UpdateCartItemAction;
+use App\Actions\Cart\AddCartItemAction;
 use App\DTOs\Cart\CartItemData;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Support\Facades\DB;

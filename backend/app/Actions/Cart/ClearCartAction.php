@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Cart\Actions;
+namespace App\Actions\Cart;
 
 use App\Repositories\Contracts\CartRepositoryInterface;
 
