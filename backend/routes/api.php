@@ -68,6 +68,11 @@ Route::get('/products/homepage-sections', [App\Http\Controllers\API\ProductContr
 
 //slider
 Route::get('/sliders', [SliderController::class, 'index']);
+Route::get('/sliders/active', [SliderController::class, 'getActive']);
+Route::get('/sliders/featured', [SliderController::class, 'getFeatured']);
+Route::get('/sliders/position/{position}', [SliderController::class, 'getByPosition']);
+Route::get('/sliders/search', [SliderController::class, 'search']);
+Route::get('/sliders/{id}', [SliderController::class, 'show']);
 
 //product_details
 Route::get('/product-details/{id}', [ProductDetailsController::class, 'productDetails']);
