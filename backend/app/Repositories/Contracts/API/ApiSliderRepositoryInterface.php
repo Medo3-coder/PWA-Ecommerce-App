@@ -19,18 +19,5 @@ interface ApiSliderRepositoryInterface
      */
     public function getById($id);
 
-    /**
-     * Search sliders by title
-     */
-    // public function search($query, $limit = 10);
-
-    /**
-     * Get sliders by position
-     */
-    // public function getByPosition($position);
-
-    /**
-     * Get featured sliders
-     */
-    // public function getFeatured();
+   
 }

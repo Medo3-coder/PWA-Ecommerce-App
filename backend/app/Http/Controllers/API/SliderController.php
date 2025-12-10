@@ -82,68 +82,8 @@ class SliderController extends Controller
     /**
      * Search sliders
      */
-    public function search(Request $request)
-    {
-        $query = $request->get('query', '');
+   
 
-        if (empty($query)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Search query required'
-            ], 400);
-        }
 
-        $sliders = $this->sliderRepository->search($query);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'sliders' => $sliders
-            ]
-        ]);
-    }
-
-    /**
-     * Get sliders by position
-     */
-    public function getByPosition($position)
-    {
-        $sliders = $this->sliderRepository->getByPosition($position);
-
-        if ($sliders->isEmpty()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No sliders found for this position'
-            ], 404);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'sliders' => $sliders
-            ]
-        ]);
-    }
-
-    /**
-     * Get featured sliders
-     */
-    public function getFeatured()
-    {
-        $sliders = $this->sliderRepository->getFeatured();
-
-        if ($sliders->isEmpty()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No featured sliders available'
-            ], 404);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'sliders' => $sliders
-            ]
-        ]);
-    }
 }

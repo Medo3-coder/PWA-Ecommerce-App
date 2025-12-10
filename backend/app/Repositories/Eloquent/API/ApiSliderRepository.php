@@ -51,51 +51,7 @@ class ApiSliderRepository implements ApiSliderRepositoryInterface
         });
     }
 
-    /**
-     * Search sliders by title or description
-     */
-    // public function search($query, $limit = 10)
-    // {
-    //     return $this->model
-    //         ->where('is_active', true)
-    //         ->where(function ($q) use ($query) {
-    //             $q->where('title', 'like', "%{$query}%")
-    //                 ->orWhere('description', 'like', "%{$query}%");
-    //         })
-    //         ->latest()
-    //         ->limit($limit)
-    //         ->get();
-    // }
-
-    /**
-     * Get sliders by position (hero, featured, etc)
-     */
-    // public function getByPosition($position)
-    // {
-    //     return Cache::remember("api.sliders.position.{$position}", 3600, function () use ($position) {
-    //         return $this->model
-    //             ->where('position', $position)
-    //             ->where('is_active', true)
-    //             ->latest()
-    //             ->get();
-    //     });
-    // }
-
-    /**
-     * Get featured sliders
-     */
-    // public function getFeatured()
-    // {
-    //     return Cache::remember('api.sliders.featured', 3600, function () {
-    //         return $this->model
-    //             ->where('is_featured', true)
-    //             ->where('is_active', true)
-    //             ->latest()
-    //             ->limit(5)
-    //             ->get();
-    //     });
-    // }
-
+    
     /**
      * Invalidate all slider caches
      */
