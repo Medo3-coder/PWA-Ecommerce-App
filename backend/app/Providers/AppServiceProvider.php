@@ -1,10 +1,12 @@
 <?php
 namespace App\Providers;
 
+use App\Repositories\Contracts\API\ApiCategoryRepositoryInterface;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Eloquent\CartRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\API\ApiCategoryRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,11 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Category Repository Binding
+        // Admin Category Repository Binding
         $this->app->bind(
-            // Category Repository Binding
             CategoryRepositoryInterface::class,
             CategoryRepository::class
+        );
+
+        // API Category Repository Binding
+        $this->app->bind(
+            ApiCategoryRepositoryInterface::class,
+            ApiCategoryRepository::class
         );
 
         // Cart Repository Binding

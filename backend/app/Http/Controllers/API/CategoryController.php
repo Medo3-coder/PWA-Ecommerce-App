@@ -2,26 +2,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProductCategory;
+use App\Repositories\Contracts\API\ApiCategoryRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
+    public function __construct(private ApiCategoryRepositoryInterface $categoryRepository)
+    {
+    }
+
     /**
      * Get all active categories with their children.
      */
-
     public function index()
     {
-        $categories = Cache::remember('api.categories.all', 3600, function () {
-            return ProductCategory::with(['children' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('order');
-            }])->whereNull('parent_id')
-                ->where('is_active', true)
-                ->get();
-        });
+        $categories = $this->categoryRepository->index();
 
         return response()->json([
             'status' => 'success',
@@ -34,20 +29,11 @@ class CategoryController extends Controller
     /**
      * Get a specific category with its children and parent.
      */
-
     public function show($slug)
     {
-        $category = Cache::remember('api.category', 3600, function () use ($slug) {
-            return ProductCategory::with(['children' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('order');
-            }, 'parent'])
-                ->where('slug', $slug)
-                ->where('is_active', true)
-                ->first();
-        });
+        $category = $this->categoryRepository->show($slug);
 
-        if (! $category) {
+        if (!$category) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Category not found',
@@ -65,60 +51,35 @@ class CategoryController extends Controller
     /**
      * Get all products in a category.
      */
-
     public function products($slug)
     {
-        $category = ProductCategory::where('slug', $slug)
-            ->where('is_active', true)
-            ->first();
+        $result = $this->categoryRepository->products($slug);
 
-        if (! $category) {
+        if (!$result) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Category Not Found',
             ], 404);
         }
 
-        $products = $category->products()
-            ->with(['category'])
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
-
-            // dd($products);
-
         return response()->json([
             'status' => 'success',
-            'data'   => [
-                'category' => $category,
-                'products' => $products,
-            ],
+            'data'   => $result,
         ]);
     }
 
     /**
      * Get category breadcrumb.
      */
-
     public function breadcrumb($slug)
     {
-        $category = ProductCategory::where('slug', $slug)
-            ->where('is_active', true)
-            ->first();
+        $breadcrumb = $this->categoryRepository->breadcrumb($slug);
 
-        if (! $category) {
+        if (!$breadcrumb) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Category not found',
             ], 404);
-        }
-
-        $breadcrumb = collect([$category]);
-        $current    = $category;
-
-        while ($current->parent) {
-            $current = $current->parent;
-            $breadcrumb->prepend($current);
         }
 
         return response()->json([
@@ -132,7 +93,6 @@ class CategoryController extends Controller
     /**
      * Search categories.
      */
-
     public function search(Request $request)
     {
         $query = $request->get('query', '');
@@ -141,18 +101,10 @@ class CategoryController extends Controller
             return response()->json([
                 'status'  => 'error',
                 'message' => 'search query required',
-            ], 404);
+            ], 400);
         }
 
-        $categories = ProductCategory::where('is_active', true)
-            ->where(function ($q) use ($query) {
-                $q->where('name', 'like', "%{$query}%")
-                    ->orWhere('description', 'like', "%{$query}%");
-            })
-            ->with('parent')
-            ->orderBy('name')
-            ->limit(10)
-            ->get();
+        $categories = $this->categoryRepository->search($query);
 
         return response()->json([
             'status' => 'success',
@@ -161,5 +113,5 @@ class CategoryController extends Controller
             ],
         ]);
     }
-
 }
+
