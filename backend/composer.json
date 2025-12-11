@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "meilisearch/meilisearch-php": "^1.12",
+        "php-amqplib/php-amqplib": "^2.8",
         "spatie/laravel-medialibrary": "^11.14",
         "spatie/laravel-permission": "^6.21"
     },
