@@ -17,22 +17,22 @@ class Product extends Model implements HasMedia
         'product_category_id',
         'price',
         'quantity',
-        'status',
+        'product_status_id',
     ];
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class , 'product_id' , 'id');
     }
     // This allows each product to have multiple versions/variants.
     public function productVariants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class , 'product_id' , 'id');
     }
 
     public function category()
     {
-        return $this->belongsTo(ProductCategory::class);
+        return $this->belongsTo(ProductCategory::class, 'product_category_id' , 'id');
     }
 
     // pivot table
@@ -44,6 +44,11 @@ class Product extends Model implements HasMedia
     public function sections()
     {
         return $this->belongsToMany(Section::class, 'product_section');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(ProductStatus::class, 'product_status_id');
     }
 
     public function registerMediaCollections(): void

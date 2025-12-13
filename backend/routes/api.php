@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Api\CategoryController as ApiCategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\API\ProductController;
 
 use App\Http\Controllers\Admin\ProductDetailsController;
 // use App\Http\Controllers\Admin\SliderController;
@@ -53,6 +53,18 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
+// Public Category Routes
+Route::prefix('categories')->group(function () {
+    Route::get('/', [ApiCategoryController::class, 'index']);
+    Route::get('/search', [ApiCategoryController::class, 'search']);
+    Route::get('/{slug}', [ApiCategoryController::class, 'show']);
+    Route::get('/{slug}/products', [ApiCategoryController::class, 'products']);
+    Route::get('/{slug}/breadcrumb', [ApiCategoryController::class, 'breadcrumb']);
+});
+
+
+
+
 Route::post('/payment/charge', [PaymentController::class, 'charge']);
 Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
 
@@ -60,11 +72,17 @@ Route::post('/post-contact', [ContactController::class, 'postContact']);
 Route::get('/categories', [ApiCategoryController::class, 'categories']);
 
 //products
+Route::get('/products', [ProductController::class, 'getAllPublished']); //done
+Route::get('/product/{id}', [ProductController::class, 'getProductById']);
+Route::get('/products/search/{query}', [ProductController::class, 'ProductBySearh']);
 Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
+Route::get('/products/featured', [ProductController::class, 'getFeatured']);
+Route::get('/products/latest', [ProductController::class, 'getLatest']);
 Route::get('/products/category/{slug}', [ProductController::class, 'getProductByCategory']);
+Route::get('/products/section/{sectionId}', [ProductController::class, 'getBySection']); // New
+
+Route::get('/products/homepage-sections', [ProductController::class, 'homepageSections']);
 Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::class, 'getProductBySubCategory']);
-Route::get('/search/{query}', [ProductController::class, 'ProductBySearh']);
-Route::get('/products/homepage-sections', [App\Http\Controllers\API\ProductController::class, 'homepageSections']);
 
 //slider
 Route::get('/sliders', [SliderController::class, 'index']);
@@ -114,11 +132,3 @@ Route::prefix('admin')->middleware('auth:api')->group(function () {
     Route::get('/sections/{section}/products', [\App\Http\Controllers\Admin\ProductController::class, 'productsBySection']);
 });
 
-// Public Category Routes
-Route::prefix('categories')->group(function () {
-    Route::get('/', [ApiCategoryController::class, 'index']);
-    Route::get('/search', [ApiCategoryController::class, 'search']);
-    Route::get('/{slug}', [ApiCategoryController::class, 'show']);
-    Route::get('/{slug}/products', [ApiCategoryController::class, 'products']);
-    Route::get('/{slug}/breadcrumb', [ApiCategoryController::class, 'breadcrumb']);
-});

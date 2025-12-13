@@ -2,13 +2,15 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\API\ApiCategoryRepositoryInterface;
+use App\Repositories\Contracts\API\ApiProductRepositoryInterface;
 use App\Repositories\Contracts\API\ApiSliderRepositoryInterface;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
-use App\Repositories\Eloquent\CartRepository;
-use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\API\ApiCategoryRepository;
 use App\Repositories\Eloquent\API\ApiSliderRepository;
+use App\Repositories\Eloquent\API\ApiProductRepository;
+use App\Repositories\Eloquent\CartRepository;
+use App\Repositories\Eloquent\CategoryRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CategoryRepositoryInterface::class,
             CategoryRepository::class
+        );
+
+        // Add to register() method:
+        $this->app->bind(
+            ApiProductRepositoryInterface::class,
+            ApiProductRepository::class
         );
 
         // API Category Repository Binding
@@ -62,4 +70,3 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 }
-

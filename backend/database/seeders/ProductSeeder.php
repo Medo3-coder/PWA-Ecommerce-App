@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
                 'description'         => fake()->paragraphs(2, true),
                 'price'               => $price,
                 'quantity'            => $quantity,
-                'status'              => $quantity > 0 ? 'published' : 'draft',
+                'product_status_id'   => rand(1 , 3),
                 'product_category_id' => $categories->random()->id,
             ]);
         }
