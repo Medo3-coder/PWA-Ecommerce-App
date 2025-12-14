@@ -29,7 +29,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published'); // Only published products
             })
-            ->with(['category', 'tags', 'productVariants']) // Removed 'sections' if not needed
+            ->with(['category', 'tags', 'productVariants.productAttribute']) // Removed 'sections' if not needed
             ->limit($limit)
             ->get();
     }
@@ -41,7 +41,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
     public function getAllPublished($perPage = 15)
     {
 
-        return $this->model->with(['status', 'category', 'tags', 'productVariants'])
+        return $this->model->with(['status', 'category', 'tags', 'productVariants.productAttribute'])
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published'); // Only published products
             })
@@ -59,7 +59,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
 
         // return Cache::remember($cacheKey, 300, function () use ($id) { // 5 minutes
         return $this->model
-            ->with(['category', 'tags', 'productVariants', 'reviews'])
+            ->with(['category', 'tags', 'productVariants.productAttribute', 'reviews'])
             ->find($id);
         // });
     }
@@ -75,7 +75,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->whereHas('status', function ($q) {        // Filter 2: By status
                 $q->where('name', 'published');             // Only published products
             })
-            ->with(['category', 'tags', 'productVariants', 'status']) // Load for filtered results
+            ->with(['category', 'tags', 'productVariants.productAttribute', 'status']) // Load for filtered results
             ->latest()
             ->paginate($perPage);
     }
@@ -92,7 +92,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published'); // Only published products
             })
-            ->with(['category', 'tags', 'productVariants'])
+            ->with(['category', 'tags', 'productVariants.productAttribute'])
             ->limit($limit)
             ->get();
     }
@@ -108,7 +108,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
                 $q->whereHas('status', function ($q) {
                     $q->where('name', 'published'); // Only published products
                 })
-                    ->with(['category', 'tags', 'productVariants', 'status']) // Added productVariants
+                    ->with(['category', 'tags', 'productVariants.productAttribute', 'status'])
                     ->limit(8);
             }])->get();
 
@@ -137,7 +137,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->whereHas('sections', function ($q) use ($sectionId) {
                 $q->where('section_id', $sectionId);
             })
-            ->with(['category', 'tags', 'productVariants', 'status'])
+            ->with(['category', 'tags', 'productVariants.productAttribute', 'status'])
             ->limit($limit)
             ->get();
         // });
@@ -158,7 +158,7 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published');
             })
-            ->with(['category', 'tags', 'productVariants'])
+            ->with(['category', 'tags', 'productVariants.productAttribute'])
             ->limit($limit)
             ->get();
         // });
@@ -179,7 +179,7 @@ public function getBySectionName($sectionName, $limit = 10)
         ->whereHas('sections', function ($q) use ($section) {
             $q->where('section_id', $section->id);
         })
-        ->with(['category', 'tags', 'productVariants'])
+        ->with(['category', 'tags', 'productVariants.productAttribute'])
         ->limit($limit)
         ->get();
 }
@@ -195,7 +195,7 @@ public function getBySectionName($sectionName, $limit = 10)
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published');
             })
-            ->with(['category', 'tags', 'productVariants'])
+            ->with(['category', 'tags', 'productVariants.productAttribute'])
             ->latest('created_at')
             ->limit($limit)
             ->get();
@@ -214,7 +214,7 @@ public function getBySectionName($sectionName, $limit = 10)
                 $q->where('name', 'published');
             })
         // ->orderByDesc('sales_count') // Assuming you have sales_count column
-            ->with(['category', 'productVariants'])
+            ->with(['category', 'productVariants.productAttribute'])
             ->limit($limit)
             ->get();
         // });
@@ -238,7 +238,7 @@ public function getBySectionName($sectionName, $limit = 10)
             ->whereHas('status', function ($q) {
                 $q->where('name', 'published');
             })
-            ->with(['category', 'productVariants'])
+            ->with(['category', 'productVariants.productAttribute'])
             ->limit($limit)
             ->get();
     }

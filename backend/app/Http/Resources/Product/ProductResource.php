@@ -25,7 +25,7 @@ class ProductResource extends JsonResource
             'status'      => $this->whenLoaded('status') ? $this->status->name : '',
             // Use single resource for the category (when loaded)
             'category'    => new CategoryResource($this->category),
-
+             // i need to store this image in s3 and then fetch it
             'image'       => $this->when(
                 isset($this->image_url) || method_exists($this, 'getFirstMediaUrl'),
                 fn() => $this->image_url ?? $this->getFirstMediaUrl('cover')
@@ -35,8 +35,8 @@ class ProductResource extends JsonResource
             'variants'    => VariantResource::collection($this->whenLoaded('productVariants')),
             'rating'      => ReviewsResource::collection($this->whenLoaded('reviews')),
             'sections'    => SectionResource::collection($this->whenLoaded('sections')),
-            'created_at'  => $this->created_at ? $this->created_at->toDateTimeString() : null,
-            'updated_at'  => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
+            'created_at'  => $this->created_at ? $this->created_at->diffForHumans() : null,
+            'updated_at'  => $this->updated_at ? $this->updated_at->diffForHumans() : null,
         ];
     }
 }

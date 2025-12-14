@@ -13,8 +13,8 @@ class ReviewsResource extends JsonResource
             'rating'     => isset($this->rating) ? (float) $this->rating : null,
             'user_id'    => $this->user_id,
             'comment'    => $this->comment,
-            'created_at' => $this->created_at ? $this->created_at->toDateTimeString() : null,
-            'updated_at' => $this->updated_at ? $this->updated_at->toDateTimeString() : null,
+            'created_at' => $this->created_at ? $this->created_at->diffForHumans() : null,
+            'updated_at' => $this->updated_at ? $this->updated_at->diffForHumans() : null,
         ];
     }
 }

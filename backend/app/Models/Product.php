@@ -22,7 +22,7 @@ class Product extends Model implements HasMedia
 
     public function reviews()
     {
-        return $this->hasMany(Review::class , 'product_id' , 'id');
+        return $this->hasMany(ProductReview::class , 'product_id' , 'id');
     }
     // This allows each product to have multiple versions/variants.
     public function productVariants()
