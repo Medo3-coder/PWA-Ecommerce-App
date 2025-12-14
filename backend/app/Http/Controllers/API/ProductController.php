@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Repositories\Contracts\API\ApiProductRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class ProductController extends Controller
         if ($results->isEmpty()) {
             return response()->json(['message' => 'No products found'], 404);
         }
-        return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        // return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        return ProductResource::collection($results);
     }
 
     /**
@@ -43,13 +45,20 @@ class ProductController extends Controller
     /**
      * Get products by category
      */
-    public function getProductByCategory($slug)
+    public function getProductsByCategory($slug)
     {
-        $results = $this->productRepository->getByCategory($slug, 12);
-        if (! $results) {
-            return response()->json(['message' => 'Category not found or has no published products'], 404);
+        // Find category by slug
+        $category = ProductCategory::where('slug', $slug)->first();
+
+        if (! $category) {
+            return response()->json(['message' => 'Category not found'], 404);
         }
-        return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+
+        $results = $this->productRepository->getByCategory($category->id, 12);
+        if ($results->isEmpty()) {
+            return response()->json(['message' => 'No published products in this category'], 404);
+        }
+        return ProductResource::collection($results);
     }
 
     // Returns all homepage sections with their products
@@ -62,7 +71,7 @@ class ProductController extends Controller
         return response()->json(['status' => 'success', 'data' => ['sections' => $result]]);
     }
     /**
-     * Get all published products
+     * Get all published products (done)
      */
     public function getAllPublished(Request $request)
     {
@@ -76,27 +85,34 @@ class ProductController extends Controller
     }
 
     /**
-     * Get single product by ID
+     * Get single product by ID (done)
      */
     public function getProductById($id)
     {
         $product = $this->productRepository->getById($id);
 
-        if (! $product) {   // still here we need to check why reviews not loaded 
+        if (! $product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
         // return response()->json(['status' => 'success', 'data' => ['product' => $product]]);
         return new ProductResource($product);
     }
 
+    /*
+      * Get related products based on category
+     */
     public function RelatedProducts($productId)
     {
         $results = $this->productRepository->getRelatedProducts($productId, 6);
         if ($results->isEmpty()) {
             return response()->json(['message' => 'No related products found'], 404);
         }
-        return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        return ProductResource::collection($results);
     }
+
+    /*
+    * Get Lastest Products
+    */
 
     public function LastestProducts()
     {
@@ -104,7 +120,7 @@ class ProductController extends Controller
         if ($results->isEmpty()) {
             return response()->json(['message' => 'No latest products found'], 404);
         }
-        return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        return ProductResource::collection($results);
     }
 
     public function productBySectionName($sectionName)
@@ -113,7 +129,18 @@ class ProductController extends Controller
         if ($results->isEmpty()) {
             return response()->json(['message' => 'No products found for this section'], 404);
         }
-        return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        // return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        return ProductResource::collection($results);
+    }
+
+    public function getBySection($sectionId)
+    {
+        $results = $this->productRepository->getBySection($sectionId, 8);
+        if ($results->isEmpty()) {
+            return response()->json(['message' => 'No products found for this section'], 404);
+        }
+        // return response()->json(['status' => 'success', 'data' => ['products' => $results]]);
+        return ProductResource::collection($results);
     }
 
 }

@@ -72,17 +72,19 @@ Route::post('/post-contact', [ContactController::class, 'postContact']);
 Route::get('/categories', [ApiCategoryController::class, 'categories']);
 
 //products
-Route::get('/products', [ProductController::class, 'getAllPublished']); //done
+Route::get('/products', [ProductController::class, 'getAllPublished']);
 Route::get('/product/{id}', [ProductController::class, 'getProductById']);
+Route::get('/related-product/{id}', [ProductController::class, 'RelatedProducts']);
+Route::get('/latest-products', [ProductController::class, 'LastestProducts']);
+Route::get('/products/homepage-sections', [ProductController::class, 'homepageSections']);
+Route::get('/products/category/{slug}', [ProductController::class, 'getProductsByCategory']);
+Route::get('/products/remark/{remark}', [ProductController::class, 'productsByRemark']);
 Route::get('/products/search/{query}', [ProductController::class, 'ProductBySearh']);
-Route::get('/products/remark/{remark}', [ProductController::class, 'getProductByRemark']);
-Route::get('/products/featured', [ProductController::class, 'getFeatured']);
-Route::get('/products/latest', [ProductController::class, 'getLatest']);
-Route::get('/products/category/{slug}', [ProductController::class, 'getProductByCategory']);
+Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::class, 'getProductBySubCategory']);
 Route::get('/products/section/{sectionId}', [ProductController::class, 'getBySection']); // New
 
-Route::get('/products/homepage-sections', [ProductController::class, 'homepageSections']);
-Route::get('/product/{category_slug}/{subcategory_slug}', [ProductController::class, 'getProductBySubCategory']);
+// Route::get('/products/featured', [ProductController::class, 'getFeatured']);
+
 
 //slider
 Route::get('/sliders', [SliderController::class, 'index']);

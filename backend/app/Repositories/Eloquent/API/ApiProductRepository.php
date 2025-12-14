@@ -23,7 +23,6 @@ class ApiProductRepository implements ApiProductRepositoryInterface
         return $this->model->with('status')
             ->where(function ($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%")
-                    ->orWhere('brand', 'like', "%{$query}%")
                     ->orWhere('description', 'like', "%{$query}%");
             })
             ->whereHas('status', function ($q) {
@@ -80,6 +79,18 @@ class ApiProductRepository implements ApiProductRepositoryInterface
             ->paginate($perPage);
     }
 
+
+    // public function getProductBySubCategory($subCategoryId, $perPage = 12)
+    // {
+    //     return $this->model
+    //         ->where('product_sub_category_id', $subCategoryId) // Filter 1: By sub-category
+    //         ->whereHas('status', function ($q) {        // Filter 2: By status
+    //             $q->where('name', 'published');             // Only published products
+    //         })
+    //         ->with(['category', 'tags', 'productVariants.productAttribute', 'status']) // Load for filtered results
+    //         ->latest()
+    //         ->paginate($perPage);
+    // }
     /**
      * Get products by remark/tag
      */

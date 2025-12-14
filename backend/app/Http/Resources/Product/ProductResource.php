@@ -23,7 +23,6 @@ class ProductResource extends JsonResource
             'price'       => $this->price !== null ? (float) $this->price : null,
             'quantity'    => $this->quantity !== null ? (int) $this->quantity : null,
             'status'      => $this->whenLoaded('status') ? $this->status->name : '',
-            // Use single resource for the category (when loaded)
             'category'    => new CategoryResource($this->category),
              // i need to store this image in s3 and then fetch it
             'image'       => $this->when(
