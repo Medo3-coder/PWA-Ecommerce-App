@@ -11,13 +11,21 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->string('type'); // order.created, promotional, etc
             $table->string('title');
             $table->text('message');
-            $table->boolean('is_read')->default(false);
-            $table->unsignedBigInteger('notifiable_id'); // Polymorphic ID
-            $table->string('notifiable_type');           // Polymorphic Type (e.g., User, Admin)
+            $table->text('data')->nullable(); // JSON data
+            $table->enum('status', ['pending' , 'sent' , 'failed' , 'read'])->default('pending');
+            $table->string('channel')->nullable(); // email, sms, realtime
             $table->timestamp('read_at')->nullable();
+            $table->timestamp('sent_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->index('created_at');
+            $table->index(['user_id', 'status']);
+
         });
     }
 
