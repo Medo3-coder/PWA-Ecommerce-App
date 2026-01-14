@@ -26,7 +26,14 @@ class DatabaseSeeder extends Seeder {
             CartSeeder::class,
             ContactSeeder::class,
             SiteSettingSeeder::class,
-            SliderSeeder::class
+            SliderSeeder::class,
+
+            // Notification seeders
+            NotificationTemplateSeeder::class,
+            OrderSeeder::class,
+            NotificationSeeder::class,
+            NotificationLogSeeder::class,
+            NotificationSettingsSeeder::class,
         ]);
     }
 }

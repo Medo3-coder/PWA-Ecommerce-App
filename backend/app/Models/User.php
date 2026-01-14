@@ -106,6 +106,26 @@ class User extends Authenticatable
         return $this->morphMany(Notification::class, 'Notifiable');
     }
 
+    public function notificationLogs()
+    {
+        return $this->hasManyThrough(
+            NotificationLogs::class, // Final model
+            Notification::class, // Intermediate model
+            'user_id',
+            'notification_id'
+        );
+    }
+
+    public function notificationSettings()
+    {
+        return $this->hasOne(NotificationSettings::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

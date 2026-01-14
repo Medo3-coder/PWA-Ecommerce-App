@@ -14,6 +14,8 @@ use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\SliderController;
+use App\Models\NotificationLogs;
+use App\Services\RabbitMQ\RabbitMQConsumer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -132,5 +134,25 @@ Route::prefix('admin')->middleware('auth:api')->group(function () {
     Route::delete('/sections/{section}', [\App\Http\Controllers\Admin\ProductController::class, 'destroySection']);
     Route::post('/sections/{section}/assign-products', [\App\Http\Controllers\Admin\ProductController::class, 'assignProducts']);
     Route::get('/sections/{section}/products', [\App\Http\Controllers\Admin\ProductController::class, 'productsBySection']);
+});
+
+// health check route
+Route::get('/health/notifications', function () {
+    $queueSizes = [
+        'email' => app(RabbitMQConsumer::class)
+            ->getQueueMessageCount('notifications.email.queue'),
+        'realtime' => app(RabbitMQConsumer::class)
+            ->getQueueMessageCount('notifications.realtime.queue'),
+    ];
+
+    $failedNotifications = NotificationLogs::where('status', 'failed')
+        ->where('created_at', '>', now()->subHour())
+        ->count();
+
+    return response()->json([
+        'status' => 'healthy',
+        'queue_sizes' => $queueSizes,
+        'failed_in_last_hour' => $failedNotifications,
+    ]);
 });
 

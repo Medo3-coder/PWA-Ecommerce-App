@@ -61,7 +61,7 @@ class RabbitMQConnection
                 $channel->close();
             }
         }
-        // Close main connection 
+        // Close main connection
         if (self::$connection && self::$connection->isConnected()) {
             self::$connection->close();
         }
